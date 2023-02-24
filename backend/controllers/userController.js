@@ -16,7 +16,7 @@ module.exports = {
     }
 
     const user = await User.create({
-      name,
+      name  ,
       email,
       password,
       phoneNumber

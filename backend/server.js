@@ -8,6 +8,7 @@ const dotenv= require("dotenv")
 const cors= require("cors")
 const {errorHandler}= require("./middlewares/errorMiddleware")
 const helmet= require("helmet")
+
 connectDB();
 app.use(express.json());
 
