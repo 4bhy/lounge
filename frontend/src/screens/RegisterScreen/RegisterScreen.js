@@ -215,6 +215,9 @@ const RegisterScreen = () => {
                         {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
                         {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
                         {
+                         loading && <Loading/>   
+                        }
+                        {
                             button ? <button
                                 onClick={submitHandler}
                                 class="mt-4 px-4 py-3 leading-6 text-base rounded-md border border-transparent text-white-100  bg-blue-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex  w-full justify-center items-center font-medium focus:outline-none"

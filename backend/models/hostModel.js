@@ -49,8 +49,11 @@ const hostSchema = mongoose.Schema(
         avatar:{
             type:String,
             default:"https://img.freepik.com/free-icon/user_318-219673.jpg"
+        },
+        isApproved:{
+            type:String,
+            default:false
         }
-
     },
     {
         timestamps: true

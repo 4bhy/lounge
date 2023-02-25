@@ -11,9 +11,8 @@ module.exports = {
 
         const { fname, lname, userId, zip, id, email,
             dob, phone, address, apart, cstate, idState, url } = req.body;
-            console.log(req.body);
-            console.log();
-        const hostExists = await Host.findOne({ hostId: userId })
+        
+        const hostExists = await Host.findById({ hostId: userId })
         if (hostExists) {
             res.status(400).json({
                 message: "Account Already Exists"
@@ -41,11 +40,11 @@ module.exports = {
         userInfo.role = 'Host';
 
         if (mongoose.Types.ObjectId.isValid(userId)) {
-            console.log("2");
+        
             host.userId = userId;
             await host.save();
         } 
-        mongoose.Types.ObjectId(userId)  //
+
 
         if (host) {
             res.status(201).json({
@@ -64,9 +63,9 @@ module.exports = {
 
     addProperty: asyncHandler(async (req, res) => {
         try {
-            console.log("testing 2..");
+          
             const { pname, pstate, city, pin, description, hostID, url, type, value, amenities } = req.body;
-            console.log(hostID, "hostid");
+         
             const hotel = await Hotel.create({
                 pname: pname,
                 pstate: pstate,

@@ -3,9 +3,13 @@ import React from 'react'
 const Loading = () => {
     return (
         <div>
-            <div class="flex justify-center items-center">
-                <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
-                    <span class="visually-hidden">Loading...</span>
+            <div class="flex items-center justify-center">
+                <div
+                    class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                    role="status">
+                    <span
+                        class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                    ></span >
                 </div>
             </div>
         </div>

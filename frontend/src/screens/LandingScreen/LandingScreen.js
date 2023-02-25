@@ -9,12 +9,12 @@ import Navbar from '../../components/Header/Navbar'
 const LandingScreen = () => {
   return (
     <div>
-      <Navbar/>
-        <Bannner/>
-        <CTA/>
-        <CardContainer/>
-        <SecondaryHero/>
-     <Footer/>
+      <Navbar />
+      <Bannner />
+      <CTA />
+      <CardContainer />
+      <SecondaryHero />
+      <Footer />
     </div>
   )
 }

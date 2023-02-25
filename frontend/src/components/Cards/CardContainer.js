@@ -31,7 +31,7 @@ const CardContainer = () => {
 
   return (
     <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2'>
-
+           
       {
         hotelsList?.map((data, i) => (
 
@@ -44,7 +44,6 @@ const CardContainer = () => {
                 src={data.pic[0]}
                 class="h-56 w-full rounded-md object-cover"
               />
-
               <div class="mt-2">
                 <dl>
                   <div>

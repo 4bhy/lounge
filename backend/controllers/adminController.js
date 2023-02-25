@@ -18,6 +18,26 @@ module.exports = {
         res.json(hosts)
     }),
 
+    listApprovals: asyncHandler(async (req, res) => {
+        try {
+            const hotels = await Hotel.find()
+            const hosts = await Host.find()
+            console.log(hotels, "hotlels..");
+            console.log(hosts, "hosts..");
+            if (hotels && hosts) {
+                console.log("33333");
+                res.status(201).json({hosts, hotels})
+            }else{
+
+            }
+        } catch (error) {
+            console.log("444");
+            res.status(404)
+            throw new Error("Not Found")
+        }
+
+    }),
+
     handleUser: asyncHandler(async (req, res) => {
         const user = await User.findById(req.params.id)
 
@@ -75,7 +95,7 @@ module.exports = {
     }),
 
     handleHotels: asyncHandler(async (req, res) => {
-      
+
         const hotel = await Hotel.findById(req.params.id)
 
         if (hotel) {
@@ -99,7 +119,7 @@ module.exports = {
 
     viewHostProperty: asyncHandler(async (req, res) => {
         try {
-            console.log(req.body.id);
+
             res.json({ message: "testing..." })
         } catch (error) {
             console.log(error);

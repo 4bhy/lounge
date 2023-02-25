@@ -42,7 +42,7 @@ module.exports = {
     const host = await Host.findOne({
       userId: user._id
     })
-    console.log(host, "host");
+  
     if (user && (await user.matchPassword(password))) {
       if (user.blocked) {
         res.status(403);
@@ -61,7 +61,7 @@ module.exports = {
 
     try {
       const propertyInfo = await Hotel.findById({ _id: req.params.id })
-      console.log("propertyInfo", propertyInfo);
+
       if (propertyInfo) {
         res.status(201).json({
           propertyInfo

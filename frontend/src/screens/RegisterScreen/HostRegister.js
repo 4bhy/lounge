@@ -12,6 +12,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Loading from '../../components/Loading'
+import LoadingSmall from '../../components/Loading/LoadingSmall'
 
 const HostRegister = () => {
 
@@ -37,12 +39,16 @@ const HostRegister = () => {
     const [url, setURL] = useState("")
     const { loading, error, hostInfo } = hostState;
     const navigate = useNavigate();
+    console.log("userInfo", userInfo);
     const [upload, setUpload] = useState(false)
     let fire = null;
     useEffect(() => {
-        console.log("url:",url);
-        console.log("userId in useEffect:",userId);
-    }, [url,userId]);
+      
+        if (hostInfo) {
+            setOpen(true);
+        }
+    }, [hostInfo]);
+
     // useEffect(() => {
     //     if (hostInfo) {
     //         navigate("/host/dashboard");
@@ -50,6 +56,7 @@ const HostRegister = () => {
     // }, [hostInfo]);
 
     const submitHandler = async (e) => {
+        console.log("submithandler");
         e.preventDefault()
         if (!lname || !fname || !email || !phone) {
             setMessage("All fields are mandatory");
@@ -57,12 +64,9 @@ const HostRegister = () => {
         } else {
             setMessage(null)
             setUserId(userInfo.user._id)
-            console.log("userId:",userId);
-            console.log("front-end log",fname, lname, userId, zip, email, dob, phone, address, apart, cstate, id, idState, url);
+            console.log("userId:", userId);
+            console.log("front-end log", fname, lname, userId, zip, email, dob, phone, address, apart, cstate, id, idState, url);
             await dispatch(hostRegister(fname, lname, userId, zip, email, dob, phone, address, apart, cstate, id, idState, url))
-            if (hostInfo) {
-                setOpen(true);
-            }
         }
     }
 
@@ -87,10 +91,10 @@ const HostRegister = () => {
                 console.log(file.name);
                 getDownloadURL(uploadTask.snapshot.ref).then((URL) => {
                     if (URL) {
+                        
                         fire = URL;
                         setURL(URL);
                         setUpload(false)
-                      
                     }
                 })
             }
@@ -173,7 +177,7 @@ const HostRegister = () => {
                                         ZIP Code
                                     </label>
                                 </div>
-                                <div class="relative h-10 input-component mb-5 empty inline-block mt-2 -mx-1 pl-1 w-1/2">
+                                <div class="relative h-10 input-component mb-5 empty inline-block mt-2 -mx-1 pl-1 w-1/4">
                                     <input id="state" onChange={(e) => setCstate(e.target.value)} value={cstate} type="text" name="cstate" class="h-full w-full border-gray-300 px-2 transition-all hover:border-gray-500
                                                   focus:border-green-500 rounded-md focus:ring-0 group focus:outline-0 border text-sm" />
                                     <label for="state" class="absolute left-2 transition-all bg-white px-1 text-green-600 text-xs top-0">
@@ -182,26 +186,19 @@ const HostRegister = () => {
                                 </div>
                                 <p class="text-gray-800 font-medium">Idenfication</p>
 
-                                <div class="relative h-10 input-component mb-5 empty sm:inline-block mt-2 sm:w-1/2 sm:pr-1">
-                                    <input id="identitas" onChange={(e) => setId(e.target.value)} value={id} type="text" name="id" class="h-full w-full border-gray-300 px-2 transition-all hover:border-gray-500 focus:border-green-500 
-                                                 rounded-md focus:ring-0 group focus:outline-0 border text-sm" />
-                                    <label for="idNumber" class="absolute left-2 transition-all bg-white px-1 text-green-600 text-xs top-0">
-                                        ID Number
+                                <div class="flex items-center justify-center w-full p-2">
+                                    <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-10 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-white-800 dark:bg-white-700 hover:bg-gray-100 dark:border-white-600 dark:hover:border-gray-500 dark:hover:bg-white-600">
+                                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                            <p class="m-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">{pic ? 'File added- Click upload' : 'Add file'}</span></p>
+                                        </div>
                                     </label>
-                                </div>
-                                <div class="relative input-component mb-5 empty sm:inline-block mt-2 flex flex-col">
-                                    {/* <input id="idState" onChange={(e) => setIdState(e.target.value)} value={idState} type="file" name="idState" class="h-full w-full border-gray-300 px-2 transition-all hover:border-gray-500 focus:border-green-500 
-                                             rounded-md focus:ring-0 group focus:outline-0 border text-sm" /> */}
-                                    <form>
-                                        {/* <label for="idState" class="absolute  left-2 transition-all bg-white px-1 text-green-600 text-xs top-0">
-                                            ID State
-                                        </label> */}
-                                        <button className='border-solid border-l-zinc-900' onClick={(e) => {
-                                            e.preventDefault()
-                                            uploadFile(pic)
-                                        }}>UPLOAD</button>
-                                        <input class="form-control  block  px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="idState" onChange={(e) => setPic(e.target.files[0])} type="file"  accept="image/png, image/gif, image/jpeg" />
-                                    </form>
+                                    <input id="dropzone-file" type="file" class="hidden" onChange={(e) => {
+                                        setPic(e.target.files[0])
+                                    }} />
+                                    <button className="bg-white hover:bg-gray-100 ml-2 text-gray-800 font-semibold  px-2 border border-gray-400 rounded shadow" onClick={(e) => {
+                                        e.preventDefault()
+                                        uploadFile(pic)
+                                    }}>{upload? <LoadingSmall/>: "UPLOAD"}</button>
                                 </div>
                                 <div className='w-auto justify-center flex flex-col items-center'>
                                     <button onSubmit={() => {
@@ -238,11 +235,7 @@ const HostRegister = () => {
                 </Dialog>
             </div>
 
-            {upload && <div class="flex justify-center items-center">
-                <div class="spinner-grow inline-block w-8 h-8 bg-current rounded-full opacity-0" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>}
+
         </div>
 
     )

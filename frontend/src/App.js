@@ -31,7 +31,7 @@ function App() {
   const hostRegister = useSelector((state) => state.hostRegister)
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
-  console.log("app.js",userInfo);
+  
   const { loading, error, hostInfo } = hostRegister;
 
   return (

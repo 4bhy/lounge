@@ -35,6 +35,10 @@ const hotelSchema = mongoose.Schema({
     ],
     rooms: {
         type: String
+    },
+    isApproved:{
+        type:String,
+        default:false
     }
 },
     {

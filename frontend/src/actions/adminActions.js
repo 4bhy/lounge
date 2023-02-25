@@ -7,6 +7,7 @@ import { listHotelsFail, listHotelsReq, listHotelsSuccess } from '../features/ad
 import { handleHotelsFail, handleHotelsReq, handleHotelsSuccess } from '../features/admin/handleHotelsSlice';
 import { viewHostsFail, viewHostsReq, viewHostsSuccess } from '../features/admin/viewHostsSlice';
 import { hostPropertySuccess } from '../features/admin/hostPropertySlice';
+import { listApprovalsFail, listApprovalsReq, listApprovalsSuccess } from '../features/admin/listApprovalsSlice';
 export const listUsers = () => async (dispatch) => {
 
     try {
@@ -44,9 +45,8 @@ export const listHosts = () => async (dispatch) => {
             }
         }
         dispatch(listHostsReq())
-
         const { data } = await axios.get('http://localhost:5000/api/admin/listhosts', config)
-        console.log("listhostsactions", data);
+   
         dispatch(listHostsSuccess(data))
 
     } catch (error) {
@@ -70,7 +70,7 @@ export const listHotel = () => async (dispatch) => {
 
         const { data } = await axios.get('http://localhost:5000/api/admin/listhotels', config)
         dispatch(listHotelsSuccess(data))
-        console.log(data, "ff");
+    
 
     } catch (error) {
         const errorIs = error.response && error.response.data.message ?
@@ -97,7 +97,6 @@ export const handleUsers = (id, status) => async (dispatch) => {
 
         const { data } = await axios.post(`http://localhost:5000/api/admin/handleuser/${id}`, sendStatus, config)
 
-        console.log(data, "90");
         dispatch(handleUserSuccess(data))
 
     } catch (error) {
@@ -113,7 +112,7 @@ export const handleUsers = (id, status) => async (dispatch) => {
 export const handleHosts = (id, status) => async (dispatch) => {
 
     try {
-        console.log("test");
+      
         dispatch(handleHostReq())
 
         const config = {
@@ -126,8 +125,8 @@ export const handleHosts = (id, status) => async (dispatch) => {
         };
 
         const { data } = await axios.post(`http://localhost:5000/api/admin/handlehost/${id}`, sendStatus, config)
-        console.log("handle data", data);
-        
+     
+
         dispatch(handleHostSuccess(data))
 
     } catch (error) {
@@ -140,11 +139,11 @@ export const handleHosts = (id, status) => async (dispatch) => {
 
 }
 
-export const viewProperty=(id)=> async(dispatch)=>{
+export const viewProperty = (id) => async (dispatch) => {
     try {
-        console.log("id", id);
 
-         const config = {
+
+        const config = {
             headers: {
                 "Content-type": "application/json"
             }
@@ -153,19 +152,19 @@ export const viewProperty=(id)=> async(dispatch)=>{
         //     hostId:id
         // }
 
-        const {data}= await axios.post("http://localhost:5000/api/admin/view-property",{id}, config)
+        const { data } = await axios.post("http://localhost:5000/api/admin/view-property", { id }, config)
         dispatch(hostPropertySuccess(data))
     } catch (error) {
         const message =
-        error.response && error.response.data
-            ? error.response.data.message
-            : error.message;
+            error.response && error.response.data
+                ? error.response.data.message
+                : error.message;
     }
 }
 
 export const viewHosts = (id) => async (dispatch) => {
     try {
-        console.log(id, "viewhosts");
+   
         const config = {
             headers: {
                 "Content-type": "application/json"
@@ -174,8 +173,8 @@ export const viewHosts = (id) => async (dispatch) => {
 
         dispatch(viewHostsReq())
 
-        const { data } = await axios.get(`http://localhost:5000/api/admin/view-hosts/${id}`, config)  
-        console.log(data, "01");                                                                
+        const { data } = await axios.get(`http://localhost:5000/api/admin/view-hosts/${id}`, config)
+       
         dispatch(viewHostsSuccess(data))
 
     } catch (error) {
@@ -184,6 +183,29 @@ export const viewHosts = (id) => async (dispatch) => {
                 ? error.response.data.message
                 : error.message;
         dispatch(viewHostsFail(message));
+    }
+}
+
+export const listApprovalsAction = () => async (dispatch) => {
+    console.log("testing..");
+    try {
+        dispatch(listApprovalsReq())
+
+        const config = {
+            headers: {
+                "Content-type": "application/json"
+            }
+        }
+
+        const { data } = await axios.get("http://localhost:5000/api/admin/list-approvals", config)
+    
+        dispatch(listApprovalsSuccess(data))
+    } catch (error) {
+        const message =
+            error.response && error.response.data
+                ? error.response.data.message
+                : error.message;
+        dispatch(listApprovalsFail(message));
     }
 }
 
