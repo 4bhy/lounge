@@ -4,11 +4,13 @@ const Host = require('../models/hostModel')
 const Hotel = require('../models/hotelModel')
 module.exports = {
     listUsers: asyncHandler(async (req, res) => {
+        console.log("2");
         const users = await User.find()
         res.json(users)
     }),
 
     listHosts: asyncHandler(async (req, res) => {
+        console.log("33");
         const hosts = await Host.find()
         res.json(hosts)
     }),
@@ -20,18 +22,18 @@ module.exports = {
 
     listApprovals: asyncHandler(async (req, res) => {
         try {
+            console.log("44");
             const hotels = await Hotel.find()
             const hosts = await Host.find()
-            console.log(hotels, "hotlels..");
-            console.log(hosts, "hosts..");
+          
             if (hotels && hosts) {
-                console.log("33333");
-                res.status(201).json({hosts, hotels})
-            }else{
+          
+                res.status(201).json({ hosts, hotels })
+            } else {
 
             }
         } catch (error) {
-            console.log("444");
+       
             res.status(404)
             throw new Error("Not Found")
         }
@@ -135,5 +137,21 @@ module.exports = {
         //         res.status(404)
         //         throw new Error("Property not found")
         //     }
+    }),
+
+    handleApproval: asyncHandler(async (req, res) => {
+        console.log("RrrR");
+     try {
+     
+            const hostData= await Host.findById({_id:req.body.id})
+                console.log(hostData.isApproved);
+            hostData.isApproved=true;
+           const host= await hostData.save()
+            console.log(host, "33");
+            res.status(201).json({message:"201"})
+        } catch (error) {
+            res.status(404)
+            throw new Error("Failed")
+        }
     })
 }

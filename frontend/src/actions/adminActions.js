@@ -237,4 +237,26 @@ export const handleHotels = (id, status) => async (dispatch) => {
     }
 
 }
+export const handleApproval = (id) => async (dispatch) => {
+
+    try {
+      
+        console.log("handle approval");
+        const config = {
+            headers: {
+                "Content-type": "application/json"
+            }
+        }
+     
+        const { data } = await axios.post("http://localhost:5000/api/admin/handle-approval/", {id}, config)
+
+    } catch (error) {
+        const message =
+            error.response && error.response.data
+                ? error.response.data.message
+                : error.message;
+        console.log(message);
+    }
+
+}
 
