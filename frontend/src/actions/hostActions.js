@@ -2,7 +2,7 @@ import axios from 'axios'
 import { handleHostFail, handleHostReq, handleHostSuccess } from '../features/admin/handleHostsSlice';
 import { hostRegisterReq, hostRegisterFail, hostRegisterSuccess } from '../features/host/hostRegisterSlice';
 
-export const hostRegister = (fname, lname, userId, zip, email, dob, phone, address, apart, cstate, id, idState, url) => async (dispatch) => {
+export const hostRegister = (fname, lname, newid, zip, email, dob, phone, address, apart, cstate, id, idState, url) => async (dispatch) => {
     try {
         const config = {
             headers: {
@@ -10,9 +10,9 @@ export const hostRegister = (fname, lname, userId, zip, email, dob, phone, addre
             },
         };
         dispatch(hostRegisterReq());
-        console.log("Actions log:", fname, lname, userId, zip, email, dob, phone, address, apart, cstate, id, idState, url);
+        console.log("Actions log:", fname, lname, newid, zip, email, dob, phone, address, apart, cstate, id, idState, url);
         const { data } = await axios.post('http://localhost:5000/api/host/register', {
-            fname, lname, userId, zip, email, dob, phone, address, apart, cstate, id, idState, url
+            fname, lname, newid, zip, email, dob, phone, address, apart, cstate, id, idState, url
         },
             config
         );

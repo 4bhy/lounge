@@ -174,8 +174,7 @@ const HotelsCrud = () => {
 
                     <a href="#" class="block rounded-lg p-4 shadow-sm shadow-indigo-100">
                         <img
-                            src={individualPropertyData.propertyInfo
-                                .pic[0]}
+                            src={individualPropertyData?.propertyInfo?.pic[0]}
                             alt="Home"
 
                             class="h-56 w-full rounded-md object-cover"
@@ -186,15 +185,13 @@ const HotelsCrud = () => {
                                 <div>
                                     <dt class="sr-only">Price</dt>
 
-                                    <dd class="text-sm text-gray-500">{individualPropertyData.propertyInfo
-                                        .pname}</dd>
+                                    <dd class="text-sm text-gray-500">{individualPropertyData?.propertyInfo?.pname}</dd>
                                 </div>
 
                                 <div>
                                     <dt class="sr-only">Address</dt>
 
-                                    <dd class="font-medium">{individualPropertyData?.propertyInfo
-                                        .pstate}</dd>
+                                    <dd class="font-medium">{individualPropertyData?.propertyInfo?.pstate}</dd>
                                 </div>
                             </dl>
 

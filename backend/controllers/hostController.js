@@ -9,10 +9,12 @@ const generateToken = require('../utils/generateToken')
 module.exports = {
     registerHost: (async (req, res) => {
 
-        const { fname, lname, userId, zip, id, email,
+        const { fname, lname, newid, zip, id, email,
             dob, phone, address, apart, cstate, idState, url } = req.body;
-        
-        const hostExists = await Host.findById({ hostId: userId })
+
+        console.log(newid);
+
+        const hostExists = await Host.findOne({ hostId: newid })
         if (hostExists) {
             res.status(400).json({
                 message: "Account Already Exists"
@@ -35,13 +37,13 @@ module.exports = {
             URL: url
         });
 
-        const userInfo = await User.find({ _id: userId })
+        const userInfo = await User.find({ _id: newid})
 
         userInfo.role = 'Host';
 
-        if (mongoose.Types.ObjectId.isValid(userId)) {
+        if (mongoose.Types.ObjectId.isValid(newid)) {
         
-            host.userId = userId;
+            host.userId = newid;
             await host.save();
         } 
 
