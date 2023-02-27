@@ -260,3 +260,23 @@ export const handleApproval = (id) => async (dispatch) => {
 
 }
 
+export const hotelApprovalAction=(id)=>async(dispatch)=>{
+
+    try {
+        const config={
+            headers:{
+                "Content-type": "application/json"
+            }
+        }
+        const {data}= await axios.get(`http://localhost:5000/api/admin/hotel-approval/${id}`, config)
+
+    } catch (error) {
+         const message =
+            error.response && error.response.data
+                ? error.response.data.message
+                : error.message;
+        console.log(message);
+    }
+  
+}
+

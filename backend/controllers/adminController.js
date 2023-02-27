@@ -25,15 +25,15 @@ module.exports = {
             console.log("44");
             const hotels = await Hotel.find()
             const hosts = await Host.find()
-          
+
             if (hotels && hosts) {
-          
+
                 res.status(201).json({ hosts, hotels })
             } else {
 
             }
         } catch (error) {
-       
+
             res.status(404)
             throw new Error("Not Found")
         }
@@ -120,6 +120,7 @@ module.exports = {
     }),
 
     viewHostProperty: asyncHandler(async (req, res) => {
+        
         try {
 
             res.json({ message: "testing..." })
@@ -141,17 +142,37 @@ module.exports = {
 
     handleApproval: asyncHandler(async (req, res) => {
         console.log("RrrR");
-     try {
-     
-            const hostData= await Host.findById({_id:req.body.id})
-                console.log(hostData.isApproved);
-            hostData.isApproved=true;
-           const host= await hostData.save()
-            console.log(host, "33");
-            res.status(201).json({message:"201"})
+        try {
+
+            const hostData = await Host.findById({ _id: req.body.id })
+            hostData.isApproved = true;
+            const host = await hostData.save()
+       
+            res.status(201).json({ message: "201" })
         } catch (error) {
             res.status(404)
             throw new Error("Failed")
         }
+    }),
+
+    hotelApproval: asyncHandler(async (req, res) => {
+
+        try {
+        
+         
+            const hotelData = await Hotel.findOne({_id:req.params.id}) 
+            hotelData.isApproved = "true";
+            const hotel = await hotelData.save();
+            console.log(hotel);
+            if (hotel) {
+
+                res.status(201).json({ messsage: "Success" })
+            }
+        } catch (error) {
+            res.status(404)
+            throw new Error("Failed to update info")
+           
+        }
+
     })
 }

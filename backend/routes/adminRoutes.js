@@ -1,6 +1,6 @@
 const express = require("express");
-// const { listHotel } = require("../../frontend/src/actions/adminActions");
-const {listUsers, listHosts, handleUser, handleHost, handleHotels,listHotels, viewHostDetails, viewHostProperty, listApprovals, handleApproval}= require('../controllers/adminController')
+
+const {listUsers, listHosts, handleUser, handleHost, handleHotels,listHotels, viewHostDetails, viewHostProperty, listApprovals, handleApproval, hotelApproval}= require('../controllers/adminController')
 const router = express.Router();
 
 router.get('/listusers', listUsers)
@@ -13,5 +13,6 @@ router.post('/handlehost/:id', handleHost)
 router.post('/handlehotels/:id', handleHotels)
 router.post('/view-property ', viewHostProperty)
 router.post('/handle-approval', handleApproval)
+router.get('/hotel-approval/:id', hotelApproval)
 
 module.exports = router;

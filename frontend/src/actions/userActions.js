@@ -89,6 +89,7 @@ export const register = (name, email, password, phoneNumber) => async (dispatch)
 
 export const individualProperty = (id) => async (dispatch) => {
   try {
+    console.log("pp");
     const config = {
       headers: {
         "Content-type": "application/json",
