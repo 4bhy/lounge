@@ -23,6 +23,7 @@ import AddPropertyPrimary from "./screens/HostAddProperty/AddPropertyPrimary";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import Prompt from "./screens/PromptScreen/Prompt";
 import HostDetails from "./screens/DetailsScreen.js/HostDetails";
+import ForgotPassword from "./screens/LoginScreen/ForgotPassword";
 
 
 
@@ -40,6 +41,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingScreen />} />
           <Route path="/login" element={<LoginScreen />} />
+          <Route path="/reset-password/:id/:token" element={<ForgotPassword />} />
           <Route path="/register" element={userInfo ? <Navigate to="/" /> : <RegisterScreen />} />
           <Route path="/findmore" element={<FindMore />} />
           <Route path="/details" element={<DetailsScreen />} />

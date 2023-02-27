@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from '../../actions/userActions';
+import {getLinkAction, login } from '../../actions/userActions';
 import Loading from '../../components/Loading';
 import ErrorMessage from '../../components/ErrorMessage';
 import './LoginScreen.css'
@@ -34,6 +34,10 @@ const LoginScreen = () => {
         }
 
     }, [userInfo])
+
+    const forgotHandler=async()=>{
+        await dispatch(getLinkAction(email))
+    }
 
     return (
         <div>
@@ -147,6 +151,10 @@ const LoginScreen = () => {
                                 <a class="underline" href="">Sign up</a></Link>
                         </p>
                     </form>
+                        <p class="text-center text-sm text-gray-500">
+ 
+                        <button onClick={()=>{forgotHandler()}} class="underline" href="">Forgot Passoword</button>
+                        </p>
                 </div>
             </div>
         </div>

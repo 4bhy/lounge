@@ -15,11 +15,7 @@ import {
 
 
 import { individualPropertySuccess, individualPropertyReq, individualPropertyFail } from "../features/users/individualPropertySlice";
-// import {
-//   userUpdateReq,
-//   userUpdateSuccess,
-//   userUpdateFail,
-// } from "../features/users/userUpdateSlice";
+
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -102,7 +98,7 @@ export const individualProperty = (id) => async (dispatch) => {
     const { data } = await axios.get(`http://localhost:5000/api/users/individual-property/${id}`, config)
     dispatch(individualPropertySuccess(data))
     console.log("individual property:", data);
-    
+
   } catch (error) {
     const errorIs =
       error.response && error.response.data.message
@@ -112,33 +108,59 @@ export const individualProperty = (id) => async (dispatch) => {
   }
 }
 
-// export const updateProfile = (user) => async (dispatch, getState) => {
-//   try {
-//     dispatch(userUpdateReq());
 
-//     const {
-//       userLogin: { userInfo },
-//     } = getState();
+export const getLinkAction = (email) => async (dispatch) => {
 
-//     const config = {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${userInfo.token}`,
-//       },
-//     };
+  try {
+    console.log("at it");
 
-//     const { data } = await axios.post(`${URL}/api/users/profile`, user, config);
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    }
 
-//     dispatch(userUpdateSuccess(data));
+    const { data } = await axios.post("http://localhost:5000/api/users/get-link", { email }, config)
+    console.log(data);
 
-//     dispatch(userLoginSuccess(data));
+  } catch (error) {
+    const errorIs =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    console.log(errorIs);
+  }
 
-//     localStorage.setItem("userInfo", JSON.stringify(data));
-//   } catch (error) {
-//     const errorIs =
-//       error.response && error.response.data.message
-//         ? error.response.data.message
-//         : error.message;
-//     dispatch(userUpdateFail(errorIs));
-//   }
-// };
+
+
+}
+
+export const resetPassword = (email, password) => async (dispatch) => {
+
+  try {
+    dispatch(userLoginReq());
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+
+      }
+    }
+
+    const { data } = await axios.post("http://localhost:5000/api/users/reset-password", { email, password }, config)
+    console.log(data);
+    dispatch(userLoginSuccess(data));
+    localStorage.setItem("userInfo", JSON.stringify(data));
+
+  } catch (error) {
+    const errorIs =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch(userLoginFail(errorIs));
+
+  }
+
+}
+
+

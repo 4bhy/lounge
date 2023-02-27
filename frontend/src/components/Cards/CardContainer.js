@@ -6,9 +6,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { individualProperty } from '../../actions/userActions'
 import { useNavigate } from 'react-router-dom'
+import LandingPagination from '../Pagination/LandingPagination'
 
 
-
+import Box from '@mui/material/Box';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 
 
 
@@ -35,12 +42,57 @@ const CardContainer = () => {
 
   console.log(hotelsList, "4444");
 
+  //   (hotelsList.length).map((dta, i)=>{
+  //     return console.log(i+1);
+  // })
+
+
+  //   const pagination = [hotelsList?.map(arr => arr.pname).filter(pname => pname)];
+  //   console.log(typeof (pagination), "ooo");
+  //   console.log(pagination, "22");
+
+  //   const length = pagination.reduce((acc, val) => acc + 1, 0); // 3
+
+  // console.log(length);
+
+  // const length = pagination 
+  //   .map(obj => obj.pname)
+  //   .filter(name => name)
+  //   .length;
+
+  // console.log(length," :pppp");
+
+  const [currentPage, setCurrentPage] = useState(1)
+  const [postsPerPage, setPostsPerPage] = useState(2)
+  
+
+  const lastPostIndex = currentPage * postsPerPage;
+  const firstPostIndex = lastPostIndex - postsPerPage
+  const currentPosts = hotelsList?.slice(firstPostIndex, lastPostIndex)
+
+  const [search, setSearch]=useState("")
+console.log(search);
+
   return (
     <div>
+
+      <div className='flex justify-center mr-6'>
+        <Box sx={{ '& > :not(style)': { m: 1 } }}>
+          <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+            <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+            <TextField id="input-with-sx" label="Search"
+            onChange={(e)=>{setSearch(e.target.value)}}
+             variant="standard" />
+          </Box>
+        </Box>
+      </div>
+
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2'>
 
         {
-          hotelsList?.slice(page * 10 - 10, page * 10).map((data, i) => (
+          currentPosts?.filter((data)=>{
+            return search==='' ? data : data.pname.toLowerCase().includes(search.toLowerCase())
+          }).map((data, i) => (
 
             <div className="flex flex-wrap" onClick={() => {
               propertyHandler(data._id)
@@ -144,87 +196,12 @@ const CardContainer = () => {
         }
 
       </div>
+      <LandingPagination totalPosts={4}
+        postsPerPage={postsPerPage}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+      />
 
-
-<div>
-<ol class="flex justify-center gap-1 text-xs font-medium">
-  <li>
-    <a
-      href="#"
-      class="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
-    >
-      <span class="sr-only">Prev Page</span>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-3 w-3"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </a>
-  </li>
-
-  <li>
-    <a
-      href="#"
-      class="block h-8 w-8 rounded border border-gray-100 text-center leading-8"
-    >
-      1
-    </a>
-  </li>
-
-  <li
-    class="block h-8 w-8 rounded border-blue-600 bg-blue-600 text-center leading-8 text-white"
-  >
-    2
-  </li>
-
-  <li>
-    <a
-      href="#"
-      class="block h-8 w-8 rounded border border-gray-100 text-center leading-8"
-    >
-      3
-    </a>
-  </li>
-
-  <li>
-    <a
-      href="#"
-      class="block h-8 w-8 rounded border border-gray-100 text-center leading-8"
-    >
-      4
-    </a>
-  </li>
-
-  <li>
-    <a
-      href="#"
-      class="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
-    >
-      <span class="sr-only">Next Page</span>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-3 w-3"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </a>
-  </li>
-</ol>
-</div>
-    
 
     </div>
 
