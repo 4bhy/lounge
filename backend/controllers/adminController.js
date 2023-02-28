@@ -158,8 +158,6 @@ module.exports = {
     hotelApproval: asyncHandler(async (req, res) => {
 
         try {
-        
-         
             const hotelData = await Hotel.findOne({_id:req.params.id}) 
             hotelData.isApproved = "true";
             const hotel = await hotelData.save();

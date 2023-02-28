@@ -24,6 +24,7 @@ import { getStorage, ref, uploadBytes } from "firebase/storage";
 import Prompt from "./screens/PromptScreen/Prompt";
 import HostDetails from "./screens/DetailsScreen.js/HostDetails";
 import ForgotPassword from "./screens/LoginScreen/ForgotPassword";
+import ProductPage from "./components/test/ProductPage";
 
 
 
@@ -44,7 +45,7 @@ function App() {
           <Route path="/reset-password/:id/:token" element={<ForgotPassword />} />
           <Route path="/register" element={userInfo ? <Navigate to="/" /> : <RegisterScreen />} />
           <Route path="/findmore" element={<FindMore />} />
-          <Route path="/details" element={<DetailsScreen />} />
+          <Route path="/details" element={<ProductPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/checkout-payment" element={<CheckoutPayment />} />
           <Route path="/dashboard" element={<UserDashboard />} />

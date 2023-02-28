@@ -1,11 +1,14 @@
 const User = require("../models/userModel");
 const Host = require("../models/hostModel")
 const Hotel = require("../models/hotelModel")
+const Booking= require("../models/bookingModel")
 const asyncHandler = require("express-async-handler");
 
 const bcrypt = require("bcryptjs");
 const generateToken = require("../utils/generateToken");
 const nodemailer = require("nodemailer");
+
+const stripe = require("stripe")("sk_test_51MgPNUSGJWduBmwsIEtRsvDlhdzrn4QsCkDNNVxtjz2PIml545V5ZnfDHITtZC1tPMl7S0o73tGNq3S5ysbNmRNG00JE20Fofi")
 
 module.exports = {
   registerUser: (async (req, res) => {
@@ -41,7 +44,7 @@ module.exports = {
   }),
 
   authUser: asyncHandler((async (req, res) => {
-  
+
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     const host = await Host.findOne({
@@ -83,9 +86,9 @@ module.exports = {
 
   getForgotPasswordLink: (async (req, res) => {
 
-  console.log(req.body.email, "44");
+    console.log(req.body.email, "44");
     const { email } = req.body;
- 
+
     try {
 
       const oldUser = await User.findOne({ email });
@@ -130,13 +133,13 @@ module.exports = {
       console.log(password);
       const userData = await User.findOne({ email })
       const host = await Host.findOne({ userId: userData._id })
-        console.log(userData);
-        console.log(host);
+      console.log(userData);
+      console.log(host);
       if (!userData) {
         res.status(404).json("Invalid Email")
       } else {
-       
-        const newPassword= await bcrypt.hash(password, 10);
+
+        const newPassword = await bcrypt.hash(password, 10);
         console.log("11");
         userData.password = newPassword;
         const user = await userData.save();
@@ -150,6 +153,43 @@ module.exports = {
       console.log(error.message);
     }
 
+  }),
+
+  payment: asyncHandler(async (req, res) => {
+    let { amount, id, userInfo, propertyData, checkIn, checkOut, guests, totalPrice } = req.body;
+
+    try {
+      const booking= await Booking.create({
+        userId:userInfo._id,
+        payment:id,
+        propertyId:propertyData._id,
+        hostId:propertyData.hostID,
+        totalPrice:totalPrice,
+        guests:guests,
+        checkIn:checkIn,
+        checkOut:checkOut,
+        status:"Pending"
+
+       })
+      const payment = await stripe.paymentIntents.create({
+        amount,
+        currency: "USD",
+        description: "Hotel Booking",
+        payment_method: id,
+        confirm: true
+      })
+      console.log("Payment", payment)
+      res.status(201).json({
+        message: "Payment successful",
+        success: true
+      })
+    } catch (error) {
+      console.log("Error", error)
+      res.json({
+        message: "Payment failed",
+        success: false
+      })
+    }
   })
 
 

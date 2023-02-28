@@ -156,7 +156,6 @@ const HostDetails = () => {
                             </a>
                         </div>
                     </div>
-
                 ))
                 }
             </div>

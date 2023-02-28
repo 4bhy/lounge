@@ -36,10 +36,30 @@ const hotelSchema = mongoose.Schema({
     rooms: {
         type: String
     },
-    isApproved:{
-        type:String,
-        default:false
-    }
+    isApproved: {
+        type: String,
+        default: false
+    },
+    booking: [{
+        userId: {
+            Type: mongoose.Schema.Types.ObjectId
+        },
+        bookedAt:{  
+            type:Date,
+            immutable:true,
+            default:()=>Date.now()
+        },
+        checkIn:{
+            type:Date,  
+        },
+        checkOut:{
+            type:Date,  
+        },
+        guests:{
+            type:Number
+        }
+    }]
+
 },
     {
         timestamps: true
