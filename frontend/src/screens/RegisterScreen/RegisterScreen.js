@@ -47,7 +47,7 @@ const RegisterScreen = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-   
+
         if (!fname || !email || !password || !confirmPassword) {
             setMessage("All fields are mandatory");
             return;
@@ -103,10 +103,10 @@ const RegisterScreen = () => {
         if (otp.length === 6) {
             console.log(otp);
             let confirmationResult = window.confirmationResult;
-            confirmationResult.confirm(otp).then((result) => {  
+            confirmationResult.confirm(otp).then((result) => {
                 const user = result.user
-                if(user){
-                    button = true;
+                if (user) {
+                    setButton(true)
                 }
                 console.log(user, "33");
             }).catch((error) => {
@@ -176,7 +176,10 @@ const RegisterScreen = () => {
                                         placeholder="Phone Number" />
                                     {
                                         timeLeft <= 1 || resend ? <button
-                                            onClick={resetTimer}
+                                            onClick={() => {
+                                                resetTimer()
+                                                requestOTP()
+                                            }}
                                             class="mt-4 py-3 leading-6 text-base grid-flow-col col-span-10 rounded-md border border-transparent text-white-100  bg-blue-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex  w-full justify-center items-center font-medium focus:outline-none"
                                         >
                                             Resend OTP
@@ -215,7 +218,7 @@ const RegisterScreen = () => {
                         {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
                         {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
                         {
-                         loading && <Loading/>   
+                            loading && <Loading />
                         }
                         {
                             button ? <button

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { handleHostFail, handleHostReq, handleHostSuccess } from '../features/admin/handleHostsSlice';
 import { hostRegisterReq, hostRegisterFail, hostRegisterSuccess } from '../features/host/hostRegisterSlice';
+import { hostBooking } from '../features/users/bookingsSlice';
 
 export const hostRegister = (fname, lname, newid, zip, email, dob, phone, address, apart, cstate, id, idState, url) => async (dispatch) => {
     try {
@@ -43,7 +44,56 @@ export const addProperty = (pname, pstate, city, pin, description, hostID, url, 
     } catch (error) {
 
     }
+
 }
+
+
+export const listBookingsHost = (id) => async (dispatch) => {
+
+    try {
+      console.log(id);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        }, 
+      }
+  
+      const { data } = await axios.get(`http://localhost:5000/api/host/list-bookings/${id}`, config)
+      console.log(data, "actions");
+      dispatch(hostBooking(data))
+  
+    } catch (error) {
+      const errorIs =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+    }
+  
+  
+  
+  }
+
+  export const handleBooking=(id)=>async(dispatch)=>{
+
+    try {
+        console.log(id);
+        const config = {
+          headers: {
+            "Content-type": "application/json",
+          }, 
+        }
+    
+        const { data } = await axios.get(`http://localhost:5000/api/host/handle-booking/${id}`, config)
+        console.log(data, "actions");
+   
+      } catch (error) {
+        const errorIs =
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+      }
+
+  }
 
 
 

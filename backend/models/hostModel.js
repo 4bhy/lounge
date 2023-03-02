@@ -12,6 +12,9 @@ const hostSchema = mongoose.Schema(
             type: Boolean,
             default: false
         },
+        email:{
+            type: String,
+        },
         phone: {
             type: Number
         },

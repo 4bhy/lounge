@@ -2,9 +2,10 @@ const Host = require("../models/hostModel");
 const User = require("../models/userModel")
 const mongoose = require('mongoose');
 const Hotel = require('../models/hotelModel')
-
+const Booking = require('../models/bookingModel')
 const asyncHandler = require("express-async-handler");
-const generateToken = require('../utils/generateToken')
+const generateToken = require('../utils/generateToken');
+
 
 module.exports = {
     registerHost: (async (req, res) => {
@@ -25,7 +26,7 @@ module.exports = {
         const host = await Host.create({
             fname,
             lname,
-            email:email,
+            email: email,
             id,
             zip,
             dob,
@@ -37,15 +38,15 @@ module.exports = {
             URL: url
         });
 
-        const userInfo = await User.find({ _id: newid})
+        const userInfo = await User.find({ _id: newid })
 
         userInfo.role = 'Host';
 
         if (mongoose.Types.ObjectId.isValid(newid)) {
-        
+
             host.userId = newid;
             await host.save();
-        } 
+        }
 
 
         if (host) {
@@ -65,9 +66,9 @@ module.exports = {
 
     addProperty: asyncHandler(async (req, res) => {
         try {
-          
+
             const { pname, pstate, city, pin, description, hostID, url, type, value, amenities } = req.body;
-         
+
             const hotel = await Hotel.create({
                 pname: pname,
                 pstate: pstate,
@@ -81,7 +82,7 @@ module.exports = {
                 amenities: amenities
             })
             const hotelInfo = await hotel.save();
-            if(hotelInfo){
+            if (hotelInfo) {
                 console.log("info");
             }
             res.status(201).json({
@@ -93,5 +94,40 @@ module.exports = {
             throw new Error("Error while adding Hotels")
         }
 
+    }),
+
+
+    bookingsHost: asyncHandler(async (req, res) => {
+        
+        try {
+            const bookingData = await Booking.find({ hostId: req.params.id }).populate('propertyId').populate('userId')
+           
+            if (bookingData) {
+                res.status(201).json({
+                    bookingData
+                })
+            }
+        } catch (error) {
+            throw new Error("Something went wrong!")
+        }
+
+    }),
+
+    handleBooking: asyncHandler(async (req, res) => {
+        try {
+
+            console.log(req.params.id);
+            const bookingData = await Booking.findById({ _id: req.params.id })
+            bookingData.status = "Approved"
+            const newdata = await bookingData.save()
+            if (newdata) {
+                res.status(201).json({
+                    message: "Booking Approved!"
+                })
+            }
+        } catch (error) {
+            console.log(error.message);
+            throw new Error("Something went wrong!")
+        }
     })
 }

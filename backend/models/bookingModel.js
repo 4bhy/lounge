@@ -23,8 +23,8 @@ const bookingSchema = mongoose.Schema(
         type: mongoose.Types.ObjectId,
         ref: 'Hotel'
     },
-    totalprice: {
-        type: Number
+    amount: {
+        type: String
     },
     guests: {
         type: Number,
@@ -34,6 +34,17 @@ const bookingSchema = mongoose.Schema(
     },
     checkOut:{
         type:String
+    },
+    invoice:{
+        type:Number,
+    },
+    hostId:{
+        type:mongoose.Types.ObjectId,
+        ref:'Host'
+    },
+    isCancelled:{
+        type:String,
+        default:"false"
     }
 }
 );

@@ -55,7 +55,7 @@ function App() {
           <Route path="/host/property-list" element={<HostPropertyList />} />
           {/* <Route path="/host/add-property" element={userInfo ? (userInfo.host?hostAccess ? <AddPropertyPrimary /> : <Navigate to="/" />) : <Navigate to="/" />} /> */}
           <Route path="/host/add-property" element={userInfo?(userInfo.host?(userInfo.host.hostAccess?<AddPropertyPrimary />: <Navigate to="/" />):<Navigate to="/" />):<Navigate to="/" />}/>
-          <Route path="/admin" element={userInfo ? (userInfo.user.isAdmin ? <AdminDashboard /> : <Navigate to="/" />) : <Navigate to="/" />} />
+          <Route path="/admin" element={userInfo ? (userInfo?.user?.isAdmin ? <AdminDashboard /> : <Navigate to="/" />) : <Navigate to="/" />} />
           <Route path="/host/view-property" element={<IndividualProperty />} />
           <Route path="/host/register" element={userInfo ? <HostRegister /> : <Prompt />}></Route>
           <Route path="/admin/view-host" element={<HostDetails />} />

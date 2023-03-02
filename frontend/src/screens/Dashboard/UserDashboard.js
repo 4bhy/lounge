@@ -1,131 +1,302 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Footer from '../../components/Footer/Footer'
-import Navbar from '../../components/Header/Navbar'
+import HostNavbar from '../../components/Header/HostNavbar'
+import PropertyCard from '../../components/HostComponents/PropertyCard.js/PropertyCard'
+import HostTable from '../../components/HostComponents/Table/HostTable'
+import { useDispatch, useSelector } from 'react-redux'
+import { listBookings, userCancellation } from '../../actions/userActions'
+
+
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const UserDashboard = () => {
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(listBookings(userInfo.user._id))
+    }, [])
+
+    const [id, setId] = useState('')
+    const booking = useSelector((state) => state.bookings)
+    const { userBookingData } = booking;
+    const userLogin = useSelector((state) => state.userLogin)
+    const { userInfo } = userLogin;
+    console.log(userBookingData?.bookingData);
+
+    const submitHandler = async(id) => {
+        dispatch(userCancellation(id))
+    }
+
+    const [open, setOpen] = React.useState(false);
+
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <div>
-            
-            <Navbar />
-            <div class="p-0">
-                <div class="p-2 bg-white shadow mt-24">
-                    <div class="grid grid-cols-1 md:grid-cols-3">
-                        <div class="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
-                        </div>
-                        <div class="relative">
+            <header aria-label="Page Header" class="bg-gray-50">
+                <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-end gap-4">
+                        <div class="flex items-center gap-4">
+                            <div class="relative">
+                                <label class="sr-only" for="search"> Search </label>
 
-                            <div class="w-24 h-24 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-16 flex items-center justify-center text-indigo-500">
+                                <input
+                                    class="h-10 w-full rounded-full border-none bg-white pl-4 pr-10 text-sm shadow-sm sm:w-56"
+                                    id="search"
+                                    type="search"
+                                    placeholder="Search website..."
+                                />
 
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14" viewBox="0 0 20 20" fill="currentColor">
-
-                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
+                                <button
+                                    type="button"
+                                    class="absolute top-1/2 right-1 -translate-y-1/2 rounded-full bg-gray-50 p-2 text-gray-600 transition hover:text-gray-700"
+                                >
+                                    <span class="sr-only">Submut Search</span>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-4 w-4"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                        />
+                                    </svg>
+                                </button>
                             </div>
-                        </div>
-                        <div class="space-x-8 flex justify-between mt-32 md:mt-0 md:justify-center"><button class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">EDIT</button>
 
-                            <button class="text-white py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"> NOTIFICATIONS</button>
+                            <a
+                                href="#"
+                                class="block shrink-0 rounded-full bg-white p-2.5 text-gray-600 shadow-sm hover:text-gray-700"
+                            >
+                                <span class="sr-only">Notifications</span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-5 w-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                                    />
+                                </svg>
+                            </a>
                         </div>
+
+                        <span
+                            aria-hidden="true"
+                            class="block h-6 w-px rounded-full bg-gray-200"
+                        ></span>
+
+                        <a href="#" class="block shrink-0">
+                            <span class="sr-only">Profile</span>
+                            <img
+                                alt="Man"
+                                src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                                class="h-10 w-10 rounded-full object-cover"
+                            />
+                        </a>
                     </div>
 
-                    <div class="mt-2 text-center pb-4">
-                        <h6 class="text-2xl font-medium text-gray-700">Jessica Jones, <span class="font-light text-gray-500">27</span></h6>
+                    <div class="mt-8">
+                        <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+                            Welcome Back, {userInfo.user.name}!
+                        </h1>
 
-                        <p class="font-light text-gray-600 mt-2">Bucharest, Romania</p>
-
-                        <p class="mt-8 text-gray-500"> Lorem ipsum dolor</p>
-                        <p class="mt-2 text-gray-500"> Lorem ipsum dolor sit amet consectetur, adipisicing elit.!</p>  </div>
-                    {/* <div class="mt-12 flex flex-col justify-center">
-                        <p class="text-gray-600 text-center font-light lg:px-16">An artist of considerable range, Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure. An artist of considerable range.</p>
-                        <button class="text-indigo-500 py-2 px-4  font-medium mt-4">  Show more</button>
-                    </div> */}
-                </div>
-            </div>
-
-
-            <div className="py-2 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
-
-                <div className="mt-10 flex flex-col  xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
-                    <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
-                        <div className="flex flex-col justify-start items-start bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
-                            <p className="text-lg md:text-xl font-semibold leading-6 xl:leading-5 text-gray-800">Your Reservations</p>
-                            <div className="mt-4 md:mt-6 flex  flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full ">
-                                <div className="pb-4 md:pb-8 w-full md:w-40">
-                                    <img className="w-full  hidden md:block p-4 rounded-b-sm" src="https://img2.10bestmedia.com/Images/Photos/378649/Park-Hyatt-New-York-Manhattan-Sky-Suite-Master-Bedroom-low-res_54_990x660.jpg" alt="dress" />
-                                    <img className="w-full  md:hidden p-4" src="https://i.ibb.co/L039qbN/Rectangle-10.png" alt="dress" />
-                                </div>
-                                <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full  pb-8 space-y-4 md:space-y-0">
-                                    <div className="w-full flex flex-col justify-start items-start space-y-8">
-                                        <h6 className="text-xl justify-center xl:text-lg sm:ml-3 font-semibold leading-6 text-gray-800">Premium Quaility setCurrentImage</h6>
-                                        <div className="flex justify-start md:justify-center sm:ml-3 items-start flex-col space-y-2">
-                                            <p className="text-sm leading-none text-gray-800">
-                                                <span className="text-gray-300 mr-3">Style: </span>Italic Minimal Design
-                                            </p>
-                                            <p className="text-sm leading-none text-gray-800">
-                                                <span className="text-gray-300 mr-3">Size: </span>Single
-                                            </p>
-                                            <p className="text-sm leading-none text-gray-800">
-                                                <span className="text-gray-300 mr-3">Color: </span>Light Blue
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-between space-x-8 items-start w-full">
-                                        <p className="text-base xl:text-lg leading-6 sm:ml-3">
-                                            $20.00 <span className="text-red-300 line-through"> $30.00</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
+                        <p class="mt-1.5 text-sm text-gray-500">
+                            Welcome to your dashboard! Stay organized and make the most out of your experience here. 😎
+                        </p>
                     </div>
                 </div>
-            </div>
+            </header>
+            <section class="container px-4 mx-auto">
+                <div class="flex flex-col">
+                    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                            <div class="overflow-hidden border border-gray-200 md:rounded-lg">
+                                <table class="min-w-full divide-y divide-gray-200 ">
+                                    <thead class="bg-gray-700 ">
+                                        <tr>
+                                            <th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                <div class="flex items-center gap-x-3">
+                                                    <input type="checkbox" class="text-blue-500 border-gray-300 rounded" />
+                                                    <button class="flex items-center gap-x-2">
+                                                        <span>Invoice</span>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
-                <div class="ml-6 relative mx-auto p-4 w-full">
-                    <a href="#" class="relative inline-block duration-300 ease-in-out transition-transform transform hover:-translate-y-2 w-full">
-                        <div class="shadow p-4 rounded-lg bg-white">
-                            <div class="flex justify-center relative rounded-lg overflow-hidden h-52">
-                                <div class="transition-transform duration-500 transform ease-in-out hover:scale-110 w-full">
-                                    <div class="absolute inset-0 bg-black opacity-10"></div>
-                                </div>
+                                                        <svg class="h-3" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M2.13347 0.0999756H2.98516L5.01902 4.79058H3.86226L3.45549 3.79907H1.63772L1.24366 4.79058H0.0996094L2.13347 0.0999756ZM2.54025 1.46012L1.96822 2.92196H3.11227L2.54025 1.46012Z" fill="currentColor" stroke="currentColor" stroke-width="0.1" />
+                                                            <path d="M0.722656 9.60832L3.09974 6.78633H0.811638V5.87109H4.35819V6.78633L2.01925 9.60832H4.43446V10.5617H0.722656V9.60832Z" fill="currentColor" stroke="currentColor" stroke-width="0.1" />
+                                                            <path d="M8.45558 7.25664V7.40664H8.60558H9.66065C9.72481 7.40664 9.74667 7.42274 9.75141 7.42691C9.75148 7.42808 9.75146 7.42993 9.75116 7.43262C9.75001 7.44265 9.74458 7.46304 9.72525 7.49314C9.72522 7.4932 9.72518 7.49326 9.72514 7.49332L7.86959 10.3529L7.86924 10.3534C7.83227 10.4109 7.79863 10.418 7.78568 10.418C7.77272 10.418 7.73908 10.4109 7.70211 10.3534L7.70177 10.3529L5.84621 7.49332C5.84617 7.49325 5.84612 7.49318 5.84608 7.49311C5.82677 7.46302 5.82135 7.44264 5.8202 7.43262C5.81989 7.42993 5.81987 7.42808 5.81994 7.42691C5.82469 7.42274 5.84655 7.40664 5.91071 7.40664H6.96578H7.11578V7.25664V0.633865C7.11578 0.42434 7.29014 0.249976 7.49967 0.249976H8.07169C8.28121 0.249976 8.45558 0.42434 8.45558 0.633865V7.25664Z" fill="currentColor" stroke="currentColor" stroke-width="0.3" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </th>
 
-                                <div class="absolute flex justify-center bottom-0 mb-3">
-                                    <div class="flex bg-white px-4 py-1 space-x-5 rounded-lg overflow-hidden shadow">
-                                        <p class="flex items-center font-medium text-gray-800">
-                                            <svg class="w-5 h-5 fill-current mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M480,226.15V80a48,48,0,0,0-48-48H80A48,48,0,0,0,32,80V226.15C13.74,231,0,246.89,0,266.67V472a8,8,0,0,0,8,8H24a8,8,0,0,0,8-8V416H480v56a8,8,0,0,0,8,8h16a8,8,0,0,0,8-8V266.67C512,246.89,498.26,231,480,226.15ZM64,192a32,32,0,0,1,32-32H208a32,32,0,0,1,32,32v32H64Zm384,32H272V192a32,32,0,0,1,32-32H416a32,32,0,0,1,32,32ZM80,64H432a16,16,0,0,1,16,16v56.9a63.27,63.27,0,0,0-32-8.9H304a63.9,63.9,0,0,0-48,21.71A63.9,63.9,0,0,0,208,128H96a63.27,63.27,0,0,0-32,8.9V80A16,16,0,0,1,80,64ZM32,384V266.67A10.69,10.69,0,0,1,42.67,256H469.33A10.69,10.69,0,0,1,480,266.67V384Z"></path></svg>
-                                            3 + 1
-                                        </p>
+                                            <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                Date
+                                            </th>
 
-                                        <p class="flex items-center font-medium text-gray-800">
-                                            <svg class="w-5 h-5 fill-current mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M423.18 195.81l-24.94-76.58C387.51 86.29 356.81 64 322.17 64H157.83c-34.64 0-65.34 22.29-76.07 55.22L56.82 195.8C24.02 205.79 0 235.92 0 271.99V400c0 26.47 21.53 48 48 48h16c26.47 0 48-21.53 48-48v-16h256v16c0 26.47 21.53 48 48 48h16c26.47 0 48-21.53 48-48V271.99c0-36.07-24.02-66.2-56.82-76.18zm-310.99-66.67c6.46-19.82 24.8-33.14 45.64-33.14h164.34c20.84 0 39.18 13.32 45.64 33.13l20.47 62.85H91.72l20.47-62.84zM80 400c0 8.83-7.19 16-16 16H48c-8.81 0-16-7.17-16-16v-16h48v16zm368 0c0 8.83-7.19 16-16 16h-16c-8.81 0-16-7.17-16-16v-16h48v16zm0-80.01v32H32v-80c0-26.47 21.53-48 48-48h320c26.47 0 48 21.53 48 48v48zM104.8 248C78.84 248 60 264.8 60 287.95c0 23.15 18.84 39.95 44.8 39.95l10.14.1c39.21 0 45.06-20.1 45.06-32.08 0-24.68-31.1-47.92-55.2-47.92zm10.14 56c-3.51 0-7.02-.1-10.14-.1-12.48 0-20.8-6.38-20.8-15.95S92.32 272 104.8 272s31.2 14.36 31.2 23.93c0 7.17-10.53 8.07-21.06 8.07zm260.26-56c-24.1 0-55.2 23.24-55.2 47.93 0 11.98 5.85 32.08 45.06 32.08l10.14-.1c25.96 0 44.8-16.8 44.8-39.95 0-23.16-18.84-39.96-44.8-39.96zm0 55.9c-3.12 0-6.63.1-10.14.1-10.53 0-21.06-.9-21.06-8.07 0-9.57 18.72-23.93 31.2-23.93s20.8 6.38 20.8 15.95-8.32 15.95-20.8 15.95z"></path></svg>
-                                            2
-                                        </p>
+                                            <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                Status
+                                            </th>
 
-                                        <p class="flex items-center font-medium text-gray-800">
-                                            <svg class="w-5 h-5 fill-current mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504,256H64V61.25a29.26,29.26,0,0,1,49.94-20.69L139.18,65.8A71.49,71.49,0,0,0,128,104c0,20.3,8.8,38.21,22.34,51.26L138.58,167a8,8,0,0,0,0,11.31l11.31,11.32a8,8,0,0,0,11.32,0L285.66,65.21a8,8,0,0,0,0-11.32L274.34,42.58a8,8,0,0,0-11.31,0L251.26,54.34C238.21,40.8,220.3,32,200,32a71.44,71.44,0,0,0-38.2,11.18L136.56,18A61.24,61.24,0,0,0,32,61.25V256H8a8,8,0,0,0-8,8v16a8,8,0,0,0,8,8H32v96c0,41.74,26.8,76.9,64,90.12V504a8,8,0,0,0,8,8h16a8,8,0,0,0,8-8V480H384v24a8,8,0,0,0,8,8h16a8,8,0,0,0,8-8V474.12c37.2-13.22,64-48.38,64-90.12V288h24a8,8,0,0,0,8-8V264A8,8,0,0,0,504,256ZM228.71,76.9,172.9,132.71A38.67,38.67,0,0,1,160,104a40,40,0,0,1,40-40A38.67,38.67,0,0,1,228.71,76.9ZM448,384a64.07,64.07,0,0,1-64,64H128a64.07,64.07,0,0,1-64-64V288H448Z"></path></svg>
-                                            3
-                                        </p>
-                                    </div>
-                                </div>
-                                <button><span class="absolute top-0 right-0 inline-flex mt-3 ml-3 mr-3 px-3 py-2 rounded-3xl z-10 bg-blue-500 hover:bg-blue-400 text-sm font-medium text-white select-none">
-                                    X
-                                </span></button>
-                            </div>
+                                            <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                Hotel
+                                            </th>
 
-                            <div class="mt-4">
-                                <h2 class="font-medium text-base md:text-lg text-gray-800 line-clamp-1" title="New York">
-                                    Statue of Liberty
-                                </h2>
-                                <p class="mt-2 text-sm text-gray-800 line-clamp-1" title="New York, NY 10004, United States">
-                                    New York, NY 10004, United States
-                                </p>
+                                            <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                CheckIn
+                                            </th>
+
+                                            <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                CheckOut
+                                            </th>
+                                            <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                Actions
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    {
+                                        userBookingData?.bookingData?.map((data, index) => (
+                                            <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-600">
+                                                <tr>
+                                                    <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                                                        <div class="inline-flex items-center gap-x-3">
+                                                            <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+
+                                                            <span>#3066</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{data.createdAt}</td>
+                                                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                                        {
+                                                            data.status === "Pending" ? (
+                                                                <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-yellow-500 bg-emerald-100/60 dark:bg-gray-800">
+                                                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <circle cx="6" cy="6" r="5.25" stroke="currentColor" stroke-width="1.5" />
+                                                                        <path d="M6 3.75V7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                                                        <circle cx="6" cy="9" r="0.75" fill="currentColor" />
+                                                                    </svg>
+
+                                                                    <h2 class="text-sm font-normal">{data.status}</h2>
+                                                                </div>) : <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
+                                                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                                </svg>
+
+                                                                <h2 class="text-sm font-normal">{data.status}</h2>
+                                                            </div>
+
+                                                        }
+
+
+                                                    </td>
+                                                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                                        <div class="flex items-center gap-x-2">
+                                                            <img class="object-cover w-8 h-8 rounded-full" src={data.propertyId.pic[0]} alt="" />
+                                                            <div>
+                                                                <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{data.propertyId.pname}</h2>
+                                                                <h2 class="text-xs font-normal text-gray-600 dark:text-gray-400">{data.propertyId.pstate}</h2>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+
+                                                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{data.checkIn}</td>
+
+
+                                                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{data.checkOut}</td>
+
+
+                                                    <td onClick={() => {
+                                                        setOpen(true)
+                                                        setId(id)
+                                                    }} class="px-4 border py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Cancel</td>
+                                                </tr>
+                                            </tbody>
+                                        ))
+                                    }
+
+                                </table>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between mt-6">
+                    <a href="#" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+                        </svg>
+
+                        <span>
+                            previous
+                        </span>
+                    </a>
+
+                    <div class="items-center hidden md:flex gap-x-3">
+                        <a href="#" class="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60">1</a>
+                        <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">2</a>
+                        <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">3</a>
+                        <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">...</a>
+                        <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">12</a>
+                        <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">13</a>
+                        <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">14</a>
+                    </div>
+
+                    <a href="#" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                        <span>
+                            Next
+                        </span>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                        </svg>
                     </a>
                 </div>
-            </div>
+            </section>
+            <Dialog
+                open={open}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={handleClose}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        Let Google help apps determine location. This means sending anonymous
+                        location data to Google, even when no apps are running.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Disagree</Button>
+                    <Button onClick={()=>{submitHandler(id)}}>Agree</Button>
+                </DialogActions>
+            </Dialog>
+            <PropertyCard />
             <Footer />
         </div>
     )

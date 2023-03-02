@@ -1,9 +1,11 @@
 const express=require("express")
-const {registerUser, authUser, viewIndividualProperty, getForgotPasswordLink, resetPassword, payment}= require('../controllers/userController')
+const {registerUser, authUser, viewIndividualProperty, getForgotPasswordLink, resetPassword, payment, bookings, cancelBooking}= require('../controllers/userController')
 
 const router= express.Router()
 
 router.get("/individual-property/:id", viewIndividualProperty )
+router.get("/list-bookings/:id", bookings )
+router.get("/cancel-booking/:id", cancelBooking )
 router.post("/get-link", getForgotPasswordLink)
 router.post("/reset-password", resetPassword)
 router.post("/payment", payment)

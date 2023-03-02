@@ -15,6 +15,9 @@ import {
 
 
 import { individualPropertySuccess, individualPropertyReq, individualPropertyFail } from "../features/users/individualPropertySlice";
+import { userBooking } from "../features/users/bookingsSlice";
+import { async } from "@firebase/util";
+import { message } from "../features/users/messageSlice";
 
 
 export const login = (email, password) => async (dispatch) => {
@@ -162,6 +165,53 @@ export const resetPassword = (email, password) => async (dispatch) => {
 
   }
 
+}
+
+export const listBookings = (id) => async (dispatch) => {
+
+  try {
+    console.log(id);
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      }, 
+    }
+
+    const { data } = await axios.get(`http://localhost:5000/api/users/list-bookings/${id}`, config)
+    console.log(data, "actions");
+    dispatch(userBooking(data))
+
+  } catch (error) {
+    const errorIs =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+  }
+
+
+
+}
+
+export const userCancellation=(id)=>async(dispatch)=>{
+  try {
+    
+    console.log(id);
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      }, 
+    }
+
+    const { data } = await axios.get(`http://localhost:5000/api/users/cancel-booking/${id}`, config)
+    dispatch(message(data))
+    
+  } catch (error) {
+    const errorIs =
+    error.response && error.response.data.message
+      ? error.response.data.message
+      : error.message;
+      dispatch(message(errorIs))
+  }
 }
 
 

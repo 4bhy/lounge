@@ -44,19 +44,19 @@ const hotelSchema = mongoose.Schema({
         userId: {
             Type: mongoose.Schema.Types.ObjectId
         },
-        bookedAt:{  
-            type:Date,
-            immutable:true,
-            default:()=>Date.now()
+        bookedAt: {
+            type: Date,
+            immutable: true,
+            default: () => Date.now()
         },
-        checkIn:{
-            type:Date,  
+        checkIn: {
+            type: Date,
         },
-        checkOut:{
-            type:Date,  
+        checkOut: {
+            type: Date,
         },
-        guests:{
-            type:Number
+        guests: {
+            type: Number
         }
     }]
 

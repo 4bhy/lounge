@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -13,10 +13,12 @@ import Slide from '@mui/material/Slide';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
-
 
 
 const CARD_OPTIONS = {
@@ -49,12 +51,14 @@ const PaymentForm = (state) => {
 
     const userInfo = state.state.state.userInfo;
     const propertyData = state.state.state.propertyData;
-    const checkIn = state.state.state.checkIn
-    const checkOut = state.state.state.checkOut
-    const guests = state.state.state.guests
-    const totalPrice = state.state.state.totalPrice
+    const checkIn = state.state.state.checkIn;
+    const checkOut = state.state.state.checkOut;
+    const guests = state.state.state.guests;
+    const totalPrice = state.state.state.totalPrice;
 
     const handleSubmit = async (e) => {
+        setRedirector(false)
+        setOpens(true)
         e.preventDefault()
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: "card",
@@ -77,7 +81,9 @@ const PaymentForm = (state) => {
 
                 if (response.data.success) {
                     console.log("Successful payment")
+                    setOpens(false);
                     setOpen(true);
+                    setRedirector(true)
                 }
 
             } catch (error) {
@@ -89,13 +95,21 @@ const PaymentForm = (state) => {
     }
 
     const [open, setOpen] = React.useState(false);
-
-
+    const [opens, setOpens] = React.useState(false);
+    const [redirector, setRedirector]=useState(false)
+    const navigate=useNavigate()
 
     const handleClose = () => {
         setOpen(false);
     };
 
+    // useEffect(()=>{
+
+    //     setTimeout(() => {
+    //        navigate("/")
+    //     }, 4000);
+
+    // }, [redirector])
 
     return (
         <>
@@ -121,14 +135,22 @@ const PaymentForm = (state) => {
                         <Alert severity="success">Payment Successful!</Alert>
                     </DialogTitle>
                     <DialogContentText id="alert-dialog-slide-description">
-                    Your reservation won’t be confirmed until the host accepts your request (within 24 hours).
-You won’t be charged until then.
-          </DialogContentText>
+                        Your reservation won’t be confirmed until the host accepts your request (within 24 hours).
+                        You won’t be charged until then.
+                    </DialogContentText>
+                  
                 </DialogContent>
                 <DialogActions>
                     <Link to="/"><Button>HOME</Button></Link>
                 </DialogActions>
             </Dialog>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={opens}
+        onClick={handleClose}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
         </>
     )
 }

@@ -20,6 +20,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 
 
 const CardContainer = () => {
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -63,15 +64,30 @@ const CardContainer = () => {
   // console.log(length," :pppp");
 
   const [currentPage, setCurrentPage] = useState(1)
-  const [postsPerPage, setPostsPerPage] = useState(2)
-  
+  const [postsPerPage, setPostsPerPage] = useState(3)
+
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage
   const currentPosts = hotelsList?.slice(firstPostIndex, lastPostIndex)
 
-  const [search, setSearch]=useState("")
-console.log(search);
+  const [search, setSearch] = useState("")
+  console.log(search);
+
+
+
+  const [query, setQuery] = useState('');
+
+  function handleQueryChange(event) {
+    setQuery(event.target.value);
+  }
+
+  const filteredProducts = currentPosts?.filter(product => {
+    const regex = new RegExp(query, 'i');
+    return regex.test(product.pname);
+  });
+
+
 
   return (
     <div>
@@ -81,8 +97,8 @@ console.log(search);
           <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
             <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
             <TextField id="input-with-sx" label="Search"
-            onChange={(e)=>{setSearch(e.target.value)}}
-             variant="standard" />
+              onChange={handleQueryChange}
+              variant="standard" />
           </Box>
         </Box>
       </div>
@@ -90,10 +106,7 @@ console.log(search);
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2'>
 
         {
-          currentPosts?.filter((data)=>{
-            return search==='' ? data : data.pname.toLowerCase().includes(search.toLowerCase())
-          }).map((data, i) => (
-
+          filteredProducts?.map((data, i) => (
             <div className="flex flex-wrap" onClick={() => {
               propertyHandler(data._id)
             }}>
@@ -108,13 +121,13 @@ console.log(search);
                     <div>
                       <dt class="sr-only">Price</dt>
 
-                      <dd class="text-sm text-gray-500">$240,000</dd>
+                      <dd class="text-sm text-gray-500">₹{data.price}</dd>
                     </div>
 
                     <div>
                       <dt class="sr-only">{data.pname}</dt>
 
-                      <dd class="font-medium">{data.pstate}</dd>
+                      <dd class="font-medium">{data.pname}</dd>
                     </div>
                   </dl>
 
@@ -196,11 +209,13 @@ console.log(search);
         }
 
       </div>
-      <LandingPagination totalPosts={4}
-        postsPerPage={postsPerPage}
-        setCurrentPage={setCurrentPage}
-        currentPage={currentPage}
-      />
+      <div className='mt-8'>
+        <LandingPagination totalPosts={4}
+          postsPerPage={postsPerPage}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
+      </div>
 
 
     </div>

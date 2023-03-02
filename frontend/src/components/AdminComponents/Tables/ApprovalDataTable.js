@@ -76,8 +76,7 @@ const ApprovalDataTable = () => {
                                     id="demo-select-small"
                                     value={age}
                                     label="Options"
-                                    onChange={handleChange}
-                                >
+                                    onChange={handleChange}>
                                     <MenuItem value={"hosts"}>HOSTS</MenuItem>
                                     <MenuItem value={"hotels"}>HOTELS</MenuItem>
                                 </Select>

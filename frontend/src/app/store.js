@@ -15,6 +15,8 @@ import viewHostsReducer from "../features/admin/viewHostsSlice";
 import hostPropertyReducer from "../features/admin/hostPropertySlice";
 import individualPropertyReducer from "../features/users/individualPropertySlice";
 import listApprovalsReducer from "../features/admin/listApprovalsSlice";
+import bookingsReducer from "../features/users/bookingsSlice";
+import messageSlice from "../features/users/messageSlice";
 const store = configureStore({
     reducer: {
         userLogin: userLoginReducer,
@@ -30,8 +32,10 @@ const store = configureStore({
         listHotels: listHotelsReducer,
         viewHost: viewHostsReducer,
         hostProperty: hostPropertyReducer,
-        listApprovals:listApprovalsReducer,
+        listApprovals: listApprovalsReducer,
         individualProperty: individualPropertyReducer,
+        bookings: bookingsReducer,
+        messageSlice:messageSlice
     }
 })
 
