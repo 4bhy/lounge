@@ -45,7 +45,7 @@ function App() {
           <Route path="/reset-password/:id/:token" element={<ForgotPassword />} />
           <Route path="/register" element={userInfo ? <Navigate to="/" /> : <RegisterScreen />} />
           <Route path="/findmore" element={<FindMore />} />
-          <Route path="/details" element={<ProductPage />} />
+          <Route path="/details/:id" element={<ProductPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/checkout-payment" element={<CheckoutPayment />} />
           <Route path="/dashboard" element={<UserDashboard />} />

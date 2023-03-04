@@ -4,7 +4,7 @@ const Bannner = () => {
     return (
         <div>
           <section
-  class="relative bg-[url(https://live.staticflickr.com/4240/35056952620_29a05ee356_b.jpg)] bg-cover bg-center bg-no-repeat"
+  class="relative bg-[url(https://live.staticflickr.com/4240/35056952620_29a05ee356_b.jpg)] bg-cover bg-center rounded-3xl bg-no-repeat"
 >
   <div
     class="absolute inset-0 lg:bg-gradient-to-r sm:bg-transparent sm:bg-gradient-to-r lg:from-slate-900/95 lg:to-slate-200/25 sm:from-slate-900/95 sm:to-slate-200/25"

@@ -6,13 +6,15 @@ const messageSlice = createSlice({
     name: "messageslice",
     initialState,
     reducers: {
-        message: (state, action) => {
+        messageSuccess: (state, action) => {
             state.messageData = action.payload
+        },
+        messageFail:(state,action)=>{
+            state.error=action.payload;
         }
-      
     }
 })
 
 export default messageSlice.reducer
 
-export const { message } = messageSlice.actions;
+export const { messageSuccess, messageFail } = messageSlice.actions;

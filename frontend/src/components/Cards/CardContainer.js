@@ -36,35 +36,14 @@ const CardContainer = () => {
 
   const propertyHandler = async (id) => {
 
-    await dispatch(individualProperty(id))
-    navigate("/details")
+    navigate(`/details/${id}`)
 
   }
 
   console.log(hotelsList, "4444");
 
-  //   (hotelsList.length).map((dta, i)=>{
-  //     return console.log(i+1);
-  // })
-
-
-  //   const pagination = [hotelsList?.map(arr => arr.pname).filter(pname => pname)];
-  //   console.log(typeof (pagination), "ooo");
-  //   console.log(pagination, "22");
-
-  //   const length = pagination.reduce((acc, val) => acc + 1, 0); // 3
-
-  // console.log(length);
-
-  // const length = pagination 
-  //   .map(obj => obj.pname)
-  //   .filter(name => name)
-  //   .length;
-
-  // console.log(length," :pppp");
-
   const [currentPage, setCurrentPage] = useState(1)
-  const [postsPerPage, setPostsPerPage] = useState(3)
+  const [postsPerPage, setPostsPerPage] = useState(6)
 
 
   const lastPostIndex = currentPage * postsPerPage;
@@ -73,8 +52,6 @@ const CardContainer = () => {
 
   const [search, setSearch] = useState("")
   console.log(search);
-
-
 
   const [query, setQuery] = useState('');
 
@@ -86,8 +63,6 @@ const CardContainer = () => {
     const regex = new RegExp(query, 'i');
     return regex.test(product.pname);
   });
-
-
 
   return (
     <div>
@@ -207,7 +182,6 @@ const CardContainer = () => {
 
           ))
         }
-
       </div>
       <div className='mt-8'>
         <LandingPagination totalPosts={4}
@@ -216,8 +190,6 @@ const CardContainer = () => {
           currentPage={currentPage}
         />
       </div>
-
-
     </div>
 
   )

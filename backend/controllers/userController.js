@@ -11,11 +11,9 @@ const nodemailer = require("nodemailer");
 const stripe = require("stripe")("sk_test_51MgPNUSGJWduBmwsIEtRsvDlhdzrn4QsCkDNNVxtjz2PIml545V5ZnfDHITtZC1tPMl7S0o73tGNq3S5ysbNmRNG00JE20Fofi")
 
 
-
-
 module.exports = {
   registerUser: (async (req, res) => {
-    console.log("please");
+
     const { name, email, password, phoneNumber } = req.body;
 
     const userExists = await User.findOne({ email: email });
@@ -24,8 +22,6 @@ module.exports = {
       res.status(400);
       throw new Error("User Already exists");
     }
-
-
 
     const user = await User.create({
       name,
@@ -72,7 +68,7 @@ module.exports = {
   })),
 
   viewIndividualProperty: (async (req, res) => {
-    console.log("666");
+
     try {
       const propertyInfo = await Hotel.findById({ _id: req.params.id })
 
@@ -92,7 +88,7 @@ module.exports = {
 
   getForgotPasswordLink: (async (req, res) => {
 
-    console.log(req.body.email, "44");
+
     const { email } = req.body;
 
     try {
@@ -139,14 +135,11 @@ module.exports = {
       console.log(password);
       const userData = await User.findOne({ email })
       const host = await Host.findOne({ userId: userData._id })
-      console.log(userData);
+   
 
       if (!userData) {
         res.status(404).json("Invalid Email")
       } else {
-        // const salt = await bcrypt.genSaltSync(10);
-        // const newPassword = await bcrypt.hash(password, salt);
-        // console.log(newPassword);
         console.log("11");
         userData.password = password;
         const user = await userData.save();
@@ -203,11 +196,13 @@ module.exports = {
     }
   }),
 
+
+
   bookings: asyncHandler(async (req, res) => {
 
     try {
       const bookingData = await Booking.find({ userId: req.params.id }).populate('propertyId')
-      console.log(bookingData);
+
       if (bookingData) {
         res.status(201).json({
           bookingData
@@ -221,28 +216,23 @@ module.exports = {
 
   cancelBooking: asyncHandler(async (req, res) => {
     try {
-
+      console.log("3454");
       const bookingData = await Booking.findById({ _id: req.params.id })
-      if (bookingData.status == "Approved") {
-        res.status(401).json({
-          title: "Cancellation Denied",
-          message: "Sorry, bookings cannot be cancelled after approval!"
-        })
-      } else {
-        bookingData.isCancelled = "true";
-        const newData = await bookingData.save()
-        if (newData) {
-          res.status(201).json({
-            title: "Cancellation Requested!",
-            message:"You'll be notified soon!"
-          })
-        }
-      }
 
+      bookingData.isCancelled = "true";
+      const newData = await bookingData.save()
+      if (newData) {
+        res.status(201).json({
+          title: "Cancellation Requested!",
+          message: "You'll be notified soon!"
+        })
+      }
     } catch (error) {
       console.log(error.message);
       res.status(401).json({
-        message: "Cancellation Failed"
+        title: "Cancellation Failed",
+        message: "Please try again after some time"
+
       })
     }
   })

@@ -3,21 +3,19 @@ import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import Footer from '../Footer/Footer'
 import Navbar from '../Header/Navbar'
-import { useNavigate, useLocation } from 'react-router-dom'
-
-
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
-
+import { individualProperty } from '../../actions/userActions'
 
 
 const ProductPage = () => {
 
-  const individualProperty = useSelector((state) => state.individualProperty)
-  const { individualPropertyData } = individualProperty;
+  const individualProperties = useSelector((state) => state.individualProperty)
+  const { individualPropertyData } = individualProperties;
   const [checkIn, setCheckIn] = useState("")
   const [checkOut, setCheckOut] = React.useState(null);
   const [guests, setGuests] = useState(0)
@@ -37,8 +35,16 @@ const ProductPage = () => {
       }
     })
   }
+  const dispatch = useDispatch()
+  const { id } = useParams()
+
+  useEffect(() => {
+    dispatch(individualProperty(id))
+  }, [])
 
 
+  console.log(individualPropertyData?.propertyInfo
+    .price, "9999");
 
   useEffect(() => {
 
@@ -213,7 +219,7 @@ const ProductPage = () => {
               </details>
               <div className="flex flex-col items-center mt-5">
                 {
-                  totalPrice == 0 ? <div className="text-3xl font-medium">{individualPropertyData?.propertyInfo
+                  totalPrice == 0 || null ? <div className="text-3xl font-medium">{individualPropertyData?.propertyInfo
                     .price} Rs</div> : <div className="text-3xl font-medium">{totalPrice} Rs</div>
                 }
 

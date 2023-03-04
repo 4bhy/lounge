@@ -17,7 +17,7 @@ import {
 import { individualPropertySuccess, individualPropertyReq, individualPropertyFail } from "../features/users/individualPropertySlice";
 import { userBooking } from "../features/users/bookingsSlice";
 import { async } from "@firebase/util";
-import { message } from "../features/users/messageSlice";
+import { messageFail, messageSuccess } from "../features/users/messageSlice";
 
 
 export const login = (email, password) => async (dispatch) => {
@@ -194,7 +194,7 @@ export const listBookings = (id) => async (dispatch) => {
 
 export const userCancellation=(id)=>async(dispatch)=>{
   try {
-    
+    console.log("765456789");
     console.log(id);
     const config = {
       headers: {
@@ -203,14 +203,14 @@ export const userCancellation=(id)=>async(dispatch)=>{
     }
 
     const { data } = await axios.get(`http://localhost:5000/api/users/cancel-booking/${id}`, config)
-    dispatch(message(data))
+    dispatch(messageSuccess(data))
     
   } catch (error) {
     const errorIs =
     error.response && error.response.data.message
       ? error.response.data.message
       : error.message;
-      dispatch(message(errorIs))
+      dispatch(messageFail(errorIs))
   }
 }
 
