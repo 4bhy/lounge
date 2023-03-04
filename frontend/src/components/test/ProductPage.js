@@ -9,7 +9,89 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { individualProperty } from '../../actions/userActions'
+import { individualProperty, submitReview } from '../../actions/userActions'
+
+
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
+import Rating from '@mui/material/Rating';
+import Box from '@mui/material/Box';
+import StarIcon from '@mui/icons-material/Star';
+
+
+import PropTypes from 'prop-types';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Typography from '@mui/material/Typography';
+
+
+
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialogContent-root': {
+    padding: theme.spacing(2),
+  },
+  '& .MuiDialogActions-root': {
+    padding: theme.spacing(1),
+  },
+}));
+
+
+function BootstrapDialogTitle(props) {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+}
+
+BootstrapDialogTitle.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};
+
+
+const labels = {
+  0.5: 'Useless',
+  1: 'Useless+',
+  1.5: 'Poor',
+  2: 'Poor+',
+  2.5: 'Ok',
+  3: 'Ok+',
+  3.5: 'Good',
+  4: 'Good+',
+  4.5: 'Excellent',
+  5: 'Excellent+',
+};
+
+function getLabelText(value) {
+  return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
+}
 
 
 const ProductPage = () => {
@@ -61,6 +143,34 @@ const ProductPage = () => {
     setTotalPrice(gprice + price)
   }, [guests])
 
+
+  const [age, setAge] = React.useState('');
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const [value, setValue] = React.useState(2);
+  const [hover, setHover] = React.useState(-1);
+  const [description, setDescription] = useState("")
+
+  const [title, setTitle] = useState("")
+
+  const submitHandlder = () => {
+    const storageValue = localStorage.getItem("userInfo");
+    const userInfo = JSON.parse(storageValue);
+    console.log(userInfo.user._id);
+
+  }
   return (
     <div>
       <Navbar />
@@ -176,8 +286,8 @@ const ProductPage = () => {
                   </div>
                 </div>
 
-                <p class="text-lg font-bold">{individualPropertyData?.propertyInfo
-                  .price}/</p>
+                <p class="text-lg font-bold">₹ {individualPropertyData?.propertyInfo
+                  .price}/-</p>
 
               </div>
 
@@ -200,6 +310,14 @@ const ProductPage = () => {
                     </span>
                   </div>
                 </summary>
+                <div className="mt-5">
+                  <div className="text-sm text-gray-600">Amenities:</div>
+                  <div className="flex">
+                    <div className="w-16 h-16 bg-gray-300 mr-5 rounded-full"></div>
+                    <div className="w-16 h-16 bg-gray-300 mr-5 rounded-full"></div>
+                    <div className="w-16 h-16 bg-gray-300 rounded-full"></div>
+                  </div>
+                </div>
 
                 <div class="pb-6 prose max-w-none">
                   <p>
@@ -219,13 +337,13 @@ const ProductPage = () => {
               </details>
               <div className="flex flex-col items-center mt-5">
                 {
-                  totalPrice == 0 || null ? <div className="text-3xl font-medium">{individualPropertyData?.propertyInfo
-                    .price} Rs</div> : <div className="text-3xl font-medium">{totalPrice} Rs</div>
+                  totalPrice == 0 || null ? <div className="text-3xl font-medium">₹ {individualPropertyData?.propertyInfo
+                    .price}/-</div> : <div className="text-3xl font-medium">₹{totalPrice}/-</div>
                 }
 
 
-                <div className="text-sm text-gray-600">per night</div>
-                <div className='flex justify-center m-4 p-8 gap-3'>
+
+                <div className='flex justify-center m-4 p-2 gap-3'>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       label="Check In"
@@ -238,6 +356,7 @@ const ProductPage = () => {
                   </LocalizationProvider>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
+                      size="small"
                       label="Check Out"
                       value={checkOut}
                       onChange={(newValue) => {
@@ -246,32 +365,79 @@ const ProductPage = () => {
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
-
+                  {/* 
                   <input onChange={(e) => {
                     console.log("44");
                     setGuests(e.target.value)
-                  }} class="bg-gray-300 px-5 py-2 rounded-full" placeholder='Guests' type="number" min="0" max="100" />
+                  }} class="bg-gray-300 px-5  rounded-full" placeholder='Guests' type="number" min="0" max="100" /> */}
+
+                  <FormControl sx={{ minWidth: 120 }} size="large">
+                    <InputLabel id="demo-select-small">Age</InputLabel>
+                    <Select
+                      labelId="demo-select-small"
+                      id="demo-select-small"
+                      value={age}
+                      label="Age"
+                      onChange={handleChange}
+                    >
+                      <div class="custom-number-input m-4">
+                        <label for="custom-input-number" class="w-full text-gray-700 text-sm font-semibold">Adults
+                        </label>
+                        <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+                          <button onClick={(e) => {
+                            setGuests(guests + 1)
+                          }} data-action="decrement" class=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
+                            <span class="m-auto text-2xl font-thin">−</span>
+                          </button>
+                          {guests}
+                          <button onClick={(e) => {
+                            setGuests(guests + 1)
+                          }} data-action="increment" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
+                            <span class="m-auto text-2xl font-thin">+</span>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="custom-number-input m-4">
+                        <label for="custom-input-number" class="w-full text-gray-700 text-sm font-semibold">Children
+                        </label>
+                        <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+                          <button data-action="decrement" class=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
+                            <span class="m-auto text-2xl font-thin">−</span>
+                          </button>
+                          <input type="number" class="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none" name="custom-input-number" value="0"></input>
+                          <button data-action="increment" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
+                            <span class="m-auto text-2xl font-thin">+</span>
+                          </button>
+                        </div>
+                      </div>
+
+                    </Select>
+                  </FormControl>
 
                 </div>
 
-                <div className="mt-5">
-                  <button onClick={() => {
-                    naviagteHandler()
-                  }} className="bg-green-500 text-white px-5 py-2 rounded-full ml-5">
-                    Book Now
-                  </button>
-                </div>
-                <div className="mt-5">
-                  <div className="text-sm text-gray-600">Availability:</div>
+              </div>
+              <div className='flex justify-center m-2 p-2 gap-3'>
+
+
+                <button class="bg-white mr-4 mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4  border border-gray-400 rounded-full shadow">
+                  Check Availability
+                </button>
+
+                <div className="mt-4 flex">
+                  <div className="text-sm mr-2 text-gray-600">Availability:</div>
                   <div className="text-sm font-medium">In Stock</div>
                 </div>
-                <div className="mt-5">
-                  <div className="text-sm text-gray-600">Amenities:</div>
-                  <div className="flex">
-                    <div className="w-16 h-16 bg-gray-300 mr-5 rounded-full"></div>
-                    <div className="w-16 h-16 bg-gray-300 mr-5 rounded-full"></div>
-                    <div className="w-16 h-16 bg-gray-300 rounded-full"></div>
-                  </div>
+
+              </div>
+
+              <div className='flex justify-center m-4 p-2 gap-3'>
+                <div className="mt-2">
+                  <button onClick={() => {
+                    naviagteHandler()
+                  }} className="bg-white hover:bg-gray-100 text-green-500 font-semibold py-2 px-4 border border-gray-400 rounded-full shadow">
+                    Book Now
+                  </button>
                 </div>
               </div>
 
@@ -289,7 +455,15 @@ const ProductPage = () => {
 
       <section>
         <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
+          <div className='flex'>
+            <h4 class="text-sm mb-2 font-bold sm:text-xl mr-2  text-gray-500">Review this property</h4>
+            <button onClick={() => { setOpen(true) }} class="bg-white mb-2 hover:bg-gray-100 text-gray-500 font-semibold border-gray-400  text-3xl shadow">
+              +
+            </button>
+          </div>
+          <h4 class="text-sm mb-2 font-bold sm:text-sm text-gray-500">Share your thoughts with other customers</h4>
           <h2 class="text-xl font-bold sm:text-2xl">Customer Reviews</h2>
+
 
           <div class="mt-4 flex items-center">
             <p class="text-3xl font-medium">
@@ -352,6 +526,9 @@ const ProductPage = () => {
               </div>
 
               <p class="mt-0.5 text-xs text-gray-500">Based on 48 reviews</p>
+
+
+
             </div>
           </div>
 
@@ -503,6 +680,77 @@ const ProductPage = () => {
           </div>
         </div>
       </section>
+
+      <BootstrapDialog
+        onClose={handleClose}
+        aria-labelledby="customized-dialog-title"
+        open={open}
+      >
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+          Add a review
+        </BootstrapDialogTitle>
+        <DialogContent dividers>
+          <Typography gutterBottom>
+            <Box
+              sx={{
+                width: 200,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <Rating
+                name="hover-feedback"
+                value={value}
+                precision={0.5}
+                getLabelText={getLabelText}
+                onChange={(event, newValue) => {
+                  setValue(newValue);
+                }}
+                onChangeActive={(event, newHover) => {
+                  setHover(newHover);
+                }}
+                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+              />
+              {value !== null && (
+                <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
+              )}
+            </Box>
+          </Typography>
+          <div className='m-4'>
+            <Typography>
+              <TextField
+                onChange={(e) => { setTitle(e.target.value) }}
+                id="standard-multiline-flexible"
+                label="Title"
+                multiline
+                maxRows={4}
+                variant="standard"
+              />
+            </Typography>
+          </div>
+
+          <Typography gutterBottom>
+
+            <TextField
+              fullWidth
+              rows={6}
+              onChange={(e) => { setDescription(e.target.value) }}
+              label="Description"
+              id="fullWidth"
+              style={{ height: 100 }}
+            />
+          </Typography>
+
+          <Typography gutterBottom>
+            We value your feedback. Please keep your reviews respectful and constructive!
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={() => { submitHandlder() }}>
+            Save changes
+          </Button>
+        </DialogActions>
+      </BootstrapDialog>
       <Footer />
 
     </div>

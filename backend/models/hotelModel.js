@@ -42,7 +42,8 @@ const hotelSchema = mongoose.Schema({
     },
     booking: [{
         userId: {
-            Type: mongoose.Schema.Types.ObjectId
+            Type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
         },
         bookedAt: {
             type: Date,
@@ -58,9 +59,29 @@ const hotelSchema = mongoose.Schema({
         guests: {
             type: Number
         }
+    }],
+
+    reviews: [{
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        title: {
+            type: String
+        },
+        description: {
+            type: String
+        },
+        createdAt: {
+            type: Date,
+            immutable: true,
+            default: () => Date.now()
+        }
     }]
 
 },
+
+
     {
         timestamps: true
     })

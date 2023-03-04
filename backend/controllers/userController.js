@@ -135,7 +135,7 @@ module.exports = {
       console.log(password);
       const userData = await User.findOne({ email })
       const host = await Host.findOne({ userId: userData._id })
-   
+
 
       if (!userData) {
         res.status(404).json("Invalid Email")
@@ -235,6 +235,14 @@ module.exports = {
 
       })
     }
+  }),
+
+  submitReview: asyncHandler(async (req, res) => {
+    const { uid, pid, title, review } = req.body;
+
+    const propertyData = await Hotel.findById({ _id: pid })
+    
+
   })
 
 }

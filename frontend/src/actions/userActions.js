@@ -14,7 +14,7 @@ import {
 } from "../features/users/userRegisterSlice";
 
 
-import { individualPropertySuccess, individualPropertyReq, individualPropertyFail } from "../features/users/individualPropertySlice";
+import individualPropertySlice, { individualPropertySuccess, individualPropertyReq, individualPropertyFail } from "../features/users/individualPropertySlice";
 import { userBooking } from "../features/users/bookingsSlice";
 import { async } from "@firebase/util";
 import { messageFail, messageSuccess } from "../features/users/messageSlice";
@@ -174,7 +174,7 @@ export const listBookings = (id) => async (dispatch) => {
     const config = {
       headers: {
         "Content-type": "application/json",
-      }, 
+      },
     }
 
     const { data } = await axios.get(`http://localhost:5000/api/users/list-bookings/${id}`, config)
@@ -192,25 +192,43 @@ export const listBookings = (id) => async (dispatch) => {
 
 }
 
-export const userCancellation=(id)=>async(dispatch)=>{
+export const userCancellation = (id) => async (dispatch) => {
   try {
     console.log("765456789");
     console.log(id);
     const config = {
       headers: {
         "Content-type": "application/json",
-      }, 
+      },
     }
 
     const { data } = await axios.get(`http://localhost:5000/api/users/cancel-booking/${id}`, config)
     dispatch(messageSuccess(data))
-    
+
   } catch (error) {
     const errorIs =
-    error.response && error.response.data.message
-      ? error.response.data.message
-      : error.message;
-      dispatch(messageFail(errorIs))
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch(messageFail(errorIs))
+  }
+}
+
+export const submitReview = (pid, uid, rating, title, review) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      }
+    }
+    const { data } = await axios.post("https://localhost/api/users/submit-review", { pid, uid, rating, title, review }, config)
+
+  } catch (error) {
+    const errorIs =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    console.log(errorIs);
   }
 }
 
