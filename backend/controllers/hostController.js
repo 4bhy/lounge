@@ -98,10 +98,10 @@ module.exports = {
 
 
     bookingsHost: asyncHandler(async (req, res) => {
-        
+
         try {
             const bookingData = await Booking.find({ hostId: req.params.id }).populate('propertyId').populate('userId')
-           
+
             if (bookingData) {
                 res.status(201).json({
                     bookingData
@@ -128,6 +128,21 @@ module.exports = {
         } catch (error) {
             console.log(error.message);
             throw new Error("Something went wrong!")
+        }
+    }),
+
+    approveCancellation: asyncHandler(async (req, res) => {
+        try {
+            const bookingData = await Booking.findById({ _id: req.body.id })
+            bookingData.status = "Cancelled"
+            const data = await bookingData.save()
+            if (data) {
+                res.status(201).json({ message: "Sucesss" })
+            }
+
+        } catch (error) {
+            console.log(error);
+            throw new Error("Cancelling booking failed!")
         }
     })
 }

@@ -42,7 +42,7 @@ const HostNavbar = () => {
 
               <a
                 href="#"
-                class="block shrink-0 rounded-full bg-white p-2.5 text-gray-600 shadow-sm hover:text-gray-700"x>
+                class="block shrink-0 rounded-full bg-white p-2.5 text-gray-600 shadow-sm hover:text-gray-700" x>
                 <span class="sr-only">Notifications</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

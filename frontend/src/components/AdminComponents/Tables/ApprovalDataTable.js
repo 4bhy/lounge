@@ -25,17 +25,17 @@ const ApprovalDataTable = () => {
 
     const submitHandler = (id) => {
 
-        if(age=="hosts"){
+        if (age == "hosts") {
             handleClose()
             dispatch(handleApproval(id))
             dispatch(listApprovalsAction())
-        }else{
+        } else {
             handleClose()
             dispatch(hotelApprovalAction(id))
             dispatch(listApprovalsAction())
 
         }
-      
+
     }
 
     const listApprovals = useSelector((state) => state.listApprovals)
@@ -84,7 +84,7 @@ const ApprovalDataTable = () => {
                             {/* <h2 class="text-gray-600 font-semibold"><Link to="/host/reservations"><button>Reservations</button></Link></h2> */}
                             <span class="text-xs"></span>
                         </div>
-                     
+
                         <div class="flex items-center justify-between">
                             <div class="flex bg-gray-50 items-center p-2 rounded-md">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
@@ -230,7 +230,7 @@ const ApprovalDataTable = () => {
                                                                         </div></form>
                                                                     <div class="ml-3">
                                                                         <p class="text-gray-900 whitespace-no-wrap">
-                                                                            {data.pname} 
+                                                                            {data.pname}
                                                                         </p>
                                                                     </div>
                                                                 </div>
@@ -295,7 +295,7 @@ const ApprovalDataTable = () => {
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                >
+            >
                 <DialogTitle id="alert-dialog-title">
                     {"Confirmation"}
                 </DialogTitle>

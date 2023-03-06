@@ -26,7 +26,6 @@ import AddIcon from '@mui/icons-material/Add';
 import Navbar from '../../components/Header/Navbar'
 
 
-
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -36,7 +35,7 @@ const UserDashboard = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(listBookings(userInfo.user._id))
+        dispatch(listBookings(userInfo?.user?._id))
     }, [])
 
     const [id, setId] = useState('')
@@ -58,9 +57,8 @@ const UserDashboard = () => {
             return
         } else {
             setOpens(false)
-
-            dispatch(userCancellation(id))
-            dispatch(listBookings(userInfo.user._id))
+            await dispatch(userCancellation(id))
+            await dispatch(listBookings(userInfo.user._id))
 
             if (messageData != null) {
                 setOpenSnackbar(true)
@@ -68,6 +66,7 @@ const UserDashboard = () => {
             if (error != null) {
                 console.log(error, "snackbar");
             }
+            dispatch(listBookings(userInfo.user._id))
 
         }
 
@@ -77,9 +76,6 @@ const UserDashboard = () => {
     const [opens, setOpens] = React.useState(false);
 
     const [openSnackbar, setOpenSnackbar] = React.useState(false);
-
-
-
 
     const handleCloseSnackbar = (event, reason) => {
         if (reason === 'clickaway') {
@@ -109,173 +105,24 @@ const UserDashboard = () => {
     };
 
 
-
     return (
         <div>
             <Navbar />
-            <div class="mt-8">
+            <div class=" p-4 my-8 container">
                 <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
-                    Welcome Back, {userInfo.user.name}!
+                    Welcome Back, {userInfo?.user?.name}!
                 </h1>
 
                 <p class="mt-1.5 text-sm text-gray-500">
                     Welcome to your dashboard! Stay organized and make the most out of your experience here. 😎
                 </p>
             </div>
-            <section class="container px-4 mx-auto">
-                <div class="flex flex-col">
-                    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                            <div class="overflow-hidden border border-gray-200 md:rounded-lg">
-                                <table class="min-w-full divide-y divide-gray-200 ">
-                                    <thead class="bg-gray-700 ">
-                                        <tr>
-                                            <th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                                <div class="flex items-center gap-x-3">
-                                                    <input type="checkbox" class="text-blue-500 border-gray-300 rounded" />
-                                                    <button class="flex items-center gap-x-2">
-                                                        <span>Invoice</span>
-
-                                                        <svg class="h-3" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M2.13347 0.0999756H2.98516L5.01902 4.79058H3.86226L3.45549 3.79907H1.63772L1.24366 4.79058H0.0996094L2.13347 0.0999756ZM2.54025 1.46012L1.96822 2.92196H3.11227L2.54025 1.46012Z" fill="currentColor" stroke="currentColor" stroke-width="0.1" />
-                                                            <path d="M0.722656 9.60832L3.09974 6.78633H0.811638V5.87109H4.35819V6.78633L2.01925 9.60832H4.43446V10.5617H0.722656V9.60832Z" fill="currentColor" stroke="currentColor" stroke-width="0.1" />
-                                                            <path d="M8.45558 7.25664V7.40664H8.60558H9.66065C9.72481 7.40664 9.74667 7.42274 9.75141 7.42691C9.75148 7.42808 9.75146 7.42993 9.75116 7.43262C9.75001 7.44265 9.74458 7.46304 9.72525 7.49314C9.72522 7.4932 9.72518 7.49326 9.72514 7.49332L7.86959 10.3529L7.86924 10.3534C7.83227 10.4109 7.79863 10.418 7.78568 10.418C7.77272 10.418 7.73908 10.4109 7.70211 10.3534L7.70177 10.3529L5.84621 7.49332C5.84617 7.49325 5.84612 7.49318 5.84608 7.49311C5.82677 7.46302 5.82135 7.44264 5.8202 7.43262C5.81989 7.42993 5.81987 7.42808 5.81994 7.42691C5.82469 7.42274 5.84655 7.40664 5.91071 7.40664H6.96578H7.11578V7.25664V0.633865C7.11578 0.42434 7.29014 0.249976 7.49967 0.249976H8.07169C8.28121 0.249976 8.45558 0.42434 8.45558 0.633865V7.25664Z" fill="currentColor" stroke="currentColor" stroke-width="0.3" />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </th>
-
-                                            <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                                Date
-                                            </th>
-
-                                            <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                                Status
-                                            </th>
-
-                                            <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                                Hotel
-                                            </th>
-
-                                            <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                                CheckIn
-                                            </th>
-
-                                            <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                                CheckOut
-                                            </th>
-                                            <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                                Actions
-                                            </th>
-
-                                        </tr>
-                                    </thead>
-                                    {
-                                        userBookingData?.bookingData?.map((data, index) => (
-                                            <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-600">
-                                                <tr>
-                                                    <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
-                                                        <div class="inline-flex items-center gap-x-3">
-                                                            <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
-
-                                                            <span>#3066</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{data.createdAt}</td>
-                                                    <div class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                                        {
-                                                            data.status === "Pending" ? (
-                                                                <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-yellow-500 bg-emerald-100/60 dark:bg-gray-800">
-                                                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                        <circle cx="6" cy="6" r="5.25" stroke="currentColor" stroke-width="1.5" />
-                                                                        <path d="M6 3.75V7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                                                                        <circle cx="6" cy="9" r="0.75" fill="currentColor" />
-                                                                    </svg>
-
-                                                                    <h2 class="text-sm font-normal">{data.status}</h2>
-                                                                </div>) : <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
-                                                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                                </svg>
-
-                                                                <h2 class="text-sm font-normal">{data.status}</h2>
-                                                            </div>
-
-                                                        }
-
-                                                    </div>
-                                                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                                                        <div class="flex items-center gap-x-2">
-                                                            <img class="object-cover w-8 h-8 rounded-full" src={data.propertyId.pic[0]} alt="" />
-                                                            <div>
-                                                                <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{data.propertyId.pname}</h2>
-                                                                <h2 class="text-xs font-normal text-gray-600 dark:text-gray-400">{data.propertyId.pstate}</h2>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-
-                                                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{data.checkIn}</td>
-
-
-                                                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{data.checkOut}</td>
-
-
-                                                    <td onClick={() => {
-                                                        setId(data._id)
-                                                        setOpens(true)
-                                                        setStatus(data.status)
-                                                    }} class="px-4 border py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"><button>Cancel</button></td>
-                                                </tr>
-                                            </tbody>
-                                        ))
-                                    }
-
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between mt-6">
-                    <a href="#" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
-                        </svg>
-
-                        <span>
-                            previous
-                        </span>
-                    </a>
-
-                    <div class="items-center hidden md:flex gap-x-3">
-                        <a href="#" class="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60">1</a>
-                        <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">2</a>
-                        <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">3</a>
-                        <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">...</a>
-                        <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">12</a>
-                        <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">13</a>
-                        <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">14</a>
-                    </div>
-
-                    <a href="#" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
-                        <span>
-                            Next
-                        </span>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-                        </svg>
-                    </a>
-                </div>
-            </section>
-
-
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
                 {
                     userBookingData?.bookingData?.map((data, index) => (
                         <div class="relative mx-auto w-full">
-                            <a href="#" class="relative inline-block duration-300 ease-in-out transition-transform transform hover:-translate-y-2 w-full">
+                            <a class="relative inline-block duration-300 ease-in-out transition-transform transform hover:-translate-y-2 w-full">
                                 <div class="shadow p-4 rounded-lg bg-white">
                                     <div class="flex justify-center relative rounded-lg overflow-hidden h-52">
                                         <div className="transition-transform duration-500 transform ease-in-out hover:scale-110 w-full" style={{ position: 'relative', height: '100%', width: '100%' }}>
@@ -302,26 +149,40 @@ const UserDashboard = () => {
                                                 </p>
                                             </div>
                                         </div>
-
-
                                         {
-                                            data.status === "Pending" ? (
-                                                <span class="absolute top-0 left-0 inline-flex mt-3 ml-3 px-2 py-1 rounded-lg z-10 bg-gray-700 text-sm font-medium text-yellow-500 select-none">
+                                            data.isCancelled == "true" && data.status == "Cancelled" ? (
+                                                <span class="absolute top-0 left-0 inline-flex mt-3 ml-3 px-2 py-1 rounded-lg z-10 bg-gray-700 text-sm font-medium text-red-500 select-none">
                                                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className='mt-1 mr-1' xmlns="http://www.w3.org/2000/svg">
                                                         <circle cx="6" cy="6" r="5.25" stroke="currentColor" stroke-width="1.5" />
                                                         <path d="M6 3.75V7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                                                         <circle cx="6" cy="9" r="0.75" fill="currentColor" />
                                                     </svg>
-                                                    Pending
+                                                    Cancelled
                                                 </span>
                                             ) : (
-                                                <span class="absolute top-0 left-0 inline-flex mt-3 ml-3 px-2 py-1 rounded-lg z-10 bg-gray-800 text-sm font-medium text-emerald-400 select-none">
-                                                    <svg width="12" height="12" viewBox="0 0 12 12" className='mt-1 mr-1' fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg>
-                                                    Approved
-                                                </span>
+                                                data.status === "Pending" ? (
+
+                                                    <span class="absolute top-0 left-0 inline-flex mt-3 ml-3 px-2 py-1 rounded-lg z-10 bg-gray-700 text-sm font-medium text-yellow-500 select-none">
+                                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className='mt-1 mr-1' xmlns="http://www.w3.org/2000/svg">
+                                                            <circle cx="6" cy="6" r="5.25" stroke="currentColor" stroke-width="1.5" />
+                                                            <path d="M6 3.75V7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                                            <circle cx="6" cy="9" r="0.75" fill="currentColor" />
+                                                        </svg>
+                                                        Pending
+                                                    </span>
+                                                ) : (
+                                                    <span class="absolute top-0 left-0 inline-flex mt-3 ml-3 px-2 py-1 rounded-lg z-10 bg-gray-800 text-sm font-medium text-emerald-400 select-none">
+                                                        <svg width="12" height="12" viewBox="0 0 12 12" className='mt-1 mr-1' fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                        </svg>
+                                                        Approved
+                                                    </span>
+                                                )
                                             )
+                                        }
+
+                                        {
+
 
                                         }
                                     </div>
@@ -334,6 +195,7 @@ const UserDashboard = () => {
                                             {data.propertyId.pstate}
                                         </p>
                                     </div>
+
 
                                     <div class="grid grid-cols-2 grid-rows-2 gap-4 mt-8">
                                         <p class="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
@@ -356,12 +218,24 @@ const UserDashboard = () => {
                                                 Guests: {data.guests}
                                             </span>
                                         </p>
-                                        <p class="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                                            <svg class="inline-block w-5 h-5 xl:w-4 xl:h-4 mr-3 fill-current text-gray-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M532.01 386.17C559.48 359.05 576 325.04 576 288c0-80.02-76.45-146.13-176.18-157.94 0 .01.01.02.01.03C368.37 72.47 294.34 32 208 32 93.12 32 0 103.63 0 192c0 37.04 16.52 71.05 43.99 98.17-15.3 30.74-37.34 54.53-37.7 54.89-6.31 6.69-8.05 16.53-4.42 24.99A23.085 23.085 0 0 0 23.06 384c53.54 0 96.67-20.24 125.17-38.78 9.08 2.09 18.45 3.68 28 4.82C207.74 407.59 281.73 448 368 448c20.79 0 40.83-2.41 59.77-6.78C456.27 459.76 499.4 480 552.94 480c9.22 0 17.55-5.5 21.18-13.96 3.64-8.46 1.89-18.3-4.42-24.99-.35-.36-22.39-24.14-37.69-54.88zm-376.59-72.13l-13.24-3.05-11.39 7.41c-20.07 13.06-50.49 28.25-87.68 32.47 8.77-11.3 20.17-27.61 29.54-46.44l10.32-20.75-16.49-16.28C50.75 251.87 32 226.19 32 192c0-70.58 78.95-128 176-128s176 57.42 176 128-78.95 128-176 128c-17.73 0-35.42-2.01-52.58-5.96zm289.8 100.35l-11.39-7.41-13.24 3.05A234.318 234.318 0 0 1 368 416c-65.14 0-122-25.94-152.43-64.29C326.91 348.62 416 278.4 416 192c0-9.45-1.27-18.66-3.32-27.66C488.12 178.78 544 228.67 544 288c0 34.19-18.75 59.87-34.47 75.39l-16.49 16.28 10.32 20.75c9.38 18.86 20.81 35.19 29.53 46.44-37.19-4.22-67.6-19.41-87.67-32.47zM233.38 182.91l-41.56-12.47c-4.22-1.27-7.19-5.62-7.19-10.58 0-6.03 4.34-10.94 9.66-10.94h25.94c3.9 0 7.65 1.08 10.96 3.1 3.17 1.93 7.31 1.15 10-1.4l11.44-10.87c3.53-3.36 3.38-9.22-.54-12.11-8.18-6.03-17.97-9.58-28.08-10.32V104c0-4.42-3.58-8-8-8h-16c-4.42 0-8 3.58-8 8v13.4c-21.85 1.29-39.38 19.62-39.38 42.46 0 18.98 12.34 35.94 30 41.23l41.56 12.47c4.22 1.27 7.19 5.62 7.19 10.58 0 6.03-4.34 10.94-9.66 10.94h-25.94c-3.9 0-7.65-1.08-10.96-3.1-3.17-1.94-7.31-1.15-10 1.4l-11.44 10.87c-3.53 3.36-3.38 9.22.54 12.11 8.18 6.03 17.97 9.58 28.08 10.32V280c0 4.42 3.58 8 8 8h16c4.42 0 8-3.58 8-8v-13.4c21.85-1.29 39.38-19.62 39.38-42.46 0-18.98-12.35-35.94-30-41.23z"></path></svg>
-                                            <span class="mt-2 xl:mt-0">
+                                        {
+                                            data.isCancelled == "true" && data.status == "Pending" ? (<p class="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
+                                                <svg class="inline-block w-5 h-5 xl:w-4 xl:h-4 mr-3 fill-current text-gray-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M532.01 386.17C559.48 359.05 576 325.04 576 288c0-80.02-76.45-146.13-176.18-157.94 0 .01.01.02.01.03C368.37 72.47 294.34 32 208 32 93.12 32 0 103.63 0 192c0 37.04 16.52 71.05 43.99 98.17-15.3 30.74-37.34 54.53-37.7 54.89-6.31 6.69-8.05 16.53-4.42 24.99A23.085 23.085 0 0 0 23.06 384c53.54 0 96.67-20.24 125.17-38.78 9.08 2.09 18.45 3.68 28 4.82C207.74 407.59 281.73 448 368 448c20.79 0 40.83-2.41 59.77-6.78C456.27 459.76 499.4 480 552.94 480c9.22 0 17.55-5.5 21.18-13.96 3.64-8.46 1.89-18.3-4.42-24.99-.35-.36-22.39-24.14-37.69-54.88zm-376.59-72.13l-13.24-3.05-11.39 7.41c-20.07 13.06-50.49 28.25-87.68 32.47 8.77-11.3 20.17-27.61 29.54-46.44l10.32-20.75-16.49-16.28C50.75 251.87 32 226.19 32 192c0-70.58 78.95-128 176-128s176 57.42 176 128-78.95 128-176 128c-17.73 0-35.42-2.01-52.58-5.96zm289.8 100.35l-11.39-7.41-13.24 3.05A234.318 234.318 0 0 1 368 416c-65.14 0-122-25.94-152.43-64.29C326.91 348.62 416 278.4 416 192c0-9.45-1.27-18.66-3.32-27.66C488.12 178.78 544 228.67 544 288c0 34.19-18.75 59.87-34.47 75.39l-16.49 16.28 10.32 20.75c9.38 18.86 20.81 35.19 29.53 46.44-37.19-4.22-67.6-19.41-87.67-32.47zM233.38 182.91l-41.56-12.47c-4.22-1.27-7.19-5.62-7.19-10.58 0-6.03 4.34-10.94 9.66-10.94h25.94c3.9 0 7.65 1.08 10.96 3.1 3.17 1.93 7.31 1.15 10-1.4l11.44-10.87c3.53-3.36 3.38-9.22-.54-12.11-8.18-6.03-17.97-9.58-28.08-10.32V104c0-4.42-3.58-8-8-8h-16c-4.42 0-8 3.58-8 8v13.4c-21.85 1.29-39.38 19.62-39.38 42.46 0 18.98 12.34 35.94 30 41.23l41.56 12.47c4.22 1.27 7.19 5.62 7.19 10.58 0 6.03-4.34 10.94-9.66 10.94h-25.94c-3.9 0-7.65-1.08-10.96-3.1-3.17-1.94-7.31-1.15-10 1.4l-11.44 10.87c-3.53 3.36-3.38 9.22.54 12.11 8.18 6.03 17.97 9.58 28.08 10.32V280c0 4.42 3.58 8 8 8h16c4.42 0 8-3.58 8-8v-13.4c21.85-1.29 39.38-19.62 39.38-42.46 0-18.98-12.35-35.94-30-41.23z"></path></svg>
+                                                <span class="mt-2 xl:mt-0 text-red-900 rounded-3xl text-sm ">REQUESTED CANCELLATION
+                                                </span>
+                                            </p>) : data.status == "Cancelled" ? null : (
+                                                <p class="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
+                                                    <svg class="inline-block w-5 h-5 xl:w-4 xl:h-4 mr-3 fill-current text-gray-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M532.01 386.17C559.48 359.05 576 325.04 576 288c0-80.02-76.45-146.13-176.18-157.94 0 .01.01.02.01.03C368.37 72.47 294.34 32 208 32 93.12 32 0 103.63 0 192c0 37.04 16.52 71.05 43.99 98.17-15.3 30.74-37.34 54.53-37.7 54.89-6.31 6.69-8.05 16.53-4.42 24.99A23.085 23.085 0 0 0 23.06 384c53.54 0 96.67-20.24 125.17-38.78 9.08 2.09 18.45 3.68 28 4.82C207.74 407.59 281.73 448 368 448c20.79 0 40.83-2.41 59.77-6.78C456.27 459.76 499.4 480 552.94 480c9.22 0 17.55-5.5 21.18-13.96 3.64-8.46 1.89-18.3-4.42-24.99-.35-.36-22.39-24.14-37.69-54.88zm-376.59-72.13l-13.24-3.05-11.39 7.41c-20.07 13.06-50.49 28.25-87.68 32.47 8.77-11.3 20.17-27.61 29.54-46.44l10.32-20.75-16.49-16.28C50.75 251.87 32 226.19 32 192c0-70.58 78.95-128 176-128s176 57.42 176 128-78.95 128-176 128c-17.73 0-35.42-2.01-52.58-5.96zm289.8 100.35l-11.39-7.41-13.24 3.05A234.318 234.318 0 0 1 368 416c-65.14 0-122-25.94-152.43-64.29C326.91 348.62 416 278.4 416 192c0-9.45-1.27-18.66-3.32-27.66C488.12 178.78 544 228.67 544 288c0 34.19-18.75 59.87-34.47 75.39l-16.49 16.28 10.32 20.75c9.38 18.86 20.81 35.19 29.53 46.44-37.19-4.22-67.6-19.41-87.67-32.47zM233.38 182.91l-41.56-12.47c-4.22-1.27-7.19-5.62-7.19-10.58 0-6.03 4.34-10.94 9.66-10.94h25.94c3.9 0 7.65 1.08 10.96 3.1 3.17 1.93 7.31 1.15 10-1.4l11.44-10.87c3.53-3.36 3.38-9.22-.54-12.11-8.18-6.03-17.97-9.58-28.08-10.32V104c0-4.42-3.58-8-8-8h-16c-4.42 0-8 3.58-8 8v13.4c-21.85 1.29-39.38 19.62-39.38 42.46 0 18.98 12.34 35.94 30 41.23l41.56 12.47c4.22 1.27 7.19 5.62 7.19 10.58 0 6.03-4.34 10.94-9.66 10.94h-25.94c-3.9 0-7.65-1.08-10.96-3.1-3.17-1.94-7.31-1.15-10 1.4l-11.44 10.87c-3.53 3.36-3.38 9.22.54 12.11 8.18 6.03 17.97 9.58 28.08 10.32V280c0 4.42 3.58 8 8 8h16c4.42 0 8-3.58 8-8v-13.4c21.85-1.29 39.38-19.62 39.38-42.46 0-18.98-12.35-35.94-30-41.23z"></path></svg>
+                                                    <span style={{ cursor: 'pointer' }} onClick={() => {
+                                                        setId(data._id)
+                                                        setOpens(true)
+                                                        setStatus(data.status)
+                                                    }} class="mt-2 xl:mt-0 text-teal-500  text-sm rounded-3xl  ">CANCEL
+                                                    </span>
+                                                </p>
+                                            )
+                                        }
 
-                                            </span>
-                                        </p>
                                     </div>
 
                                     <div class="grid grid-cols-2 mt-8">

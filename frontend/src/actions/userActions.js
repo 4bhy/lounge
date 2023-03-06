@@ -216,12 +216,13 @@ export const userCancellation = (id) => async (dispatch) => {
 
 export const submitReview = (pid, uid, rating, title, review) => async (dispatch) => {
   try {
+    console.log(pid, uid, rating, title, review);
     const config = {
       headers: {
         "Content-type": "application/json",
       }
     }
-    const { data } = await axios.post("https://localhost/api/users/submit-review", { pid, uid, rating, title, review }, config)
+    const { data } = await axios.post("http://localhost:5000/api/users/submit-review", { pid, uid, rating, title, review }, config)
 
   } catch (error) {
     const errorIs =

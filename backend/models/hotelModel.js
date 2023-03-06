@@ -40,6 +40,10 @@ const hotelSchema = mongoose.Schema({
         type: String,
         default: false
     },
+    averageRating: {
+        type: Number,
+        deafult:0
+    },
     booking: [{
         userId: {
             type: mongoose.Schema.Types.ObjectId,
@@ -58,25 +62,28 @@ const hotelSchema = mongoose.Schema({
         },
         guests: {
             type: Number
-        }
+        },
     }],
-    // reviews: [{
-    //     user: {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: 'User'
-    //     },
-    //     title: {
-    //         type: String
-    //     },
-    //     description: {
-    //         type: String
-    //     },
-    //     createdAt: {
-    //         type: Date,
-    //         immutable: true,
-    //         default: () => Date.now()
-    //     }
-    // }]
+    reviews: [{ 
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        title: {
+            type: String
+        },
+        rating: {
+            type: Number
+        },
+        description: {
+            type: String
+        },
+        createdAt: {
+            type: Date,
+            immutable: true,
+            default: () => Date.now()
+        }
+    }]
 },
 
     {

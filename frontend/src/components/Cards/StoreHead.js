@@ -30,7 +30,7 @@ const StoreHead = () => {
   <div className="guests w-22 px-6 py-2 rounded-full relative transition-colors duration-250 ease hover:bg-gray-100">
     <p className='text-green-500'>Guests</p>
     <input type="text" placeholder="Add guests" className="bg-transparent border-none placeholder-gray-500 mt-2 focus:outline-none"/>
-    <span className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-green-600 text-white rounded-full text-xs px-3 py-1"><i className="lni lni-search-alt"></i></span>
+    <span className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-green-600 text-white rounded-full text-xs px-4 py-1"><i class="fa fa-search" aria-hidden="true"></i></span>
   </div>
 </div>
 

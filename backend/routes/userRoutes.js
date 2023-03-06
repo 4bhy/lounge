@@ -1,5 +1,5 @@
 const express=require("express")
-const {registerUser, authUser, viewIndividualProperty, getForgotPasswordLink, resetPassword, payment, bookings, cancelBooking}= require('../controllers/userController')
+const {registerUser, authUser, viewIndividualProperty, getForgotPasswordLink, resetPassword, payment, bookings, cancelBooking, submitReview}= require('../controllers/userController')
 
 const router= express.Router()
 
@@ -11,5 +11,6 @@ router.post("/reset-password", resetPassword)
 router.post("/payment", payment)
 router.route("/").post(registerUser);
 router.route("/login").post(authUser);
+router.post("/submit-review", submitReview)
 
 module.exports=router

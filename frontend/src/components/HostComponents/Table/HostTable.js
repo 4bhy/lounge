@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { handleBooking, listBookingsHost } from '../../../actions/hostActions'
+import { approveCancellation, handleBooking, listBookingsHost } from '../../../actions/hostActions'
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -9,6 +9,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+
+
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 const HostTable = () => {
 
@@ -21,18 +27,26 @@ const HostTable = () => {
 
     useEffect((state) => {
         dispatch(listBookingsHost(userInfo.host._id))
-
     }, [])
 
-    const clickHandler =  async(id) => {
-        setOpen(false)
+    const clickHandler = async (id) => {
 
-        await dispatch(handleBooking(id))
-        await dispatch(listBookingsHost(userInfo.host._id))
+        if(options=="false"){
+            console.log("55");
+            setOpen(false)
+            await dispatch(handleBooking(id))
+            await dispatch(listBookingsHost(userInfo.host._id))
+        }else{
+            console.log("44");
+            setOpen(false)
+            await dispatch(approveCancellation(id))
+            await dispatch(listBookingsHost(userInfo.host._id))
+
+        }
 
     }
 
-    const [toggle, setToggle]= useState('Pending')
+    const [toggle, setToggle] = useState('Pending')
     console.log(toggle);
     const [id, setId] = useState('')
     const [open, setOpen] = React.useState(false);
@@ -45,6 +59,12 @@ const HostTable = () => {
         setOpen(false);
     };
 
+
+    const [options, setOptions]= useState("false")
+    const handleChange = async (e) => {
+      await setOptions(e.target.value)
+    };
+
     return (
 
         <div>
@@ -53,9 +73,22 @@ const HostTable = () => {
                 </div>
                 <div class="bg-white p-8 rounded-md w-full">
                     <div class=" flex items-center justify-between pb-6">
+                        {/* host/reservation */}
                         <div>
-                            <h2 class="text-gray-600 font-semibold"><Link to="/host/reservations"><button>Reservations</button></Link></h2>
-                            <span class="text-xs"></span>
+                            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                                <InputLabel id="demo-select-small">Options</InputLabel>
+                                <Select
+                                    labelId="demo-select-small"
+                                    id="demo-select-small"
+                                    value={options}
+                                    label="Options"
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem  value={"false"}>Reservations</MenuItem>
+                                    <MenuItem  value={"true"}>Cancellations</MenuItem>
+                                </Select>
+                            </FormControl>
+
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="flex bg-gray-50 items-center p-2 rounded-md">
@@ -65,17 +98,20 @@ const HostTable = () => {
                                         d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                                         clip-rule="evenodd" />
                                 </svg>
-                                <input class="bg-gray-50 outline-none ml-1 block " type="text" name="" id="" placeholder="search..." />
+                                <input class="bg-gray-50 outline-none ml-1 block " type="text" name="" id="" placeholder="Search..." />
                             </div>
-                            <button onClick={() => { setToggle("Approved") }} class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700  hover:text-gray-500">
-                                    Monitored
-                                </button>
+                            <button onClick={() => { setToggle("Approved") }} class="px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700  hover:text-gray-500">
+                                Monitored
+                            </button>
 
-                                <button onClick={() => { setToggle("Pending") }} class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700 hover:text-gray-500">
-                                    Unmonitored
-                                </button>
+                            <button onClick={() => { setToggle("Pending") }} class="px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700 hover:text-gray-500">
+                                Unmonitored
+                            </button>
                         </div>
                     </div>
+
+
+
                     <div>
                         <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                             <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
@@ -113,7 +149,7 @@ const HostTable = () => {
                                         </tr>
                                     </thead>
                                     {
-                                        hostBookingData?.bookingData?.filter(data => data.status === toggle).map((data, i) => (
+                                        hostBookingData?.bookingData?.filter(data=>data.isCancelled==options).filter(data => data.status === toggle).map((data, i) => (
 
                                             <tbody>
                                                 <tr>
@@ -159,7 +195,7 @@ const HostTable = () => {
                                                             setId(data._id)
                                                             setOpen(true)
                                                         }} class="inline-block px-6 py-2.5  bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">
-                                                         {toggle=='Approved'? "Approved": 'Approve' }   
+                                                            {toggle == 'Approved' ? "Approved" : 'Approve'}
                                                         </button>
                                                     </td>
                                                 </tr>

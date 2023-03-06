@@ -238,10 +238,37 @@ module.exports = {
   }),
 
   submitReview: asyncHandler(async (req, res) => {
-    const { uid, pid, title, review } = req.body;
+    try {
 
-    const propertyData = await Hotel.findById({ _id: pid })
-    
+      const { uid, pid, title, review, rating } = req.body;
+      console.log(req.body);
+      const propertyData = await Hotel.findById({ _id: pid })
+
+      const reviews = {
+        user: uid,
+        title: title,
+        rating: rating,
+        description: review
+      }
+      await propertyData.reviews.push(reviews)
+
+      await propertyData.save()
+
+      const length = propertyData.reviews.length;
+      console.log(rating, "rating");
+      console.log(length, "length");
+      console.log(propertyData.averageRating, "before")
+      propertyData.averageRating = (propertyData.averageRating+rating) / length;
+      console.log(propertyData.averageRating, "avg")
+      const data = await propertyData.save()
+      if (data) {
+        res.status(201).json({ message: "Review Submitted" })
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(404).json({ message: "Submitting Review Failed!" })
+      throw new Error("Submitting Review Failed!")
+    }
 
   })
 
