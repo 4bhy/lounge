@@ -42,7 +42,7 @@ const hotelSchema = mongoose.Schema({
     },
     booking: [{
         userId: {
-            Type: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         },
         bookedAt: {
@@ -60,27 +60,24 @@ const hotelSchema = mongoose.Schema({
             type: Number
         }
     }],
-
-    reviews: [{
-        userId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
-        title: {
-            type: String
-        },
-        description: {
-            type: String
-        },
-        createdAt: {
-            type: Date,
-            immutable: true,
-            default: () => Date.now()
-        }
-    }]
-
+    // reviews: [{
+    //     user: {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: 'User'
+    //     },
+    //     title: {
+    //         type: String
+    //     },
+    //     description: {
+    //         type: String
+    //     },
+    //     createdAt: {
+    //         type: Date,
+    //         immutable: true,
+    //         default: () => Date.now()
+    //     }
+    // }]
 },
-
 
     {
         timestamps: true
