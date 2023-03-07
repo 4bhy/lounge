@@ -60,6 +60,8 @@ const RegisterScreen = () => {
         }
     };
 
+    
+
     const resetTimer = (e) => {
         e.preventDefault()
         setResend(true)
