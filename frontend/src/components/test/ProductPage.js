@@ -34,6 +34,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -149,9 +155,6 @@ const ProductPage = () => {
 
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -163,18 +166,34 @@ const ProductPage = () => {
   const [title, setTitle] = useState("")
 
   const submitHandlder = async () => {
-
+    setOpen(false)
     const storageValue = localStorage.getItem("userInfo");
     const userInfo = JSON.parse(storageValue);
 
     await dispatch(submitReview(individualPropertyData?.propertyInfo
       ._id, userInfo.user._id, value, title, description))
-
+    setOpenSnackbar(true)
     await dispatch(individualProperty(id))
 
-    console.log(individualPropertyData);
-
   }
+
+
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+
+  const handleClick = () => {
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
+
+
+
 
   return (
     <div>
@@ -234,60 +253,7 @@ const ProductPage = () => {
                   <p class="mt-0.5 text-sm">Highest Rated Product</p>
 
                   <div class="mt-2 -ml-0.5 flex">
-                    <svg
-                      class="w-5 h-5 text-yellow-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                      />
-                    </svg>
-
-                    <svg
-                      class="w-5 h-5 text-yellow-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                      />
-                    </svg>
-
-                    <svg
-                      class="w-5 h-5 text-yellow-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                      />
-                    </svg>
-
-                    <svg
-                      class="w-5 h-5 text-yellow-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                      />
-                    </svg>
-
-                    <svg
-                      class="w-5 h-5 text-gray-200"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                      />
-                    </svg>
+                    <Rating name="half-rating-read" defaultValue={individualPropertyData?.propertyInfo.averageRating} precision={0.5} readOnly />
                   </div>
                 </div>
 
@@ -465,46 +431,46 @@ const ProductPage = () => {
 
           <div class="mt-4 flex items-center">
             <p class="text-3xl font-medium">
-            {individualPropertyData?.propertyInfo.averageRating} 
+              {individualPropertyData?.propertyInfo.averageRating}
               <span class="sr-only"> Average review score </span>
             </p>
 
             <div class="ml-4">
               <div class="-ml-1 flex">
-                 <Rating name="half-rating" defaultValue={individualPropertyData?.propertyInfo.averageRating} precision={0.5} readOnly />
+                <Rating name="half-rating" defaultValue={individualPropertyData?.propertyInfo.averageRating} precision={0.5} readOnly />
               </div>
 
               <p class="mt-0.5 text-xs text-gray-500">Based on {individualPropertyData?.propertyInfo
-                          .reviews.length} reviews</p>
+                .reviews.length} reviews</p>
             </div>
           </div>
 
- 
+
           <div class="mt-8 grid grid-cols-1 gap-x-16 gap-y-12 lg:grid-cols-2">
-{
-  individualPropertyData?.propertyInfo?.reviews?.map((data, i)=>(
-    <blockquote>
-    <header class="sm:flex sm:items-center">
-      <div class="-ml-1 flex">
-      <Rating name="half-rating" defaultValue={data.rating} precision={0.5} readOnly />
-      </div>
+            {
+              individualPropertyData?.propertyInfo?.reviews?.map((data, i) => (
+                <blockquote>
+                  <header class="sm:flex sm:items-center">
+                    <div class="-ml-1 flex">
+                      <Rating name="half-rating" defaultValue={data.rating} precision={0.5} readOnly />
+                    </div>
 
-      <p class="mt-2 font-medium sm:ml-4 sm:mt-0">
-        {data.title}
-      </p>
-    </header>
+                    <p class="mt-2 font-medium sm:ml-4 sm:mt-0">
+                      {data.title}
+                    </p>
+                  </header>
 
-    <p class="mt-2 text-gray-700">
-     {data.description}
-    </p>
+                  <p class="mt-2 text-gray-700">
+                    {data.description}
+                  </p>
 
-    <footer class="mt-4">
-      <p class="text-xs text-gray-500">{data.user}{data.createdAt}</p>
-    </footer>
-  </blockquote>
-  ))
-}
-           
+                  <footer class="mt-4">
+                    <p class="text-xs text-gray-500">{data.user}{data.createdAt}</p>
+                  </footer>
+                </blockquote>
+              ))
+            }
+
           </div>
         </div>
       </section>
@@ -579,6 +545,12 @@ const ProductPage = () => {
           </Button>
         </DialogActions>
       </BootstrapDialog>
+
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          Review Submitted!
+        </Alert>
+      </Snackbar>
       <Footer />
 
     </div>

@@ -7,8 +7,7 @@ import { useEffect } from 'react'
 import { individualProperty } from '../../actions/userActions'
 import { useNavigate } from 'react-router-dom'
 import LandingPagination from '../Pagination/LandingPagination'
-
-
+ 
 import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';

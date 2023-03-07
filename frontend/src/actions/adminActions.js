@@ -113,7 +113,7 @@ export const handleHosts = (id, status) => async (dispatch) => {
 
     try {
       
-        dispatch(handleHostReq())
+       dispatch(handleHostReq())
 
         const config = {
             headers: {

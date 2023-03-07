@@ -251,15 +251,12 @@ module.exports = {
         description: review
       }
       await propertyData.reviews.push(reviews)
-
+      propertyData.totalRatings+=rating;
       await propertyData.save()
 
       const length = propertyData.reviews.length;
-      console.log(rating, "rating");
-      console.log(length, "length");
-      console.log(propertyData.averageRating, "before")
-      propertyData.averageRating = (propertyData.averageRating+rating) / length;
-      console.log(propertyData.averageRating, "avg")
+      propertyData.averageRating = Math.round(((propertyData.totalRatings) / length)*2)/2;
+
       const data = await propertyData.save()
       if (data) {
         res.status(201).json({ message: "Review Submitted" })

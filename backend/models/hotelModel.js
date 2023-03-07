@@ -40,6 +40,10 @@ const hotelSchema = mongoose.Schema({
         type: String,
         default: false
     },
+    totalRatings:{
+        type:Number,
+        default:0
+    },
     averageRating: {
         type: Number,
         deafult:0
