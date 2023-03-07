@@ -7,6 +7,7 @@ import { register } from '../../actions/userActions';
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { authentication } from '../../firebase-config';
 
+
 const RegisterScreen = () => {
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");

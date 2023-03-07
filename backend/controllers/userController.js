@@ -3,12 +3,12 @@ const Host = require("../models/hostModel")
 const Hotel = require("../models/hotelModel")
 const Booking = require("../models/bookingModel")
 const asyncHandler = require("express-async-handler");
-
-const bcrypt = require("bcryptjs");
 const generateToken = require("../utils/generateToken");
 const nodemailer = require("nodemailer");
 
-const stripe = require("stripe")("sk_test_51MgPNUSGJWduBmwsIEtRsvDlhdzrn4QsCkDNNVxtjz2PIml545V5ZnfDHITtZC1tPMl7S0o73tGNq3S5ysbNmRNG00JE20Fofi")
+require('dotenv').config();
+
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 
 module.exports = {

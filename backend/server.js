@@ -28,6 +28,7 @@ app.use((req,res,next)=>{
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
+dotenv.config()
 
 app.use(function (req, res, next) {
     res.set('cache-control', 'no-cache , no-store,must-revalidate,max-stale=0,post-check=0,pre-checked=0');
@@ -43,7 +44,7 @@ app.use("/api/host", hostRoutes);
 app.use(errorHandler);
 
 
-app.listen(5000, ()=>{
+app.listen(process.env.PORT, ()=>{
     console.log("Connected to 5000");
 })
 
