@@ -17,6 +17,7 @@ import individualPropertyReducer from "../features/users/individualPropertySlice
 import listApprovalsReducer from "../features/admin/listApprovalsSlice";
 import bookingsReducer from "../features/users/bookingsSlice";
 import messageSlice from "../features/users/messageSlice";
+import couponReducer from "../features/admin/couponSlice";
 const store = configureStore({
     reducer: {
         userLogin: userLoginReducer,
@@ -35,7 +36,8 @@ const store = configureStore({
         listApprovals: listApprovalsReducer,
         individualProperty: individualPropertyReducer,
         bookings: bookingsReducer,
-        messageSlice:messageSlice
+        messageSlice:messageSlice,
+        couponData: couponReducer
     }
 })
 

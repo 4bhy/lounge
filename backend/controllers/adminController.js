@@ -1,7 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Host = require('../models/hostModel')
-const Hotel = require('../models/hotelModel')
+const Hotel = require('../models/hotelModel');
+const Coupon = require("../models/couponModel");
 module.exports = {
     listUsers: asyncHandler(async (req, res) => {
         console.log("2");
@@ -120,7 +121,7 @@ module.exports = {
     }),
 
     viewHostProperty: asyncHandler(async (req, res) => {
-        
+
         try {
 
             res.json({ message: "testing..." })
@@ -147,7 +148,7 @@ module.exports = {
             const hostData = await Host.findById({ _id: req.body.id })
             hostData.isApproved = true;
             const host = await hostData.save()
-       
+
             res.status(201).json({ message: "201" })
         } catch (error) {
             res.status(404)
@@ -158,7 +159,7 @@ module.exports = {
     hotelApproval: asyncHandler(async (req, res) => {
 
         try {
-            const hotelData = await Hotel.findOne({_id:req.params.id}) 
+            const hotelData = await Hotel.findOne({ _id: req.params.id })
             hotelData.isApproved = "true";
             const hotel = await hotelData.save();
             console.log(hotel);
@@ -169,8 +170,40 @@ module.exports = {
         } catch (error) {
             res.status(404)
             throw new Error("Failed to update info")
-           
+
         }
 
+    }),
+
+    getCoupons: asyncHandler(async (req, res) => {
+        console.log("898989");
+        try {
+            const coupons = await Coupon.find()
+            if (coupons) {
+                res.status(201).json({ coupons })
+            }
+        } catch (error) {
+            console.error();
+            res.status(404).json({ message: "Failed to list coupons" })
+            throw new Error("Failed to list coupons")
+        }
+
+    }),
+
+    addCoupon: asyncHandler(async (req, res) => {
+        try {
+            console.log(req.body.discount);
+            const couponData = await Coupon.create({
+                couponName: req.body.cname,
+                validFrom: req.body.vfrom,
+                validTo: req.body.vto,
+                discount: req.body.discount
+            })
+            
+        } catch (error) {
+            console.log(error);
+            res.status(404).json({ message: "Failed to add coupon" })
+            throw new Error("Failed to add Coupon")
+        }
     })
 }

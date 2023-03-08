@@ -192,6 +192,8 @@ const ProductPage = () => {
     setOpenSnackbar(false);
   };
 
+  console.log(individualPropertyData?.propertyInfo.averageRating, "u987867");
+
 
 
 
@@ -253,7 +255,7 @@ const ProductPage = () => {
                   <p class="mt-0.5 text-sm">Highest Rated Product</p>
 
                   <div class="mt-2 -ml-0.5 flex">
-                    <Rating name="half-rating-read" defaultValue={individualPropertyData?.propertyInfo.averageRating} precision={0.5} readOnly />
+                    <Rating name="half-rating-read" defaultValue={individualPropertyData.propertyInfo.averageRating} precision={0.5} readOnly />
                   </div>
                 </div>
 

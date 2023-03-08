@@ -1,6 +1,6 @@
 const express = require("express");
 
-const {listUsers, listHosts, handleUser, handleHost, handleHotels,listHotels, viewHostDetails, viewHostProperty, listApprovals, handleApproval, hotelApproval}= require('../controllers/adminController')
+const {listUsers, listHosts, handleUser, handleHost, handleHotels,listHotels, viewHostDetails, viewHostProperty, listApprovals, handleApproval, hotelApproval, getCoupons, addCoupon}= require('../controllers/adminController')
 const router = express.Router();
 
 router.get('/listusers', listUsers)
@@ -14,5 +14,7 @@ router.post('/handlehotels/:id', handleHotels)
 router.post('/view-property ', viewHostProperty)
 router.post('/handle-approval', handleApproval)
 router.get('/hotel-approval/:id', hotelApproval)
+router.get('/get-coupons', getCoupons)
+router.post('/add-coupon', addCoupon)
 
 module.exports = router;

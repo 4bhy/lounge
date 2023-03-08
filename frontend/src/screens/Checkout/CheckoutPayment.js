@@ -3,6 +3,15 @@ import StripeContainer from '../../components/Stripe/StripeContainer'
 import './CheckoutPayment.css'
 import { useLocation } from 'react-router-dom'
 
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+
 const CheckoutPayment = () => {
 
     const { state } = useLocation()
@@ -10,6 +19,16 @@ const CheckoutPayment = () => {
     console.log(state.userInfo);
     const [cin, setCin] = useState()
     const [cout, SetCout] = useState()
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return (
         <div>
@@ -104,7 +123,7 @@ const CheckoutPayment = () => {
                                             <span class="text-gray-600">Total</span>
                                         </div>
                                         <div class="pl-3">
-                                            <span class="font-semibold text-gray-400 text-sm">INR</span> <span class="font-semibold">{state.totalPrice+1459.09}</span>
+                                            <span class="font-semibold text-gray-400 text-sm">INR</span> <span class="font-semibold">{state.totalPrice + 1459.09}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -165,6 +184,8 @@ const CheckoutPayment = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div>
             </div>
         </div>
     )

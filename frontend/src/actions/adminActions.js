@@ -8,6 +8,7 @@ import { handleHotelsFail, handleHotelsReq, handleHotelsSuccess } from '../featu
 import { viewHostsFail, viewHostsReq, viewHostsSuccess } from '../features/admin/viewHostsSlice';
 import { hostPropertySuccess } from '../features/admin/hostPropertySlice';
 import { listApprovalsFail, listApprovalsReq, listApprovalsSuccess } from '../features/admin/listApprovalsSlice';
+import { listCoupons } from '../features/admin/couponSlice';
 export const listUsers = () => async (dispatch) => {
 
     try {
@@ -46,7 +47,7 @@ export const listHosts = () => async (dispatch) => {
         }
         dispatch(listHostsReq())
         const { data } = await axios.get('http://localhost:5000/api/admin/listhosts', config)
-   
+
         dispatch(listHostsSuccess(data))
 
     } catch (error) {
@@ -70,7 +71,7 @@ export const listHotel = () => async (dispatch) => {
 
         const { data } = await axios.get('http://localhost:5000/api/admin/listhotels', config)
         dispatch(listHotelsSuccess(data))
-    
+
 
     } catch (error) {
         const errorIs = error.response && error.response.data.message ?
@@ -112,8 +113,8 @@ export const handleUsers = (id, status) => async (dispatch) => {
 export const handleHosts = (id, status) => async (dispatch) => {
 
     try {
-      
-       dispatch(handleHostReq())
+
+        dispatch(handleHostReq())
 
         const config = {
             headers: {
@@ -125,7 +126,7 @@ export const handleHosts = (id, status) => async (dispatch) => {
         };
 
         const { data } = await axios.post(`http://localhost:5000/api/admin/handlehost/${id}`, sendStatus, config)
-     
+
 
         dispatch(handleHostSuccess(data))
 
@@ -164,7 +165,7 @@ export const viewProperty = (id) => async (dispatch) => {
 
 export const viewHosts = (id) => async (dispatch) => {
     try {
-   
+
         const config = {
             headers: {
                 "Content-type": "application/json"
@@ -174,7 +175,7 @@ export const viewHosts = (id) => async (dispatch) => {
         dispatch(viewHostsReq())
 
         const { data } = await axios.get(`http://localhost:5000/api/admin/view-hosts/${id}`, config)
-       
+
         dispatch(viewHostsSuccess(data))
 
     } catch (error) {
@@ -198,7 +199,7 @@ export const listApprovalsAction = () => async (dispatch) => {
         }
 
         const { data } = await axios.get("http://localhost:5000/api/admin/list-approvals", config)
-    
+
         dispatch(listApprovalsSuccess(data))
     } catch (error) {
         const message =
@@ -240,17 +241,18 @@ export const handleHotels = (id, status) => async (dispatch) => {
 export const handleApproval = (id) => async (dispatch) => {
 
     try {
-      
+
         console.log("handle approval");
         const config = {
             headers: {
                 "Content-type": "application/json"
             }
         }
-     
-        const { data } = await axios.post("http://localhost:5000/api/admin/handle-approval/", {id}, config)
+
+        const { data } = await axios.post("http://localhost:5000/api/admin/handle-approval/", { id }, config)
 
     } catch (error) {
+
         const message =
             error.response && error.response.data
                 ? error.response.data.message
@@ -260,23 +262,73 @@ export const handleApproval = (id) => async (dispatch) => {
 
 }
 
-export const hotelApprovalAction=(id)=>async(dispatch)=>{
+export const hotelApprovalAction = (id) => async (dispatch) => {
 
     try {
-        const config={
-            headers:{
+        const config = {
+            headers: {
                 "Content-type": "application/json"
             }
         }
-        const {data}= await axios.get(`http://localhost:5000/api/admin/hotel-approval/${id}`, config)
+        const { data } = await axios.get(`http://localhost:5000/api/admin/hotel-approval/${id}`, config)
 
     } catch (error) {
-         const message =
+
+        const message =
             error.response && error.response.data
                 ? error.response.data.message
                 : error.message;
         console.log(message);
     }
-  
+
+}
+
+export const getCoupons = () => async (dispatch) => {
+    try {
+        console.log("get coupons");
+        const config = {
+            headers: {
+                "Content-type": "application/json"
+            }
+        }
+        const timestamp = Date.now(); // get current timestamp
+        const { data } = await axios.get(`http://localhost:5000/api/admin/get-coupons?timestamp=${timestamp}`, config)
+        console.log("data1");
+        console.log(data, "data");
+        dispatch(listCoupons(data))
+
+    } catch (error) {
+
+        console.log("000");
+        const message =
+            error.response && error.response.data
+                ? error.response.data.message
+                : error.message;
+        console.log(message);
+    }
+}
+
+export const addCoupon = (cname, discount, vfrom, vto) => async (dispatch) => {
+
+    try {
+        console.log(discount);
+        const config = {
+            headers: {
+                "Content-type": "application/json"
+            }
+        }
+
+        const { data } = await axios.post("http://localhost:5000/api/admin/add-coupon/", { cname, discount, vfrom, vto }, config)
+        console.log(data, "nw coupon");
+
+    } catch (error) {
+
+        const message =
+            error.response && error.response.data
+                ? error.response.data.message
+                : error.message;
+        console.log(message);
+
+    }
 }
 
