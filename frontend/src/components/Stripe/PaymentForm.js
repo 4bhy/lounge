@@ -42,19 +42,20 @@ const CARD_OPTIONS = {
 };
 
 
-const PaymentForm = (state) => {
+const PaymentForm = ({state, discountPrice, couponId}) => {
 
-    console.log("at payment");
+
     const [success, setSuccess] = useState(false)
     const stripe = useStripe()
     const elements = useElements()
 
-    const userInfo = state.state.state.userInfo;
-    const propertyData = state.state.state.propertyData;
-    const checkIn = state.state.state.checkIn;
-    const checkOut = state.state.state.checkOut;
-    const guests = state.state.state.guests;
-    const totalPrice = state.state.state.totalPrice;
+    const userInfo = state.userInfo;
+    const propertyData = state.propertyData;
+    const checkIn = state.checkIn;
+    const checkOut = state.checkOut;
+    const guests = state.guests;
+    const totalPrice = state.totalPrice;
+    const discount= discountPrice
 
     const handleSubmit = async (e) => {
         setRedirector(false)
@@ -70,13 +71,14 @@ const PaymentForm = (state) => {
             try {
                 const { id } = paymentMethod
                 const response = await axios.post("http://localhost:5000/api/users/payment", {
-                    amount: totalPrice,
+                    amount: discount,
                     id,
                     userInfo,
                     propertyData,
                     checkIn,
                     checkOut,
-                    guests
+                    guests,
+                    couponId
                 })
 
                 if (response.data.success) {
@@ -96,8 +98,8 @@ const PaymentForm = (state) => {
 
     const [open, setOpen] = React.useState(false);
     const [opens, setOpens] = React.useState(false);
-    const [redirector, setRedirector]=useState(false)
-    const navigate=useNavigate()
+    const [redirector, setRedirector] = useState(false)
+    const navigate = useNavigate()
 
     const handleClose = () => {
         setOpen(false);
@@ -138,19 +140,19 @@ const PaymentForm = (state) => {
                         Your reservation won’t be confirmed until the host accepts your request (within 24 hours).
                         You won’t be charged until then.
                     </DialogContentText>
-                  
+
                 </DialogContent>
                 <DialogActions>
                     <Link to="/"><Button>HOME</Button></Link>
                 </DialogActions>
             </Dialog>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={opens}
-        onClick={handleClose}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={opens}
+                onClick={handleClose}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </>
     )
 }

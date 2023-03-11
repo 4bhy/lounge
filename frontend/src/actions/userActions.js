@@ -75,7 +75,7 @@ export const register = (name, email, password, phoneNumber) => async (dispatch)
       },
       config
     );
-    console.log(data, "111");
+  
     // console.log(data);
     dispatch(userRegisterSuccess(data));
     dispatch(userLoginSuccess(data));
@@ -92,7 +92,7 @@ export const register = (name, email, password, phoneNumber) => async (dispatch)
 
 export const individualProperty = (id) => async (dispatch) => {
   try {
-    console.log("pp");
+  
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -101,7 +101,7 @@ export const individualProperty = (id) => async (dispatch) => {
     dispatch(individualPropertyReq())
     const { data } = await axios.get(`http://localhost:5000/api/users/individual-property/${id}`, config)
     dispatch(individualPropertySuccess(data))
-    console.log("individual property:", data);
+  
 
   } catch (error) {
     const errorIs =
@@ -116,7 +116,7 @@ export const individualProperty = (id) => async (dispatch) => {
 export const getLinkAction = (email) => async (dispatch) => {
 
   try {
-    console.log("at it");
+   
 
     const config = {
       headers: {
@@ -152,7 +152,7 @@ export const resetPassword = (email, password) => async (dispatch) => {
     }
 
     const { data } = await axios.post("http://localhost:5000/api/users/reset-password", { email, password }, config)
-    console.log(data);
+    
     dispatch(userLoginSuccess(data));
     localStorage.setItem("userInfo", JSON.stringify(data));
 
@@ -178,7 +178,7 @@ export const listBookings = (id) => async (dispatch) => {
     }
 
     const { data } = await axios.get(`http://localhost:5000/api/users/list-bookings/${id}`, config)
-    console.log(data, "actions");
+
     dispatch(userBooking(data))
 
   } catch (error) {
@@ -194,8 +194,8 @@ export const listBookings = (id) => async (dispatch) => {
 
 export const userCancellation = (id) => async (dispatch) => {
   try {
-    console.log("765456789");
-    console.log(id);
+  
+    
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -216,7 +216,7 @@ export const userCancellation = (id) => async (dispatch) => {
 
 export const submitReview = (pid, uid, rating, title, review) => async (dispatch) => {
   try {
-    console.log(pid, uid, rating, title, review);
+    
     const config = {
       headers: {
         "Content-type": "application/json",

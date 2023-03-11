@@ -7,11 +7,11 @@ const PUBLIC_KEY = "pk_test_51MgPNUSGJWduBmwsipwpGdodNDToVW3dynb2wJ1WodeBiNCTmOp
 
 const stripeTestPromise = loadStripe(PUBLIC_KEY)
 
-const StripeContainer = (state) => {
+const StripeContainer = ({state, discountPrice, couponId }) => {
   return (
     <div>
       <Elements stripe={stripeTestPromise}>
-			<PaymentForm state={state} />
+			<PaymentForm state={state} couponId={couponId} discountPrice={discountPrice} />
 		</Elements>
     </div>
   )

@@ -293,13 +293,13 @@ export const getCoupons = () => async (dispatch) => {
         }
         const timestamp = Date.now(); // get current timestamp
         const { data } = await axios.get(`http://localhost:5000/api/admin/get-coupons?timestamp=${timestamp}`, config)
-        console.log("data1");
-        console.log(data, "data");
+        console.log("after getting 1");
+        console.log(data, "data after log, 1");
         dispatch(listCoupons(data))
 
     } catch (error) {
 
-        console.log("000");
+        console.log("error on getting coupons");
         const message =
             error.response && error.response.data
                 ? error.response.data.message
@@ -311,7 +311,7 @@ export const getCoupons = () => async (dispatch) => {
 export const addCoupon = (cname, discount, vfrom, vto) => async (dispatch) => {
 
     try {
-        console.log(discount);
+        console.log("adding coupons");
         const config = {
             headers: {
                 "Content-type": "application/json"
@@ -319,7 +319,8 @@ export const addCoupon = (cname, discount, vfrom, vto) => async (dispatch) => {
         }
 
         const { data } = await axios.post("http://localhost:5000/api/admin/add-coupon/", { cname, discount, vfrom, vto }, config)
-        console.log(data, "nw coupon");
+        console.log("log after adding");
+        console.log(data, "added coupon");
 
     } catch (error) {
 

@@ -51,18 +51,19 @@ const CouponTable = () => {
   };
 
   const submitHandlder = async () => {
-    console.log("33");
+    console.log("submit handler ran");
     setOpen(false);
-    await dispatch(addCoupon(cname, discount, vfrom, vto))
-    console.log("66666");
-    dispatch(getCoupons())
-    console.log("7777");
+     dispatch(addCoupon(cname, discount, vfrom, vto))
+    console.log("after add coupon dispatch");
+     dispatch(getCoupons())
+    console.log("after get coupon dispatch at submit handler");
 
   }
 
   useEffect(() => {
-
+    console.log("use effect 1");
     dispatch(getCoupons())
+    console.log("use effect 2");
 
   }, [])
 
@@ -279,7 +280,7 @@ const CouponTable = () => {
 
                   </div>
                 </Box>
-                <div className='p-4'>
+                {/* <div className='p-4'>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <Stack spacing={3}>
 
@@ -295,8 +296,8 @@ const CouponTable = () => {
 
                     </Stack>
                   </LocalizationProvider>
-                </div>
-
+                </div> */}
+{/* 
                 <div className='p-4'>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <Stack spacing={3}>
@@ -313,8 +314,25 @@ const CouponTable = () => {
 
                     </Stack>
                   </LocalizationProvider>
-                </div>
+                </div> */}
 
+
+                <input
+                  type="date"
+                  
+                  onChange={(e) => { setVfrom(e.target.value) }}
+                  class="block border border-grey-light w-full p-4 rounded mb-4"
+                  name="fullname"
+                  placeholder="Coupon Name" />
+
+                  
+                <input
+                  type="date"
+                  
+                  onChange={(e) => { setVto(e.target.value) }}
+                  class="block border border-grey-light w-full p-4 rounded mb-4"
+                  name="fullname"
+                  placeholder="Coupon Name" />
 
 
                 {/* <div class="text-center text-sm text-grey-dark mt-4">

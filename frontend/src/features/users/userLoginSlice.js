@@ -4,7 +4,7 @@ const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
 
-const initialState = {
+const initialState = {  
   loading: false,
   userInfo: userInfoFromStorage,
   error: null,
@@ -26,7 +26,6 @@ const userLoginSlice = createSlice({
       state.error = action.payload;
     },
     userLogout: (state, action) => {
-
       state.userInfo = null;
       state.error = null;
     },

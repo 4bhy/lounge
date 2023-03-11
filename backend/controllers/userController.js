@@ -5,6 +5,7 @@ const Booking = require("../models/bookingModel")
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../utils/generateToken");
 const nodemailer = require("nodemailer");
+const Coupon = require("../models/couponModel");
 
 require('dotenv').config();
 
@@ -48,6 +49,8 @@ module.exports = {
 
   authUser: asyncHandler((async (req, res) => {
 
+    //sanitize input, no sql injection
+    //remive sppcl caharacters, use regex, node sanitize module
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     const host = await Host.findOne({
@@ -92,12 +95,11 @@ module.exports = {
     const { email } = req.body;
 
     try {
-
       const oldUser = await User.findOne({ email });
       if (!oldUser) {
         return res.status(404).json({ status: "User Not Exists!!" });
       }
-      const token = await generateToken(oldUser._id);
+      const token = await generateToken(oldUser._id)
       const link = `http://localhost:3000/reset-password/${oldUser._id}/${token}`;
 
       var transporter = nodemailer.createTransport({
@@ -156,9 +158,8 @@ module.exports = {
   }),
 
   payment: asyncHandler(async (req, res) => {
-    const { amount, id, userInfo, propertyData, checkIn, checkOut, guests, totalPrice } = req.body;
-    console.log(amount);
-    console.log(propertyData.hostID);
+    const { amount, id, userInfo, propertyData, checkIn, checkOut, guests, totalPrice, couponId } = req.body;
+    console.log(couponId);
     const hid = propertyData.hostID;
 
     try {
@@ -175,6 +176,12 @@ module.exports = {
         invoice: Math.floor((Math.random() * 1000) + 1)
       })
       await booking.save();
+
+      if(couponId){
+        const couponData= await Coupon.findById({_id:couponId })
+        couponData.usedBy.push(userInfo._id)
+        console.log(couponData);
+      }
       const payment = await stripe.paymentIntents.create({
         amount,
         currency: "USD",

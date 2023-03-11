@@ -60,6 +60,7 @@ function App() {
           <Route path="/host/view-property" element={<IndividualProperty />} />
           <Route path="/host/register" element={userInfo ? <HostRegister /> : <Prompt />}></Route>
           <Route path="/admin/view-host" element={<HostDetails />} />
+          <Route path="/admin/view-property/:id" element={<IndividualProperty />} />
           <Route path="*" element={<ErrorScreen />}></Route>
         </Routes>
       </BrowserRouter>
