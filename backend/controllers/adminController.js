@@ -102,16 +102,19 @@ module.exports = {
         const hotel = await Hotel.findById(req.params.id)
 
         if (hotel) {
-            hotel.blocked = req.body.blocked;
+            if (req.body.status == "true") {
+                hotel.isApproved = "false";
+            } else {
+                hotel.isApproved = "true"
+            }
             const updatedHotel = await hotel.save()
-
 
             if (updatedHotel) {
                 res.status(201).json({
                     _id: updatedHotel._id,
                     pname: updatedHotel.pname,
                     city: updatedHotel.city,
-                    blocked: updatedHotel.blocked,
+                    isApproved: updatedHotel.isApproved,
                 });
             }
         } else {
@@ -144,7 +147,6 @@ module.exports = {
     handleApproval: asyncHandler(async (req, res) => {
         console.log("RrrR");
         try {
-
             const hostData = await Host.findById({ _id: req.body.id })
             hostData.isApproved = true;
             const host = await hostData.save()
@@ -164,7 +166,6 @@ module.exports = {
             const hotel = await hotelData.save();
             console.log(hotel);
             if (hotel) {
-
                 res.status(201).json({ messsage: "Success" })
             }
         } catch (error) {
@@ -199,7 +200,7 @@ module.exports = {
                 validTo: req.body.vto,
                 discount: req.body.discount
             })
-            
+
         } catch (error) {
             console.log(error);
             res.status(404).json({ message: "Failed to add coupon" })

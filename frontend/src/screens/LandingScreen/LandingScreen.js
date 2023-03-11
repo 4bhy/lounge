@@ -1,5 +1,5 @@
 import React from 'react'
-import SecondaryHero from '../../components/Body/SecondaryHero'
+
 import CardContainer from '../../components/Cards/CardContainer'
 import CTA from '../../components/Cards/CTA'
 import Footer from '../../components/Footer/Footer'
@@ -13,7 +13,7 @@ const LandingScreen = () => {
       <Bannner />
       <CTA />
       <CardContainer />
-      <SecondaryHero />
+    
       <Footer />
     </div>
   )

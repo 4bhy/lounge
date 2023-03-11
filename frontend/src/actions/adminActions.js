@@ -128,7 +128,6 @@ export const handleHosts = (id, status) => async (dispatch) => {
         const { data } = await axios.post(`http://localhost:5000/api/admin/handlehost/${id}`, sendStatus, config)
 
 
-        dispatch(handleHostSuccess(data))
 
     } catch (error) {
         const message =
@@ -221,7 +220,7 @@ export const handleHotels = (id, status) => async (dispatch) => {
             }
         }
         const sendStatus = {
-            blocked: status,
+            status: status,
         };
 
         const { data } = await axios.post(`http://localhost:5000/api/admin/handlehotels/${id}`, sendStatus, config)

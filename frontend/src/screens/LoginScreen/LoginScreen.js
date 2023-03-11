@@ -54,9 +54,10 @@ const LoginScreen = () => {
             <div><Toaster /></div>
             <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 backdrop-blur-2xl">
                 <div class="mx-auto max-w-lg">
+                    <Link to="/">
                     <div class="justify-items-center flex justify-center">
                         <img src={logo} alt="Logo" class="h-8 justify-center" />
-                    </div>
+                    </div></Link>
 
                     <form action="" onSubmit={submitHandler} class="mt-6 mb-0 space-y-4 rounded-lg p-8 shadow-2xl">
                         <p class="text-lg font-medium">Sign in to your account</p>

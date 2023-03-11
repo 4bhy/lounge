@@ -24,8 +24,7 @@ const HotelsCrud = () => {
     const [id, setId] = useState("")
 
     const hotelsHandler = async (id, status) => {
-
-        await dispatch(handleHotels(id, !status))
+        await dispatch(handleHotels(id, status))
         await dispatch(listHotel())
     }
 
@@ -33,12 +32,8 @@ const HotelsCrud = () => {
     const individualProperties = useSelector((state) => state.individualProperty)
     const { individualPropertyData } = individualProperties;
 
-
-
     const handleClickOpen = async () => {
-
         await dispatch(individualProperty(id))
-
         setOpen(true);
     };
 
@@ -47,10 +42,9 @@ const HotelsCrud = () => {
     };
 
     useEffect(() => {
-
         dispatch(listHotel())
-
     }, [])
+
     return (
         <div>
             <div class="inline-flex mt-2 xs:mt-0">
@@ -82,7 +76,6 @@ const HotelsCrud = () => {
                         <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
                             <table class="min-w-full leading-normal">
                                 <thead>
-
                                     <tr>
                                         <th
                                             class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -133,8 +126,8 @@ const HotelsCrud = () => {
                                                 </td>
                                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                     <button type="button" onClick={() => {
-                                                        hotelsHandler(hotelsList._id, hotelsList.blocked)
-                                                    }} class="inline-block px-6 py-2.5  bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">{hotelsList.blocked ? 'Active' : 'Blocked'}</button>
+                                                        hotelsHandler(hotelsList._id, hotelsList.isApproved)
+                                                    }} class="inline-block px-6 py-2.5  bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">{hotelsList.isApproved === "true" ? 'Active' : 'Blocked'}</button>
                                                 </td>
                                             </tr>
                                         </tbody>

@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import { individualProperty } from '../../actions/userActions'
 import { useNavigate } from 'react-router-dom'
 import LandingPagination from '../Pagination/LandingPagination'
- 
+
 import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
@@ -47,7 +47,7 @@ const CardContainer = () => {
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage
-  const currentPosts = hotelsList?.slice(firstPostIndex, lastPostIndex)
+  const currentPosts = hotelsList?.filter(data => data.isApproved === "true").slice(firstPostIndex, lastPostIndex)
 
   const [search, setSearch] = useState("")
   console.log(search);

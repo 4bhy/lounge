@@ -111,8 +111,8 @@ const Navbar = () => {
                       'aria-labelledby': 'basic-button',
                     }}
                   >
-                    <Link to="/dashboard"><MenuItem>Profile</MenuItem></Link>
-                    <MenuItem>My account</MenuItem>
+                    <Link to="/dashboard"><MenuItem>Dashboard</MenuItem></Link>
+                  <Link to="/host/dashboard"><MenuItem>Host Profile</MenuItem></Link>  
                     <MenuItem onClick={() => {
                       dispatch(userLogout())
                       localStorage.removeItem("userInfo");
