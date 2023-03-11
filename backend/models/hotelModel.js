@@ -48,6 +48,9 @@ const hotelSchema = mongoose.Schema({
         type: Number,
         deafult:0
     },
+    price:{
+        type:Number
+    },
     booking: [{
         userId: {
             type: mongoose.Schema.Types.ObjectId,

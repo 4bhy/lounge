@@ -20,6 +20,8 @@ import Slider from '@mui/material/Slider';
 import MapContainer from '../../components/MapContainer/MapContainer'
 import Maps from '../../components/MapContainer/Maps'
 
+import TextField from '@mui/material/TextField';
+import toast, { Toaster } from 'react-hot-toast'
 
 import { Search, GpsFixed } from "@mui/icons-material"
 import Navbar from '../../components/Header/Navbar'
@@ -108,9 +110,9 @@ const AddPropertyPrimary = () => {
         console.log("pin:", pin)
         console.log("hostId", hostID);
     }, [url, city, pstate, pin, hostID]);
-    
-        const userLogin = useSelector((state) => state.userLogin)
-        const { userInfo } = userLogin
+
+    const userLogin = useSelector((state) => state.userLogin)
+    const { userInfo } = userLogin
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -128,6 +130,8 @@ const AddPropertyPrimary = () => {
         'Parking',
         'Laundry',
         'Pool',
+        'WiFi',
+        'Television'
     ];
 
     function getStyles(name, amenities, theme) {
@@ -156,8 +160,10 @@ const AddPropertyPrimary = () => {
     const handleChanges = (event, newValue) => {
         if (typeof newValue === 'number') {
             setValue(newValue);
+            console.log(value);
         }
     };
+
 
     function valueLabelFormat(value) {
         const units = [''];
@@ -192,11 +198,11 @@ const AddPropertyPrimary = () => {
     }
 
     const dispatchHandler = () => {
-        console.log("dispacth",hostID);
+        console.log("dispacth", hostID);
         dispatch(addProperty(pname, pstate, city, pin, description, hostID, url, type, value, amenities))
 
     }
-    
+
     const uploadFile = async (val) => {
 
         let file = val;
@@ -254,7 +260,6 @@ const AddPropertyPrimary = () => {
 
     }
 
-
     const reverseGeocode = ({ latitude: lat, longitude: lng }) => {
         const url = `${geocodeJson}?key=${apiKey}&latlng=${lat},${lng}`;
         searchInput.current.value = "Getting your location...";
@@ -284,16 +289,13 @@ const AddPropertyPrimary = () => {
 
     return (
         <div>
+            <div><Toaster /></div>
             <Navbar />
             <section class=" px-16">
                 <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
                     <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
                         <div class="lg:col-span-2 lg:py-12 ">
-                            {/* <p class="max-w-xl text-lg">
-                                At the same time, the fact that we are wholly owned and totally
-                                independent from manufacturer and other group control gives you
-                                confidence that we will only recommend what is right for you.
-                            </p> */}
+                         
                             <h1 class="text-2xl font-extrabold sm:text-3xl">
                                 Let us find your
 
@@ -303,13 +305,7 @@ const AddPropertyPrimary = () => {
                             </h1>
 
                             <div class="mt-8">
-                                {/* <a href="" class="text-2xl font-bold text-pink-600">
-                                    0151 475 4450
-                                </a>
-
-                                <address class="mt-2 not-italic">
-                                    282 Kevin Brook, Imogeneborough, CA 58517
-                                </address> */}
+                           
                                 <img src="https://i0.wp.com/generalstreet.in/wp-content/uploads/2020/05/local-business-listing.jpg?w=600&ssl=1" className='rounded-2xl' />
                             </div>
                         </div>
@@ -448,7 +444,7 @@ const AddPropertyPrimary = () => {
                                             ))}
                                         </Select>
                                     </FormControl>
-
+                                    {/* 
                                     <Box sx={{ width: 150 }}>
                                         <Typography id="non-linear-slider" gutterBottom>
                                             Rooms: {valueLabelFormat(calculateValue(value))}
@@ -465,6 +461,24 @@ const AddPropertyPrimary = () => {
                                             valueLabelDisplay="auto"
                                             aria-labelledby="non-linear-slider"
                                         />
+                                    </Box> */}
+
+                                    <Box
+                                        component="form"
+                                        sx={{
+                                            '& > :not(style)': { m: 1, width: '25ch' },
+                                        }}
+                                        noValidate
+                                        autoComplete="off"
+                                    >
+                                        <TextField id="outlined-basic" onChange={(e) => {
+                                            setValue(e.target.value)
+                                            console.log(value)
+                                        }
+
+                                        } label="Price in INR" variant="outlined" />
+
+
                                     </Box>
                                 </div>
 

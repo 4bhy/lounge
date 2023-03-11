@@ -27,6 +27,7 @@ import FormControl from '@mui/material/FormControl';
 
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import toast, { Toaster } from 'react-hot-toast';
 
 const CouponTable = () => {
 
@@ -47,33 +48,37 @@ const CouponTable = () => {
   };
 
   const handleClose = () => {
-    
+
   };
 
   const submitHandlder = async () => {
-    console.log("submit handler ran");
-    setOpen(false);
-     dispatch(addCoupon(cname, discount, vfrom, vto))
-    console.log("after add coupon dispatch");
-     dispatch(getCoupons())
-    console.log("after get coupon dispatch at submit handler");
+    if (!cname || !discount || !vfrom || !vto) {
+      toast.error("All fields are mandatory.")
+    } else {
+      setOpen(false);
+
+      dispatch(addCoupon(cname, discount, vfrom, vto))
+      dispatch(getCoupons())
+    }
+
 
   }
 
   useEffect(() => {
-    console.log("use effect 1");
+
     dispatch(getCoupons())
-    console.log("use effect 2");
+
 
   }, [])
 
   const [vfrom, setVfrom] = React.useState(dayjs('2022-04-07'));
   const [vto, setVto] = React.useState(dayjs('2022-04-07'));
 
-  
+
 
   return (
     <div>
+      <div><Toaster /></div>
       <section class="container px-4 mx-auto">
 
 
@@ -268,10 +273,10 @@ const CouponTable = () => {
                       <Input
                         onChange={(e) => { setDiscount(e.target.value) }}
                         id="standard-adornment-weight"
-                        endAdornment={<InputAdornment position="end">kg</InputAdornment>}
+                        endAdornment={<InputAdornment position="end">%</InputAdornment>}
                         aria-describedby="standard-weight-helper-text"
                         inputProps={{
-                          'aria-label': 'weight',
+                          'aria-label': 'Discount',
                         }}
                       />
                       <FormHelperText id="standard-weight-helper-text">Weight</FormHelperText>
@@ -297,7 +302,7 @@ const CouponTable = () => {
                     </Stack>
                   </LocalizationProvider>
                 </div> */}
-{/* 
+                {/* 
                 <div className='p-4'>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <Stack spacing={3}>
@@ -319,16 +324,16 @@ const CouponTable = () => {
 
                 <input
                   type="date"
-                  
+
                   onChange={(e) => { setVfrom(e.target.value) }}
                   class="block border border-grey-light w-full p-4 rounded mb-4"
                   name="fullname"
                   placeholder="Coupon Name" />
 
-                  
+
                 <input
                   type="date"
-                  
+
                   onChange={(e) => { setVto(e.target.value) }}
                   class="block border border-grey-light w-full p-4 rounded mb-4"
                   name="fullname"

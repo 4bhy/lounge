@@ -177,8 +177,8 @@ module.exports = {
       })
       await booking.save();
 
-      if(couponId){
-        const couponData= await Coupon.findById({_id:couponId })
+      if (couponId) {
+        const couponData = await Coupon.findById({ _id: couponId })
         couponData.usedBy.push(userInfo._id)
         console.log(couponData);
       }
@@ -258,11 +258,11 @@ module.exports = {
         description: review
       }
       await propertyData.reviews.push(reviews)
-      propertyData.totalRatings+=rating;
+      propertyData.totalRatings += rating;
       await propertyData.save()
 
       const length = propertyData.reviews.length;
-      propertyData.averageRating = Math.round(((propertyData.totalRatings) / length)*2)/2;
+      propertyData.averageRating = Math.round(((propertyData.totalRatings) / length) * 2) / 2;
 
       const data = await propertyData.save()
       if (data) {

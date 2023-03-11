@@ -99,7 +99,7 @@ export const handleUsers = (id, status) => async (dispatch) => {
         const { data } = await axios.post(`http://localhost:5000/api/admin/handleuser/${id}`, sendStatus, config)
 
         dispatch(handleUserSuccess(data))
-
+        
     } catch (error) {
         const message =
             error.response && error.response.data

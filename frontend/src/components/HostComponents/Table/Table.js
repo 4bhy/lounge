@@ -15,7 +15,7 @@ const Table = () => {
     const userHandler = async (id, status) => {
 
         await dispatch(handleUsers(id, !status))
-        await dispatch(listUsers())
+        dispatch(listUsers())
     }
 
     useEffect(() => {
