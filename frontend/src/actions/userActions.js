@@ -75,7 +75,7 @@ export const register = (name, email, password, phoneNumber) => async (dispatch)
       },
       config
     );
-  
+
     // console.log(data);
     dispatch(userRegisterSuccess(data));
     dispatch(userLoginSuccess(data));
@@ -92,7 +92,7 @@ export const register = (name, email, password, phoneNumber) => async (dispatch)
 
 export const individualProperty = (id) => async (dispatch) => {
   try {
-  
+
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -101,7 +101,7 @@ export const individualProperty = (id) => async (dispatch) => {
     dispatch(individualPropertyReq())
     const { data } = await axios.get(`http://localhost:5000/api/users/individual-property/${id}`, config)
     dispatch(individualPropertySuccess(data))
-  
+
 
   } catch (error) {
     const errorIs =
@@ -116,8 +116,6 @@ export const individualProperty = (id) => async (dispatch) => {
 export const getLinkAction = (email) => async (dispatch) => {
 
   try {
-   
-
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -135,8 +133,6 @@ export const getLinkAction = (email) => async (dispatch) => {
     console.log(errorIs);
   }
 
-
-
 }
 
 export const resetPassword = (email, password) => async (dispatch) => {
@@ -152,7 +148,7 @@ export const resetPassword = (email, password) => async (dispatch) => {
     }
 
     const { data } = await axios.post("http://localhost:5000/api/users/reset-password", { email, password }, config)
-    
+
     dispatch(userLoginSuccess(data));
     localStorage.setItem("userInfo", JSON.stringify(data));
 
@@ -188,14 +184,11 @@ export const listBookings = (id) => async (dispatch) => {
         : error.message;
   }
 
-
-
 }
 
 export const userCancellation = (id) => async (dispatch) => {
   try {
-  
-    
+
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -214,12 +207,18 @@ export const userCancellation = (id) => async (dispatch) => {
   }
 }
 
-export const submitReview = (pid, uid, rating, title, review) => async (dispatch) => {
+export const submitReview = (pid, uid, rating, title, review) => async (dispatch, getState) => {
   try {
-    
+  
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    console.log(userInfo, "getdtate");
+   
     const config = {
       headers: {
         "Content-type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
       }
     }
     const { data } = await axios.post("http://localhost:5000/api/users/submit-review", { pid, uid, rating, title, review }, config)

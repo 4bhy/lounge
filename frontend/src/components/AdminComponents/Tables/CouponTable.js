@@ -8,12 +8,7 @@ import { addCoupon, getCoupons } from '../../../actions/adminActions';
 
 import dayjs from 'dayjs';
 import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+
 
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -25,9 +20,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import toast, { Toaster } from 'react-hot-toast';
+import { addCouponsFail } from '../../../features/admin/addCouponSlice';
 
 const CouponTable = () => {
 
@@ -38,7 +32,8 @@ const CouponTable = () => {
 
 
   const couponData = useSelector((state) => state.couponData)
-
+  const addCoupons = useSelector((state) => state.addCoupon)
+  const { loading, error } = addCoupons;
   const { couponsList } = couponData
 
   const dispatch = useDispatch()
@@ -48,21 +43,26 @@ const CouponTable = () => {
   };
 
   const handleClose = () => {
-
+    setOpen(false)
   };
 
   const submitHandlder = async () => {
     if (!cname || !discount || !vfrom || !vto) {
+      setOpen(false)
       toast.error("All fields are mandatory.")
     } else {
       setOpen(false);
-
       dispatch(addCoupon(cname, discount, vfrom, vto))
       dispatch(getCoupons())
     }
 
-
   }
+
+  if (error) {
+    toast.error(error)
+    dispatch(addCouponsFail())
+  }
+
 
   useEffect(() => {
 
@@ -80,8 +80,6 @@ const CouponTable = () => {
     <div>
       <div><Toaster /></div>
       <section class="container px-4 mx-auto">
-
-
         <div class="mt-6 md:flex md:items-center md:justify-between">
           <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700">
 
@@ -226,6 +224,7 @@ const CouponTable = () => {
       </section>
 
       <div>
+
         <Dialog
           open={open}
           onClose={handleClose}
@@ -233,10 +232,10 @@ const CouponTable = () => {
           aria-describedby="alert-dialog-description"
         >
 
-          <div class="bg-grey-lighter min-h-screen flex flex-col">
+          <div class="bg-grey-lighter flex flex-col">
             <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
               <div class="bg-white px-2 mx-8 rounded shadow-md text-black w-full">
-                <h1 class="mb-8 text-2xl text-center">ADD COUPONS</h1>
+                <h1 class="m-4 text-2xl text-blue-600 font-bold text-center">ADD COUPONS</h1>
                 <div className='px-4'>
                   <Box
                     component="form"
@@ -279,7 +278,7 @@ const CouponTable = () => {
                           'aria-label': 'Discount',
                         }}
                       />
-                      <FormHelperText id="standard-weight-helper-text">Weight</FormHelperText>
+                      <FormHelperText id="standard-weight-helper-text">Discount</FormHelperText>
                     </FormControl>
 
 

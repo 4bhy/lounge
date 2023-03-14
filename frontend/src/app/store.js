@@ -1,10 +1,10 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import thunk from "redux-thunk";
 import userLoginReducer from "../features/users/userLoginSlice";
 import userRegisterReducer from "../features/users/userRegisterSlice";
 import hostRegisterReducer from "../features/host/hostRegisterSlice";
 import listUsersSliceReducer from "../features/admin/listUsersSlice";
 import listHostsReducer from "../features/admin/listHostsSlice";
-import thunk from "redux-thunk";
 import handleUsersReducer from "../features/admin/handleUsersSlice";
 import handleHostsReducer from "../features/admin/handleHostsSlice";
 import pageOneReducer from "../features/host/pageOneSlice";
@@ -18,6 +18,8 @@ import listApprovalsReducer from "../features/admin/listApprovalsSlice";
 import bookingsReducer from "../features/users/bookingsSlice";
 import messageSlice from "../features/users/messageSlice";
 import couponReducer from "../features/admin/couponSlice";
+import addCouponReducer from "../features/admin/addCouponSlice";
+import listHostPropertiesReducer from "../features/host/listHostPropertiesSlice";
 const store = configureStore({
     reducer: {
         userLogin: userLoginReducer,
@@ -36,8 +38,12 @@ const store = configureStore({
         listApprovals: listApprovalsReducer,
         individualProperty: individualPropertyReducer,
         bookings: bookingsReducer,
-        messageSlice:messageSlice,
-        couponData: couponReducer
+        messageSlice: messageSlice,
+        couponData: couponReducer,
+        addCoupon: addCouponReducer,
+        listHostProperties: listHostPropertiesReducer
+
+
     }
 })
 

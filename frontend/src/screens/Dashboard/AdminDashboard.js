@@ -12,8 +12,8 @@ const AdminDashboard = () => {
   const [toggle, setToggle] = useState('dashboard')
   console.log(toggle);
   return (
-    <div>
-      <div className='h-screen sticky top-0'>
+    <div class="flex flex-row">
+      <div className='fixed top-0 left-0 h-full w-30 md:w-60 lg:w-60 bg-white shadow-xl overflow-y-auto '>
         <div class="font-poppins antialiased flex flex-col">
           <div
             id="view"
@@ -165,9 +165,9 @@ const AdminDashboard = () => {
                       <span class="">Approvals</span>
                     </a>
                     <a
-                        onClick={() => {
-                          setToggle("coupon")
-                        }}
+                      onClick={() => {
+                        setToggle("coupon")
+                      }}
                       class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
                       <svg
                         class="w-6 h-6 fill-current inline-block"

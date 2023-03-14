@@ -12,8 +12,8 @@ const userSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
-    phoneNumber:{
-      type:String,
+    phoneNumber: {
+      type: String,
     },
     password: {
       type: String,
@@ -24,8 +24,8 @@ const userSchema = mongoose.Schema(
       default: false,
     },
     role: {
-      type:String,
-      default:"User"
+      type: String,
+      default: "User"
     },
     blocked: {
       type: Boolean,
@@ -36,9 +36,9 @@ const userSchema = mongoose.Schema(
       default:
         "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
-    hostAccess:{
-      type:Boolean,
-      default:false
+    hostAccess: {
+      type: Boolean,
+      default: false
     }
   },
   {
@@ -53,9 +53,11 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
+  } else {
+    const salt = await bcrypt.genSaltSync(10);
+    this.password = await bcrypt.hash(this.password, salt);
   }
-  const salt = await bcrypt.genSaltSync(10);
-  this.password = await bcrypt.hash(this.password, salt);
+
 });
 
 const User = mongoose.model("User", userSchema);

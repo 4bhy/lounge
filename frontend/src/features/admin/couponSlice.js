@@ -10,6 +10,10 @@ const couponSlice = createSlice({
             state.loading = false;
             state.couponsList = action.payload;
         },
+        listCouponsReq:(state, action)=>{
+            state.loading=true;
+        },
+        
     }
 })
 

@@ -139,10 +139,24 @@ module.exports = {
             if (data) {
                 res.status(201).json({ message: "Sucesss" })
             }
-
         } catch (error) {
             console.log(error);
             throw new Error("Cancelling booking failed!")
+        }
+    }),
+
+    listingHostProperties: asyncHandler(async (req, res) => {
+        try {
+            console.log( req.params.id);
+            const hostProperties = await Hotel.find({ hostID: req.params.id })
+            if (hostProperties) {
+                res.status(201).json({ hostProperties })
+            }else{
+                res.status(404).json({message:"No Properites to Display"})
+            }
+        } catch (error) {
+            console.log(error);
+            throw new Error("Cant find properties!")
         }
     })
 }

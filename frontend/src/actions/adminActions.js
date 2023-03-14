@@ -9,6 +9,7 @@ import { viewHostsFail, viewHostsReq, viewHostsSuccess } from '../features/admin
 import { hostPropertySuccess } from '../features/admin/hostPropertySlice';
 import { listApprovalsFail, listApprovalsReq, listApprovalsSuccess } from '../features/admin/listApprovalsSlice';
 import { listCoupons } from '../features/admin/couponSlice';
+import { addCouponsFail, addCouponsReq, addCouponsSuccess } from '../features/admin/addCouponSlice';
 export const listUsers = () => async (dispatch) => {
 
     try {
@@ -310,24 +311,22 @@ export const getCoupons = () => async (dispatch) => {
 export const addCoupon = (cname, discount, vfrom, vto) => async (dispatch) => {
 
     try {
-        console.log("adding coupons");
+        dispatch(addCouponsReq())
         const config = {
             headers: {
                 "Content-type": "application/json"
             }
         }
-
         const { data } = await axios.post("http://localhost:5000/api/admin/add-coupon/", { cname, discount, vfrom, vto }, config)
-        console.log("log after adding");
-        console.log(data, "added coupon");
+        dispatch(addCouponsSuccess(data))
 
     } catch (error) {
-
         const message =
             error.response && error.response.data
                 ? error.response.data.message
                 : error.message;
         console.log(message);
+        dispatch((addCouponsFail(message)))
 
     }
 }

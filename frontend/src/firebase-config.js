@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth} from "firebase/auth";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 
-// TODO: Replace the following with your app's Firebase project configuration
+
 const firebaseConfig = {
     apiKey: "AIzaSyDMUr3OSyFKLRYoWXgtXSpTaNn1iuD3kTw",
     authDomain: "phone-auth-5ce2e.firebaseapp.com",

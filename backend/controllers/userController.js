@@ -2,10 +2,10 @@ const User = require("../models/userModel");
 const Host = require("../models/hostModel")
 const Hotel = require("../models/hotelModel")
 const Booking = require("../models/bookingModel")
+const Coupon = require("../models/couponModel");
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../utils/generateToken");
 const nodemailer = require("nodemailer");
-const Coupon = require("../models/couponModel");
 
 require('dotenv').config();
 
@@ -16,7 +16,6 @@ module.exports = {
   registerUser: (async (req, res) => {
 
     const { name, email, password, phoneNumber } = req.body;
-
     const userExists = await User.findOne({ email: email });
 
     if (userExists) {
@@ -56,16 +55,22 @@ module.exports = {
     const host = await Host.findOne({
       userId: user._id
     })
+    const token= generateToken(user._id);
+   
 
     if (user && (await user.matchPassword(password))) {
       if (user.blocked) {
         res.status(403);
+   
         throw new Error("You are blocked by the admin");
       }
+        user.token= generateToken(user._id);
+        console.log(user);
       res.json({
-        user, host
+        user, host, token
       });
     } else {
+
       throw new Error("Invalid Email or Password");
     }
   })),
@@ -73,6 +78,7 @@ module.exports = {
   viewIndividualProperty: (async (req, res) => {
 
     try {
+
       const propertyInfo = await Hotel.findById({ _id: req.params.id })
 
       if (propertyInfo) {
@@ -90,7 +96,6 @@ module.exports = {
   }),
 
   getForgotPasswordLink: (async (req, res) => {
-
 
     const { email } = req.body;
 
@@ -137,8 +142,7 @@ module.exports = {
       console.log(password);
       const userData = await User.findOne({ email })
       const host = await Host.findOne({ userId: userData._id })
-
-
+      // $2a$10$3JiwvCHcVPcEhzwxfU6Z4e90RlG8x2SjBmEtfNlHrU1TckPL27bdW
       if (!userData) {
         res.status(404).json("Invalid Email")
       } else {
@@ -206,9 +210,10 @@ module.exports = {
 
 
   bookings: asyncHandler(async (req, res) => {
-
     try {
-      const bookingData = await Booking.find({ userId: req.params.id }).populate('propertyId')
+      const bookingData = await Booking.find({ userId: req.params.id }).sort({
+        createdAt: -1 
+      }).populate('propertyId')
 
       if (bookingData) {
         res.status(201).json({
@@ -218,7 +223,6 @@ module.exports = {
     } catch (error) {
       throw new Error("Something went wrong!")
     }
-
   }),
 
   cancelBooking: asyncHandler(async (req, res) => {

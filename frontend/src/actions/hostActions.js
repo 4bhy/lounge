@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { handleHostFail, handleHostReq, handleHostSuccess } from '../features/admin/handleHostsSlice';
 import { hostRegisterReq, hostRegisterFail, hostRegisterSuccess } from '../features/host/hostRegisterSlice';
+import { listHostPropertyFail, listHostPropertyReq, listHostPropertySuccess } from '../features/host/listHostPropertiesSlice';
 import { hostBooking } from '../features/users/bookingsSlice';
 
 export const hostRegister = (fname, lname, newid, zip, email, dob, phone, address, apart, cstate, id, idState, url) => async (dispatch) => {
@@ -96,7 +97,7 @@ export const handleBooking = (id) => async (dispatch) => {
 }
 
 export const approveCancellation = (id) => async (dispatch) => {
-
+  
   try {
     const config = {
       headers: {
@@ -116,5 +117,31 @@ export const approveCancellation = (id) => async (dispatch) => {
 
 }
 
+export const listHostProperties = () => async (dispatch, getState) => {
+  try {
+    console.log("at list host prop");
+    dispatch(listHostPropertyReq())
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    
+    const id = userInfo.host._id;
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    }
+    const { data } = await axios.get(`http://localhost:5000/api/host/list-properties/${id}`, config)
+
+    dispatch(listHostPropertySuccess(data))
+  } catch (error) {
+    const errorIs =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+        dispatch(listHostPropertyFail(errorIs))
+  }
+}
 
 

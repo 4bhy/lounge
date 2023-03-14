@@ -61,7 +61,6 @@ const RegisterScreen = () => {
         }
     };
 
-    
 
     const resetTimer = (e) => {
         e.preventDefault()
@@ -84,7 +83,7 @@ const RegisterScreen = () => {
     const requestOTP = async (e) => {
 
         e.preventDefault();
-        if (phoneNumber.length >= 10) {
+        if (phoneNumber.length == 10) {
             generateRecaptcha();
             let appVerifier = window.recaptchaVerifier;
             signInWithPhoneNumber(authentication, phoneNumber, appVerifier)

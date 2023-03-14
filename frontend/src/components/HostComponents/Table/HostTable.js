@@ -100,11 +100,11 @@ const HostTable = () => {
                                 </svg>
                                 <input class="bg-gray-50 outline-none ml-1 block " type="text" name="" id="" placeholder="Search..." />
                             </div>
-                            <button onClick={() => { setToggle("Approved") }} class="px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700  hover:text-gray-500">
+                            <button onClick={() => { setToggle("Approved") }} class={toggle=="Approved"?'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-500 sm:text-sm dark:text-gray-700  hover:text-gray-100':'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700  hover:text-gray-500'}>
                                 Monitored
                             </button>
 
-                            <button onClick={() => { setToggle("Pending") }} class="px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700 hover:text-gray-500">
+                            <button onClick={() => { setToggle("Pending") }}  class={toggle==="Pending"?'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-500 sm:text-sm dark:text-gray-700  hover:text-gray-100':'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700  hover:text-gray-500'}>
                                 Unmonitored
                             </button>
                         </div>

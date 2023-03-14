@@ -177,7 +177,6 @@ module.exports = {
     }),
 
     getCoupons: asyncHandler(async (req, res) => {
-        console.log("898989");
         try {
             const coupons = await Coupon.find()
             if (coupons) {
@@ -193,15 +192,24 @@ module.exports = {
 
     addCoupon: asyncHandler(async (req, res) => {
         try {
-            console.log(req.body.discount);
-            const couponData = await Coupon.create({
-                couponName: req.body.cname,
-                validFrom: req.body.vfrom,
-                validTo: req.body.vto,
-                discount: req.body.discount
-            })
-
+            console.log(req.body);
+            const find = await Coupon.findOne({ couponName: req.body.cname })
+            if (find) {
+                console.log(find);
+                res.status(404).json({ message: "Copoun already exists!" })
+            } else {
+                console.log("201");
+                const couponData = await Coupon.create({
+                    couponName: req.body.cname,
+                    validFrom: req.body.vfrom,
+                    validTo: req.body.vto,
+                    discount: req.body.discount
+                })
+                console.log(couponData);
+                res.status(201).json({couponData})
+            }
         } catch (error) {
+            console.log("catch");
             console.log(error);
             res.status(404).json({ message: "Failed to add coupon" })
             throw new Error("Failed to add Coupon")
