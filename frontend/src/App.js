@@ -25,6 +25,7 @@ import Prompt from "./screens/PromptScreen/Prompt";
 import HostDetails from "./screens/DetailsScreen.js/HostDetails";
 import ForgotPassword from "./screens/LoginScreen/ForgotPassword";
 import ProductPage from "./components/test/ProductPage";
+import EditUserProfile from "./screens/Dashboard/EditUserProfile";
 
 
 
@@ -50,6 +51,7 @@ function App() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/checkout-payment" element={<CheckoutPayment />} />
           <Route path="/dashboard" element={<UserDashboard />} />
+          <Route path="/user/edit-profile" element={<EditUserProfile/>}/>
           <Route path="/host" element={<HostLanding />}></Route>
           <Route path="/host/dashboard" element={<HostDashboard />} />
           <Route path="/host/reservations" element={<HostReservation />} />

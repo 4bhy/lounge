@@ -209,12 +209,12 @@ export const userCancellation = (id) => async (dispatch) => {
 
 export const submitReview = (pid, uid, rating, title, review) => async (dispatch, getState) => {
   try {
-  
+
     const {
       userLogin: { userInfo },
     } = getState();
-    console.log(userInfo, "getdtate");
-   
+    console.log(userInfo, "getjnjnltate");
+
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -222,6 +222,39 @@ export const submitReview = (pid, uid, rating, title, review) => async (dispatch
       }
     }
     const { data } = await axios.post("http://localhost:5000/api/users/submit-review", { pid, uid, rating, title, review }, config)
+
+  } catch (error) {
+    const errorIs =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    console.log(errorIs);
+  }
+}
+
+
+export const editProfile = (name, email, phone, password) => async (dispatch, getState) => {
+  try {
+    console.log("edit profile");
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    console.log(userInfo.user._id, "getdljltate");
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      }
+    }
+    const id=userInfo.user._id;
+ 
+    const { data } = await axios.post("http://localhost:5000/api/users/edit-profile", { name, email, phone, password, id}, config)
+    if (data) {
+      dispatch(userLoginSuccess(data));
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      console.log(data);
+    }
 
   } catch (error) {
     const errorIs =

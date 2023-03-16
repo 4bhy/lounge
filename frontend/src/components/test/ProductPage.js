@@ -104,15 +104,16 @@ const ProductPage = () => {
 
   const individualProperties = useSelector((state) => state.individualProperty)
   const { individualPropertyData } = individualProperties;
-  const [checkIn, setCheckIn] = useState("")
+  const [checkIn, setCheckIn] = useState(null)
   const [checkOut, setCheckOut] = React.useState(null);
   const [guests, setGuests] = useState(0)
   const [totalPrice, setTotalPrice] = useState(0)
   const navigate = useNavigate()
+  const [disabled, setDisabled] = useState(false)
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
-  console.log(userInfo);
+
   const naviagteHandler = () => {
     const dateValue = new Date(checkIn.$d).toDateString('en-US');
     const cout = new Date(checkOut.$d).toDateString('en-US');
@@ -136,14 +137,14 @@ const ProductPage = () => {
     const gprice = guests ? individualPropertyData?.propertyInfo.price * guests : 0
     const nights = checkIn && checkOut ? Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24)) : 0;
     const price = nights * individualPropertyData?.propertyInfo.price;
-    setTotalPrice(gprice + price)
+    setTotalPrice(gprice + price || 0)
   }, [checkIn, checkOut])
 
   useEffect(() => {
     const gprice = guests ? individualPropertyData?.propertyInfo.price * guests : 0
     const nights = checkIn && checkOut ? Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24)) : 0;
     const price = nights * individualPropertyData?.propertyInfo.price;
-    setTotalPrice(gprice + price)
+    setTotalPrice(gprice + price || 0)
   }, [guests])
 
 
@@ -192,10 +193,11 @@ const ProductPage = () => {
     setOpenSnackbar(false);
   };
 
-  console.log(individualPropertyData?.propertyInfo.averageRating, "u987867");
+  console.log(totalPrice, "totalprice");
+  console.log(individualPropertyData?.propertyInfo
+    .price, "ipp");
 
-
-
+  console.log(individualPropertyData?.propertyInfo.averageRating, "avg rating");
 
   return (
     <div>
@@ -255,7 +257,14 @@ const ProductPage = () => {
                   <p class="mt-0.5 text-sm">Highest Rated Product</p>
 
                   <div class="mt-2 -ml-0.5 flex">
-                    <Rating name="half-rating-read" defaultValue={individualPropertyData?.propertyInfo?.averageRating} precision={0.5} readOnly />
+                    {individualPropertyData?.propertyInfo?.averageRating && (
+                      <Rating name="half-rating-read"
+                        defaultValue={individualPropertyData?.propertyInfo?.averageRating}
+                        precision={0.5}
+                        readOnly
+                      />
+                    )}
+
                   </div>
                 </div>
 
@@ -309,12 +318,11 @@ const ProductPage = () => {
                 </div>
               </details>
               <div className="flex flex-col items-center mt-5">
-                {
-                  totalPrice == 0 || null ? <div className="text-3xl font-medium">₹ {individualPropertyData?.propertyInfo
-                    .price}/-</div> : <div className="text-3xl font-medium">₹{totalPrice}/-</div>
-                }
-
-
+                {isNaN(totalPrice) || totalPrice === 0 ? (
+                  <div className="text-3xl font-medium">₹ {individualPropertyData?.propertyInfo.price}/-</div>
+                ) : (
+                  <div className="text-3xl font-medium">₹{totalPrice}/-</div>
+                )}
 
                 <div className='flex justify-center m-4 p-2 gap-3'>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -325,6 +333,7 @@ const ProductPage = () => {
                         setCheckIn(newValue);
                       }}
                       renderInput={(params) => <TextField {...params} />}
+                      inputProps={{}} // Set inputProps to an empty object to prevent Mui-error class from being added
                     />
                   </LocalizationProvider>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -345,7 +354,7 @@ const ProductPage = () => {
                   }} class="bg-gray-300 px-5  rounded-full" placeholder='Guests' type="number" min="0" max="100" /> */}
 
                   <FormControl sx={{ minWidth: 120 }} size="large">
-                    <InputLabel id="demo-select-small">Age</InputLabel>
+                    <InputLabel id="demo-select-small">Guests</InputLabel>
                     <Select
                       labelId="demo-select-small"
                       id="demo-select-small"
@@ -356,34 +365,24 @@ const ProductPage = () => {
                       <div class="custom-number-input m-4">
                         <label for="custom-input-number" class="w-full text-gray-700 text-sm font-semibold">Adults
                         </label>
-                        <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+                        <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent ">
                           <button onClick={(e) => {
-                            setGuests(guests + 1)
-                          }} data-action="decrement" class=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
+                            if (guests < 1) {
+                            } else {
+                              setGuests(guests - 1)
+                            }
+                          }} data-action="decrement" class=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l m-2 cursor-pointer outline-none">
                             <span class="m-auto text-2xl font-thin">−</span>
                           </button>
-                          {guests}
-                          <button onClick={(e) => {
-                            setGuests(guests + 1)
-                          }} data-action="increment" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
-                            <span class="m-auto text-2xl font-thin">+</span>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="custom-number-input m-4">
-                        <label for="custom-input-number" class="w-full text-gray-700 text-sm font-semibold">Children
-                        </label>
-                        <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
-                          <button data-action="decrement" class=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
-                            <span class="m-auto text-2xl font-thin">−</span>
-                          </button>
-                          <input type="number" class="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none" name="custom-input-number" value="0"></input>
-                          <button data-action="increment" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
-                            <span class="m-auto text-2xl font-thin">+</span>
-                          </button>
-                        </div>
-                      </div>
+                          <span className=' mt-4 text-xl'>{guests}</span>
 
+                          <button onClick={(e) => {
+                            setGuests(guests + 1)
+                          }} data-action="increment" class="bg-gray-300 text-gray-600 m-2 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
+                            <span class="m-auto text-2xl font-thin">+</span>
+                          </button>
+                        </div>
+                      </div>
                     </Select>
                   </FormControl>
 
@@ -439,7 +438,13 @@ const ProductPage = () => {
 
             <div class="ml-4">
               <div class="-ml-1 flex">
-                <Rating name="half-rating" defaultValue={individualPropertyData?.propertyInfo.averageRating} precision={0.5} readOnly />
+                {individualPropertyData?.propertyInfo?.averageRating && (
+                  <Rating name="half-rating-read"
+                    defaultValue={individualPropertyData?.propertyInfo?.averageRating}
+                    precision={0.5}
+                    readOnly
+                  />
+                )}
               </div>
 
               <p class="mt-0.5 text-xs text-gray-500">Based on {individualPropertyData?.propertyInfo

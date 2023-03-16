@@ -15,7 +15,7 @@ import { userLogout } from '../../features/users/userLoginSlice'
 const Navbar = () => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
-  console.log(userInfo, "header");
+ 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {

@@ -6,7 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { register } from '../../actions/userActions';
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { authentication } from '../../firebase-config';
-
+import logo from '../../components/Header/lounge-high-resolution.png'
+import toast, { Toaster } from 'react-hot-toast';
 
 const RegisterScreen = () => {
     const [fname, setFname] = useState("");
@@ -47,7 +48,7 @@ const RegisterScreen = () => {
     }, [userInfo]);
 
     const submitHandler = async (e) => {
-        e.preventDefault();
+      
 
         if (!fname || !email || !password || !confirmPassword) {
             setMessage("All fields are mandatory");
@@ -63,7 +64,7 @@ const RegisterScreen = () => {
 
 
     const resetTimer = (e) => {
-        e.preventDefault()
+       
         setResend(true)
         setTimeLeft(60);
         startCountdown();
@@ -81,9 +82,7 @@ const RegisterScreen = () => {
     }
 
     const requestOTP = async (e) => {
-
-        e.preventDefault();
-        if (phoneNumber.length == 10) {
+        if (phoneNumber.length >= 10) {
             generateRecaptcha();
             let appVerifier = window.recaptchaVerifier;
             signInWithPhoneNumber(authentication, phoneNumber, appVerifier)
@@ -96,6 +95,8 @@ const RegisterScreen = () => {
                 }).catch((error) => {
                     console.log(error);
                 })
+        } else {
+            toast.error("Invalid Phone Number!")
         }
 
     }
@@ -119,130 +120,139 @@ const RegisterScreen = () => {
 
     return (
         <div>
-            <div class="container mx-auto p-4 bg-white">
-                <div class="w-full md:w-1/2 lg:w-1/3 mx-auto my-12">
-                    <h1 class="text-lg font-bold justify-center justify-items-center">Register</h1>
-                    <form onSubmit={submitHandler} class="flex flex-col mt-4">
+            <div><Toaster /></div>
+            <div className="container mx-auto p-4 bg-white">
+
+                <div className="w-full md:w-1/2 lg:w-1/3 mx-auto my-12">
+                    <Link to="/">
+                        <div className="justify-items-center flex justify-center">
+                            <img src={logo} alt="Logo" className="h-8 justify-center" />
+                        </div></Link>
+                    <h1 className="text-lg font-bold justify-center justify-items-center">Register</h1>
+
+                    <div className='flex gap-2'>
+                        <input
+                            type="text"
+                            value={fname}
+                            onChange={(e) => setFname(e.target.value)}
+                            name="full-name"
+                            className="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
+                            placeholder="Full Name"
+                        />
+                        <input
+                            type="text"
+                            value={lname}
+                            onChange={(e) => setLname(e.target.value)}
+                            name="full-name"
+                            className="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
+                            placeholder="Last Name"
+                        />
+                    </div>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        name="email"
+                        className="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
+                        placeholder="Email address"
+                    />
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        name="password"
+                        className="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
+                        placeholder="Password"
+                    />
+                    <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        name="repeat-password"
+                        className="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
+                        placeholder="Repeat Password"
+                    />
+                    <div>
+
                         <div className='flex gap-2'>
                             <input
                                 type="text"
-                                value={fname}
-                                onChange={(e) => setFname(e.target.value)}
-                                name="full-name"
-                                class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
-                                placeholder="Full Name"
-                            />
-                            <input
-                                type="text"
-                                value={lname}
-                                onChange={(e) => setLname(e.target.value)}
-                                name="full-name"
-                                class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
-                                placeholder="Last Name"
-                            />
+                                value={phoneNumber}
+                                // onChange={(e) => setOTP(e.target.value)}
+                                name="phoneNumber"
+                                onChange={(e) => setPhoneNumber(e.target.value)}
+                                className="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
+                                placeholder="Phone Number" />
+                            {
+                                timeLeft <= 0 || resend ? <button
+                                    onClick={() => {
+                                        resetTimer()
+                                        requestOTP()
+                                    }}
+                                    className="mt-4 py-3 leading-6 text-base grid-flow-col col-span-10 rounded-md border border-transparent text-white-100  bg-emerald-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex  w-full justify-center items-center font-medium focus:outline-none"
+                                >
+                                    Resend OTP
+                                </button> : <button
+                                    onClick={requestOTP}
+                                    className="mt-4 py-3 leading-6 text-base grid-flow-col col-span-10 rounded-md border border-transparent text-white-100  bg-emerald-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex  w-full justify-center items-center font-medium focus:outline-none"
+                                >
+                                    Get OTP
+                                </button>
+                            }
+
+
                         </div>
+
+                    </div>
+                    <div className='flex gap-2'>
                         <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            name="email"
-                            class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
-                            placeholder="Email address"
-                        />
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            name="password"
-                            class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
-                            placeholder="Password"
-                        />
-                        <input
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            name="repeat-password"
-                            class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
-                            placeholder="Repeat Password"
-                        />
-                        <div>
-                            <form onSubmit={requestOTP}>
-                                <div className='flex gap-2'>
-                                    <input
-                                        type="text"
-                                        value={phoneNumber}
-                                        // onChange={(e) => setOTP(e.target.value)}
-                                        name="phoneNumber"
-                                        onChange={(e) => setPhoneNumber(e.target.value)}
-                                        class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
-                                        placeholder="Phone Number" />
-                                    {
-                                        timeLeft <= 1 || resend ? <button
-                                            onClick={() => {
-                                                resetTimer()
-                                                requestOTP()
-                                            }}
-                                            class="mt-4 py-3 leading-6 text-base grid-flow-col col-span-10 rounded-md border border-transparent text-white-100  bg-blue-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex  w-full justify-center items-center font-medium focus:outline-none"
-                                        >
-                                            Resend OTP
-                                        </button> : <button
-                                            onClick={requestOTP}
-                                            class="mt-4 py-3 leading-6 text-base grid-flow-col col-span-10 rounded-md border border-transparent text-white-100  bg-blue-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex  w-full justify-center items-center font-medium focus:outline-none"
-                                        >
-                                            Get OTP
-                                        </button>
-                                    }
+                            type="text"
+                            onChange={(e) => {
+                                setOTP(OTP)
+                                verifyOTP(e)
+                            }}
 
+                            name="otp"
+                            className="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
+                            placeholder="OTP" />
+                        {startTimer ? <div className='px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm'>
+                            {startTimer ? (
+                                <p>Time left: {timeLeft} seconds</p>
+                            ) : (
+                                null
+                            )}
+                        </div> : null}
+                    </div>
 
-                                </div>
-                            </form>
-                        </div>
-                        <div className='flex gap-2'>
-                            <input
-                                type="text"
-                                onChange={(e) => {
-                                    setOTP(OTP)
-                                    verifyOTP(e)
-                                }}
+                    {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+                    {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+                    {
+                        loading && <Loading />
+                    }
+                    {
+                        button ? <button
+                            onClick={(e) => {
+                               
+                                submitHandler()
+                            }}
+                            className="mt-4 px-4 py-3 leading-6 text-base rounded-md border border-transparent text-white-100  bg-emerald-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex  w-full justify-center items-center font-medium focus:outline-none"
+                        >
+                            Register
+                        </button> : <button
+                            disabled
+                            className="mt-4 px-4 py-3 leading-6 text-base rounded-md border border-transparent text-white-100  bg-emerald-100 text-white hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex  w-full justify-center items-center font-medium focus:outline-none"
+                        >
+                            Register
+                        </button>
+                    }
 
-                                name="otp"
-                                class="px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
-                                placeholder="OTP" />
-                            {startTimer ? <div className='px-4 py-3 mt-4 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm'>
-                                {startTimer ? (
-                                    <p>Time left: {timeLeft} seconds</p>
-                                ) : (
-                                    null
-                                )}
-                            </div> : null}
-                        </div>
+                    <div className="flex flex-col items-center mt-5">
+                        <p className="mt-1 text-xs font-light text-gray-500">
+                            Already a member?<Link to="/login"><a className="ml-1 font-medium text-blue-400">Sign in now</a></Link>
+                        </p>
+                    </div>
+                    <div id="recaptcha-container"></div>
 
-                        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-                        {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-                        {
-                            loading && <Loading />
-                        }
-                        {
-                            button ? <button
-                                onClick={submitHandler}
-                                class="mt-4 px-4 py-3 leading-6 text-base rounded-md border border-transparent text-white-100  bg-blue-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex  w-full justify-center items-center font-medium focus:outline-none"
-                            >
-                                Register
-                            </button> : <button
-                                disabled
-                                class="mt-4 px-4 py-3 leading-6 text-base rounded-md border border-transparent text-white-100  bg-blue-300 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex  w-full justify-center items-center font-medium focus:outline-none"
-                            >
-                                Register
-                            </button>
-                        }
-
-                        <div class="flex flex-col items-center mt-5">
-                            <p class="mt-1 text-xs font-light text-gray-500">
-                                Already a member?<Link to="/login"><a class="ml-1 font-medium text-blue-400">Sign in now</a></Link>
-                            </p>
-                        </div>
-                        <div id="recaptcha-container"></div>
-                    </form>
                 </div>
             </div>
         </div>

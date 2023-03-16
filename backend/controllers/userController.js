@@ -55,17 +55,17 @@ module.exports = {
     const host = await Host.findOne({
       userId: user._id
     })
-    const token= generateToken(user._id);
-   
+    const token = generateToken(user._id);
+
 
     if (user && (await user.matchPassword(password))) {
       if (user.blocked) {
-        res.status(403);
-   
+        res.status(403).json({ message: "" });
+
         throw new Error("You are blocked by the admin");
       }
-        user.token= generateToken(user._id);
-        console.log(user);
+      user.token = generateToken(user._id);
+      console.log(user);
       res.json({
         user, host, token
       });
@@ -212,7 +212,7 @@ module.exports = {
   bookings: asyncHandler(async (req, res) => {
     try {
       const bookingData = await Booking.find({ userId: req.params.id }).sort({
-        createdAt: -1 
+        createdAt: -1
       }).populate('propertyId')
 
       if (bookingData) {
@@ -271,13 +271,41 @@ module.exports = {
       const data = await propertyData.save()
       if (data) {
         res.status(201).json({ message: "Review Submitted" })
+      } else {
+        throw new Error("Failed to submit review")
       }
     } catch (error) {
       console.log(error);
-      res.status(404).json({ message: "Submitting Review Failed!" })
-      throw new Error("Submitting Review Failed!")
+      res.status(404).json({ error })
     }
 
+  }),
+
+  editProfile: asyncHandler(async (req, res) => {
+    try {
+
+      const userData = await User.findById({ _id: req.body.id })
+      userData.name = req.body.name;
+      userData.phone = req.body.phone;
+      userData.email = req.body.email;
+      if (req.body.password != null) {
+        userData.password = req.body.password;
+      }
+      const user = await userData.save()
+      const host = await Host.findOne({
+        userId: user._id
+      })
+      console.log(user);
+      const token = generateToken(user._id)
+      if (user || host) {
+        res.status(201).json({ user, host, token })
+      } else {
+        throw new Error("Failed to update details")
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(404).json({ error })
+    }
   })
 
 }

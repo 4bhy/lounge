@@ -5,7 +5,7 @@ import PropertyCard from '../../components/HostComponents/PropertyCard.js/Proper
 import HostTable from '../../components/HostComponents/Table/HostTable'
 import { useDispatch, useSelector } from 'react-redux'
 import { listBookings, userCancellation } from '../../actions/userActions'
-
+import { useNavigate } from 'react-router-dom'
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -17,12 +17,6 @@ import Slide from '@mui/material/Slide';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-
-import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 import Navbar from '../../components/Header/Navbar'
 
 
@@ -33,7 +27,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const UserDashboard = () => {
 
     const dispatch = useDispatch()
-
+    const navigate = useNavigate()
     useEffect(() => {
         dispatch(listBookings(userInfo?.user?._id))
     }, [])
@@ -94,7 +88,6 @@ const UserDashboard = () => {
     };
 
 
-
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openMenu = Boolean(anchorEl);
     const handleClickMenu = (event) => {
@@ -104,19 +97,41 @@ const UserDashboard = () => {
         setAnchorEl(null);
     };
 
+    const clickHandler = () => {
+        navigate("/user/edit-profile", {
+            state: userInfo
+        })
+    }
 
     return (
         <div>
             <Navbar />
-            <div class=" p-4 my-8 container">
-                <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
-                    Welcome Back, {userInfo?.user?.name}!
-                </h1>
+            <div className='flex w-full'>
+                <div class=" p-4 my-8 container">
+                    <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+                        Welcome Back, {userInfo?.user?.name}!
+                    </h1>
 
-                <p class="mt-1.5 text-sm text-gray-500">
-                    Welcome to your dashboard! Stay organized and make the most out of your experience here. 😎
-                </p>
+                    <p class="mt-1.5 text-sm text-gray-500">
+                        Welcome to your dashboard! Stay organized and make the most out of your experience here. 😎
+                    </p>
+                </div>
+                <div className="card border w-96 rounded-3xl hover:shadow-none overflow-hidden relative flex flex-col mx-auto shadow-lg m-5">
+                    <img className="max-h-20 w-full opacity-80 rounded-3xl absolute top-0" style={{ zIndex: "-1" }} src="https://unsplash.com/photos/TMxUnMAAwFA/download?force=true&w=640" alt="" />
+                    <div className="profile w-full flex m-3 ml-4 text-white">
+                        <img className="w-28 h-28 p-1 bg-white rounded-full" src="https://i.imgur.com/zLCYdR9.jpg" alt="" />
+                        <div className="title mt-11 ml-3 font-bold flex flex-col">
+                            <div className="name break-words">{userInfo?.user?.name}</div>
+                            <div className="add font-semibold text-sm italic dark">CEO</div>
+                        </div>
+                    </div>
+                    <div className="buttons flex absolute bottom-0 font-bold right-0 text-xs text-gray-500 space-x-0 my-3.5 mr-3">
+                        <div className="add border rounded-l-2xl rounded-r-sm border-gray-300 p-1 px-4 cursor-pointer hover:bg-gray-700 hover:text-white">Host</div>
+                        <div onClick={() => { clickHandler() }} className="add border rounded-r-2xl rounded-l-sm border-gray-300 p-1 px-4 cursor-pointer hover:bg-gray-700 hover:text-white">Edit</div>
+                    </div>
+                </div>
             </div>
+
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
                 {

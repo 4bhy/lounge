@@ -13,7 +13,6 @@ const LandingScreen = () => {
       <Bannner />
       <CTA />
       <CardContainer />
-    
       <Footer />
     </div>
   )
