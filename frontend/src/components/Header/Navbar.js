@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import BasicMenu from '../Avatar/UserAvatar'
 import LoggedOutMenu from '../Avatar/LoggedOutMenu'
@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { userLogout } from '../../features/users/userLoginSlice'
 
 const Navbar = () => {
+  const navigate= useNavigate()
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
  
@@ -115,6 +116,7 @@ const Navbar = () => {
                     {userInfo?.host?.hostAccess == true ? <Link to="/host/dashboard"><MenuItem>Host Profile</MenuItem></Link> : null}
                     <MenuItem onClick={() => {
                       dispatch(userLogout())
+                      navigate("/")
                       localStorage.removeItem("userInfo");
                     }}>Logout</MenuItem>
                   </Menu>
@@ -147,8 +149,8 @@ const Navbar = () => {
                       }}
                     >
 
-                      <MenuItem onClick={handleClose}>My account</MenuItem>
                       <Link to="/login"><MenuItem onClick={handleClose}>Login</MenuItem></Link>
+                     <Link to="/register"><MenuItem onClick={handleClose}>Register</MenuItem></Link> 
                     </Menu>
 
                   </div>

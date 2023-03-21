@@ -59,7 +59,7 @@ const LoginScreen = () => {
                             <img src={logo} alt="Logo" class="h-8 justify-center" />
                         </div></Link>
 
-                    <form action="" onSubmit={submitHandler} class="mt-6 mb-0 space-y-4 rounded-lg p-8 shadow-2xl">
+                    <form action="" class="mt-6 mb-0 space-y-4 rounded-lg p-8 shadow-2xl">
                         <p class="text-lg font-medium">Sign in to your account</p>
 
                         <div>
@@ -148,13 +148,13 @@ const LoginScreen = () => {
 
                         <p class="text-center text-sm text-gray-500">
 
-                            <button onClick={() => { forgotHandler() }} class="underline" href="">Forgot Passoword</button>
+                           <Link to="/reset-password"> <button class="underline">Forgot Passoword</button></Link>
                         </p>
                     </form>
                     <p class="text-center text-sm text-gray-500">
                         No account?
                         <Link to="/register">
-                            <a class="underline" href="">Sign up</a></Link>
+                            <a class="underline" >Sign up</a></Link>
                     </p>
                 </div>
             </div>

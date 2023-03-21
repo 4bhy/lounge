@@ -103,13 +103,13 @@ const AddPropertyPrimary = () => {
     const [hostID, setHostID] = useState('')
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        console.log("url:", url)
-        console.log("city:", city)
-        console.log("state:", pstate)
-        console.log("pin:", pin)
-        console.log("hostId", hostID);
-    }, [url, city, pstate, pin, hostID]);
+    // useEffect(() => {
+    //     console.log("url:", url)
+    //     console.log("city:", city)
+    //     console.log("state:", pstate)
+    //     console.log("pin:", pin)
+    //     console.log("hostId", hostID);
+    // }, [url, city, pstate, pin, hostID]);
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
@@ -188,7 +188,8 @@ const AddPropertyPrimary = () => {
 
     // console.log("city:", city, "pin:", pin);
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
+        await searchPlace(address.city)
         e.preventDefault()
         setCity(address.city)
         setPin(address.zip)
@@ -198,7 +199,7 @@ const AddPropertyPrimary = () => {
     }
 
     const dispatchHandler = () => {
-        console.log("dispacth", hostID);
+
         dispatch(addProperty(pname, pstate, city, pin, description, hostID, url, type, value, amenities))
 
     }
@@ -259,8 +260,15 @@ const AddPropertyPrimary = () => {
         autocomplete.addListener("place_changed", () => onChangeAddress(autocomplete));
 
     }
+    const [lattitude, setLatitude] = useState("")
+    const [longitude, setLongitude] = useState("")
+
 
     const reverseGeocode = ({ latitude: lat, longitude: lng }) => {
+        console.log("doesit");
+        console.log(lat, "latt");
+        console.log(lng, "lng");
+        console.log(lattitude, longitude, "latt and longit");
         const url = `${geocodeJson}?key=${apiKey}&latlng=${lat},${lng}`;
         searchInput.current.value = "Getting your location...";
         fetch(url)
@@ -274,11 +282,16 @@ const AddPropertyPrimary = () => {
     }
 
     const findMyLocation = (e) => {
+        console.log("rrrr");
         e.preventDefault()
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 reverseGeocode(position.coords)
+
             })
+
+            searchPlace(city)
+
         }
     }
 
@@ -286,6 +299,27 @@ const AddPropertyPrimary = () => {
     useEffect(() => {
         initMapScript().then(() => initAutocomplete())
     }, []);
+
+    const [place, setPlace] = useState(null);
+
+
+    const searchPlace = (placeName) => {
+        console.log("333");
+        const service = new window.google.maps.places.PlacesService(document.createElement('div'));
+
+        service.findPlaceFromQuery({ query: placeName }, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                console.log("latt");
+                const placeDetails = results[0];
+                const latitude = placeDetails.geometry.location.lat();
+                const longitude = placeDetails.geometry.location.lng();
+                setPlace({ name: placeName, latitude, longitude });
+                console.log(place);
+            } else {
+                console.log(`Place details search failed with status: ${status}`);
+            }
+        });
+    }
 
     return (
         <div>
@@ -295,7 +329,7 @@ const AddPropertyPrimary = () => {
                 <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
                     <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
                         <div class="lg:col-span-2 lg:py-12 ">
-                         
+
                             <h1 class="text-2xl font-extrabold sm:text-3xl">
                                 Let us find your
 
@@ -305,7 +339,7 @@ const AddPropertyPrimary = () => {
                             </h1>
 
                             <div class="mt-8">
-                           
+
                                 <img src="https://i0.wp.com/generalstreet.in/wp-content/uploads/2020/05/local-business-listing.jpg?w=600&ssl=1" className='rounded-2xl' />
                             </div>
                         </div>
@@ -320,8 +354,13 @@ const AddPropertyPrimary = () => {
                                         type="text"
                                         id="pname"
                                         value={pname}
+
                                         name="pname"
-                                        onChange={(e) => setPname(e.target.value)}
+                                        onChange={(e) => {
+                                            setPname(e.target.value)
+                                            searchPlace(pname)
+                                        }
+                                        }
                                     />
                                 </div>
                                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">

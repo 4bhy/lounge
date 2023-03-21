@@ -65,7 +65,7 @@ module.exports = {
         throw new Error("You are blocked by the admin");
       }
       user.token = generateToken(user._id);
-      console.log(user);
+      
       res.json({
         user, host, token
       });

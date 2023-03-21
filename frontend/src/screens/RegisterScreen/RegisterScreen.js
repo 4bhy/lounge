@@ -48,7 +48,7 @@ const RegisterScreen = () => {
     }, [userInfo]);
 
     const submitHandler = async (e) => {
-      
+
 
         if (!fname || !email || !password || !confirmPassword) {
             setMessage("All fields are mandatory");
@@ -64,7 +64,7 @@ const RegisterScreen = () => {
 
 
     const resetTimer = (e) => {
-       
+
         setResend(true)
         setTimeLeft(60);
         startCountdown();
@@ -72,18 +72,29 @@ const RegisterScreen = () => {
     };
 
     const generateRecaptcha = () => {
-        window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
-            'size': 'invisible',
-            'callback': (response) => {
-                // reCAPTCHA solved, allow signInWithPhoneNumber.
-
-            }
-        }, authentication);
-    }
+        if (!window.recaptchaVerifier) {
+            window.recaptchaVerifier = new RecaptchaVerifier(
+                "recaptcha-container",
+                {
+                    size: "invisible",
+                    callback: (response) => {
+                        // reCAPTCHA solved, allow signInWithPhoneNumber.
+                    },
+                },
+                authentication
+            );
+        }
+    };
 
     const requestOTP = async (e) => {
-        if (phoneNumber.length >= 10) {
-            generateRecaptcha();
+        if (phoneNumber.length === 13) {
+            resetTimer()
+            if (resend) {
+                console.log("did it?");
+                localStorage.removeItem('_grecaptcha');
+            } else {
+                generateRecaptcha();
+            }
             let appVerifier = window.recaptchaVerifier;
             signInWithPhoneNumber(authentication, phoneNumber, appVerifier)
                 .then(confirmationResult => {
@@ -186,7 +197,6 @@ const RegisterScreen = () => {
                             {
                                 timeLeft <= 0 || resend ? <button
                                     onClick={() => {
-                                        resetTimer()
                                         requestOTP()
                                     }}
                                     className="mt-4 py-3 leading-6 text-base grid-flow-col col-span-10 rounded-md border border-transparent text-white-100  bg-emerald-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex  w-full justify-center items-center font-medium focus:outline-none"
@@ -232,7 +242,7 @@ const RegisterScreen = () => {
                     {
                         button ? <button
                             onClick={(e) => {
-                               
+
                                 submitHandler()
                             }}
                             className="mt-4 px-4 py-3 leading-6 text-base rounded-md border border-transparent text-white-100  bg-emerald-500 text-blue-100 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer inline-flex  w-full justify-center items-center font-medium focus:outline-none"

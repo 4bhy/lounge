@@ -324,8 +324,7 @@ const UserDashboard = () => {
                 </Alert>
             </Snackbar>
 
-            <PropertyCard />
-            <Footer />
+          
         </div>
     )
 }

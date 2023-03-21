@@ -39,7 +39,7 @@ const CardContainer = () => {
 
   }
 
-  console.log(hotelsList, "4444");
+
 
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage, setPostsPerPage] = useState(6)
@@ -77,38 +77,38 @@ const CardContainer = () => {
         </Box>
       </div>
 
-      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2'>
+      {/* <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2'>
 
         {
           filteredProducts?.map((data, i) => (
             <div className="flex flex-wrap" onClick={() => {
               propertyHandler(data._id)
             }}>
-              <a href="#" class="block ml-6 rounded-lg p-6 shadow-sm shadow-indigo-100">
+              <a href="#" className="block ml-6 rounded-lg p-6 shadow-sm shadow-indigo-100">
                 <img
                   alt="Home"
                   src={data.pic[0]}
-                  class="h-56 w-full rounded-md object-cover"
+                  className="h-56 w-full rounded-md object-cover"
                 />
-                <div class="mt-2">
+                <div className="mt-2">
                   <dl>
                     <div>
-                      <dt class="sr-only">Price</dt>
+                      <dt className="sr-only">Price</dt>
 
-                      <dd class="text-sm text-gray-500">₹{data.price}</dd>
+                      <dd className="text-sm text-gray-500">₹{data.price}</dd>
                     </div>
 
                     <div>
-                      <dt class="sr-only">{data.pname}</dt>
+                      <dt className="sr-only">{data.pname}</dt>
 
-                      <dd class="font-medium">{data.pname}</dd>
+                      <dd className="font-medium">{data.pname}</dd>
                     </div>
                   </dl>
 
-                  <div class="mt-6 flex items-center gap-8 text-xs">
-                    <div class="sm:inline-flex sm:shrink-0 sm:items-center">
+                  <div className="mt-6 flex items-center gap-8 text-xs">
+                    <div className="sm:inline-flex sm:shrink-0 sm:items-center">
                       <svg
-                        class="h-4 w-4 text-indigo-700"
+                        className="h-4 w-4 text-indigo-700"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -122,16 +122,16 @@ const CardContainer = () => {
                         />
                       </svg>
 
-                      <div class="mt-1.5 sm:ml-3 sm:mt-0">
-                        <p class="text-gray-500">Parking</p>
+                      <div className="mt-1.5 sm:ml-3 sm:mt-0">
+                        <p className="text-gray-500">Parking</p>
 
-                        <p class="font-medium">2 spaces</p>
+                        <p className="font-medium">2 spaces</p>
                       </div>
                     </div>
 
-                    <div class="sm:inline-flex sm:shrink-0 sm:items-center">
+                    <div className="sm:inline-flex sm:shrink-0 sm:items-center">
                       <svg
-                        class="h-4 w-4 text-indigo-700"
+                        className="h-4 w-4 text-indigo-700"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -145,16 +145,16 @@ const CardContainer = () => {
                         />
                       </svg>
 
-                      <div class="mt-1.5 sm:ml-3 sm:mt-0">
-                        <p class="text-gray-500">Bathroom</p>
+                      <div className="mt-1.5 sm:ml-3 sm:mt-0">
+                        <p className="text-gray-500">Bathroom</p>
 
-                        <p class="font-medium">2 rooms</p>
+                        <p className="font-medium">2 rooms</p>
                       </div>
                     </div>
 
-                    <div class="sm:inline-flex sm:shrink-0 sm:items-center">
+                    <div className="sm:inline-flex sm:shrink-0 sm:items-center">
                       <svg
-                        class="h-4 w-4 text-indigo-700"
+                        className="h-4 w-4 text-indigo-700"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -168,10 +168,10 @@ const CardContainer = () => {
                         />
                       </svg>
 
-                      <div class="mt-1.5 sm:ml-3 sm:mt-0">
-                        <p class="text-gray-500">Bedroom</p>
+                      <div className="mt-1.5 sm:ml-3 sm:mt-0">
+                        <p className="text-gray-500">Bedroom</p>
 
-                        <p class="font-medium">4 rooms</p>
+                        <p className="font-medium">4 rooms</p>
                       </div>
                     </div>
                   </div>
@@ -181,6 +181,57 @@ const CardContainer = () => {
 
           ))
         }
+      </div> */}
+      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2'>
+
+        {filteredProducts?.map((data, i) => (
+          <div className="flex flex-wrap" onClick={() => {
+            propertyHandler(data._id)
+          }}>
+            <a href="#" className="block ml-6 rounded-lg p-6 shadow-sm shadow-indigo-100">
+              <img
+                alt="Home"
+                src={data.pic[0]}
+                className="h-56 w-full rounded-md object-cover"
+              />
+              <div className="mt-2">
+                <dl>
+                  <div>
+                    <dt className="sr-only">Price</dt>
+                    <dd className="text-sm text-gray-500">₹{data.price}</dd>
+                  </div>
+                  <div>
+                    <dt className="sr-only">{data.pname}</dt>
+                    <dd className="font-medium">{data.pname}</dd>
+                  </div>
+                </dl>
+                <div className="mt-6 flex items-center gap-8 text-xs">
+                  <div className="sm:inline-flex sm:shrink-0 sm:items-center">
+                    {/* Parking SVG here */}
+                    <div className="mt-1.5 sm:ml-3 sm:mt-0">
+                      <p className="text-gray-500">Parking</p>
+                      <p className="font-medium">2 spaces</p>
+                    </div>
+                  </div>
+                  <div className="sm:inline-flex sm:shrink-0 sm:items-center">
+                    {/* Bathroom SVG here */}
+                    <div className="mt-1.5 sm:ml-3 sm:mt-0">
+                      <p className="text-gray-500">Bathroom</p>
+                      <p className="font-medium">2 rooms</p>
+                    </div>
+                  </div>
+                  <div className="sm:inline-flex sm:shrink-0 sm:items-center">
+                    {/* Bedroom SVG here */}
+                    <div className="mt-1.5 sm:ml-3 sm:mt-0">
+                      <p className="text-gray-500">Bedroom</p>
+                      <p className="font-medium">4 rooms</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        ))}
       </div>
       <div className='mt-8'>
         <LandingPagination totalPosts={4}

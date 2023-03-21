@@ -26,6 +26,7 @@ import HostDetails from "./screens/DetailsScreen.js/HostDetails";
 import ForgotPassword from "./screens/LoginScreen/ForgotPassword";
 import ProductPage from "./components/test/ProductPage";
 import EditUserProfile from "./screens/Dashboard/EditUserProfile";
+import ResetPassword from "./screens/LoginScreen/ResetPassword";
 
 
 
@@ -44,6 +45,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingScreen />} />
           <Route path="/login" element={<LoginScreen />} />
+          <Route path="/reset-password" element={<ResetPassword/>}/>
           <Route path="/reset-password/:id/:token" element={<ForgotPassword />} />
           <Route path="/register" element={userInfo ? <Navigate to="/" /> : <RegisterScreen />} />
           <Route path="/findmore" element={<FindMore />} />
