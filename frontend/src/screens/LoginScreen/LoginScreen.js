@@ -139,8 +139,8 @@ const LoginScreen = () => {
                         </div>
 
                         <button
-                            type="submit"
-                            onSubmit={submitHandler}
+                            
+                            onClick={submitHandler}
                             class="block w-full rounded-lg bg-emerald-500 px-5 py-3 text-sm font-medium text-white"
                         >
                             Sign in

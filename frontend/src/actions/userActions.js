@@ -18,6 +18,7 @@ import individualPropertySlice, { individualPropertySuccess, individualPropertyR
 import { userBooking } from "../features/users/bookingsSlice";
 import { async } from "@firebase/util";
 import { messageFail, messageSuccess } from "../features/users/messageSlice";
+import { availabilityError, availabilityFail, availabilityReq, availabilitySuccess } from "../features/users/availabilitySlice";
 
 
 export const login = (email, password) => async (dispatch) => {
@@ -235,11 +236,11 @@ export const submitReview = (pid, uid, rating, title, review) => async (dispatch
 
 export const editProfile = (name, email, phone, password) => async (dispatch, getState) => {
   try {
-    console.log("edit profile");
+
     const {
       userLogin: { userInfo },
     } = getState();
-    console.log(userInfo.user._id, "getdljltate");
+
 
     const config = {
       headers: {
@@ -247,9 +248,9 @@ export const editProfile = (name, email, phone, password) => async (dispatch, ge
         Authorization: `Bearer ${userInfo.token}`,
       }
     }
-    const id=userInfo.user._id;
- 
-    const { data } = await axios.post("http://localhost:5000/api/users/edit-profile", { name, email, phone, password, id}, config)
+    const id = userInfo.user._id;
+
+    const { data } = await axios.post("http://localhost:5000/api/users/edit-profile", { name, email, phone, password, id }, config)
     if (data) {
       dispatch(userLoginSuccess(data));
       localStorage.setItem("userInfo", JSON.stringify(data));
@@ -262,6 +263,29 @@ export const editProfile = (name, email, phone, password) => async (dispatch, ge
         ? error.response.data.message
         : error.message;
     console.log(errorIs);
+  }
+}
+
+export const checkAvailabilities = (checkIn, checkOut, id) => async (dispatch) => {
+  try {
+    dispatch(availabilityReq())
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    }
+    const { data } = await axios.post("http://localhost:5000/api/users/check-availability", { checkIn, checkOut, id }, config)
+    console.log(data, "oo");
+    dispatch(availabilitySuccess(data))
+    
+  } catch (error) {
+    const errorIs =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+        console.log(errorIs, "At error");
+
+    dispatch(availabilityFail(errorIs))
   }
 }
 

@@ -65,7 +65,7 @@ module.exports = {
         throw new Error("You are blocked by the admin");
       }
       user.token = generateToken(user._id);
-      
+
       res.json({
         user, host, token
       });
@@ -305,6 +305,54 @@ module.exports = {
     } catch (error) {
       console.log(error);
       res.status(404).json({ error })
+    }
+  }),
+
+  checkAvailability: asyncHandler(async (req, res) => {
+    try {
+      const bookingData = await Booking.find({ propertyId: req.body.id })
+
+      const bookingDates = bookingData.map(booking => [booking.checkIn, booking.checkOut]);
+
+      function expandDateRange(checkIn, checkOut) {
+        if (!(checkIn instanceof Date)) {
+          checkIn = new Date(checkIn);
+        }
+        if (!(checkOut instanceof Date)) {
+          checkOut = new Date(checkOut);
+        }
+        const expandedRange = [];
+        let currentDate = new Date(checkIn);
+        while (currentDate <= checkOut) {
+          expandedRange.push(new Date(currentDate));
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return expandedRange;
+      }
+
+      const expandedRange = expandDateRange(req.body.checkIn, req.body.checkOut)
+
+      if (expandedRange) {
+        const isAvailable = expandedRange.some((date) => {
+          return bookingDates.some((booking) => {
+            const checkIn = booking[0];
+            const checkOut = booking[1];
+            return date >= checkIn && date < checkOut;
+          });
+        });
+
+        if (isAvailable) {
+          throw new Error("The date is already booked!")
+        } else {
+          res.status(201).json({ message: "Available" })
+        }
+      }else{
+        throw new Error("Something went wrong")
+      }
+
+    } catch (error) {
+      console.log(error.message);
+      res.status(404).json({ message: error.message })
     }
   })
 

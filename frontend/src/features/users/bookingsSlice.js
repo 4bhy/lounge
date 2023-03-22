@@ -6,6 +6,7 @@ const bookingSlice = createSlice({
     name: "bookingslice",
     initialState,
     reducers: {
+        
         userBooking: (state, action) => {
             state.userBookingData = action.payload
         },

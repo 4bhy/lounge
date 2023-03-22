@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { individualProperty, submitReview } from '../../actions/userActions'
+import { checkAvailabilities, individualProperty, submitReview } from '../../actions/userActions'
 
 
 import InputLabel from '@mui/material/InputLabel';
@@ -36,6 +36,8 @@ import Typography from '@mui/material/Typography';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { toast, Toaster } from 'react-hot-toast'
+import { resetAvailability } from '../../features/users/availabilitySlice'
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -109,7 +111,7 @@ const ProductPage = () => {
   const [guests, setGuests] = useState(0)
   const [totalPrice, setTotalPrice] = useState(0)
   const navigate = useNavigate()
-  const [disabled, setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState(true)
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -133,11 +135,20 @@ const ProductPage = () => {
 
 
   useEffect(() => {
+    const today = new Date()
+    setDisabled(true)
+    dispatch(resetAvailability())
+    if (checkIn?.$d < today) {
 
-    const gprice = guests ? individualPropertyData?.propertyInfo.price * guests : 0
-    const nights = checkIn && checkOut ? Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24)) : 0;
-    const price = nights * individualPropertyData?.propertyInfo.price;
-    setTotalPrice(gprice + price || 0)
+    } else if (checkOut < checkIn) {
+
+    } else {
+      const gprice = guests ? individualPropertyData?.propertyInfo.price * guests : 0
+      const nights = checkIn && checkOut ? Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24)) : 0;
+      const price = nights * individualPropertyData?.propertyInfo.price;
+      setTotalPrice(gprice + price || 0)
+    }
+
   }, [checkIn, checkOut])
 
   useEffect(() => {
@@ -199,8 +210,43 @@ const ProductPage = () => {
 
   console.log(individualPropertyData?.propertyInfo.averageRating, "avg rating");
 
+  const handleAvailability = () => {
+    console.log("44");
+    const today = new Date();
+
+    if (!checkIn || !checkOut) {
+      toast.error("Please select a Check In and Check Out date!")
+    } else if (checkIn.$d < today) {
+      toast.error("Please select a valid date!")
+    } else if (checkOut < checkIn) {
+      toast.error("Please select a valid date")
+    } else {
+      dispatch(checkAvailabilities(checkIn, checkOut, individualPropertyData.propertyInfo._id))
+    }
+  }
+
+  const checkAvailability = useSelector((state) => state.checkAvailability)
+
+  const { availabilityData, error, loading } = checkAvailability;
+
+  useEffect(() => {
+    if (availabilityData) {
+      setDisabled(false)
+    }
+  }, [availabilityData])
+
+  useEffect(() => {
+    if (error) {
+      setDisabled(true)
+    }
+  }, [error])
+
+  console.log(error, "333");
+
+
   return (
     <div>
+      <div><Toaster /></div>
       <Navbar />
       <section>
         <div class="relative max-w-screen-xl px-4 py-8 mx-auto">
@@ -391,23 +437,24 @@ const ProductPage = () => {
               </div>
               <div className='flex justify-center m-2 p-2 gap-3'>
 
-
-                <button class="bg-white mr-4 mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4  border border-gray-400 rounded-full shadow">
+                <button onClick={handleAvailability} class="bg-white mr-4 mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4  border border-gray-400 rounded-full shadow">
                   Check Availability
                 </button>
-
+                
                 <div className="mt-4 flex">
                   <div className="text-sm mr-2 text-gray-600">Availability:</div>
-                  <div className="text-sm font-medium">In Stock</div>
-                </div>
+                  {
+                    error ? ( <div className='text-sm text-red-500 font-medium font-style: italic'>Not Available</div>) :( <div className={availabilityData ? 'text-emerald-500 text-sm font-medium' : 'text-sm font-style: italic '}>{availabilityData ? availabilityData.message : '-'}</div>)
+                  }
 
+                </div>
               </div>
 
               <div className='flex justify-center m-4 p-2 gap-3'>
                 <div className="mt-2">
                   <button onClick={() => {
                     naviagteHandler()
-                  }} className="bg-white hover:bg-gray-100 text-green-500 font-semibold py-2 px-4 border border-gray-400 rounded-full shadow">
+                  }} disabled={disabled} className={disabled ? 'bg-white hover:bg-gray-100 text-gray-200 font-semibold py-2 px-4 border border-gray-400 rounded-full shadow' : 'bg-green-500 text-white font-semibold py-2 px-4 border border-gray-400 rounded-full shadow'}>
                     Book Now
                   </button>
                 </div>

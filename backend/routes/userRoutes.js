@@ -1,6 +1,6 @@
 const express=require("express")
 const protect = require("../middlewares/authMiddleware");
-const {registerUser, authUser, viewIndividualProperty, getForgotPasswordLink, resetPassword, payment, bookings, cancelBooking, submitReview, editProfile}= require('../controllers/userController')
+const {registerUser, authUser, viewIndividualProperty, getForgotPasswordLink, resetPassword, payment, bookings, cancelBooking, submitReview, editProfile, checkAvailability}= require('../controllers/userController')
 
 const router= express.Router()
 
@@ -14,5 +14,6 @@ router.route("/").post(registerUser);
 router.route("/login").post(authUser);
 router.post("/submit-review", protect, submitReview)
 router.post("/edit-profile",protect, editProfile)
+router.post("/check-availability",checkAvailability)
 
 module.exports=router
