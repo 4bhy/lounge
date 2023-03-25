@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const Host = require('../models/hostModel')
 const Hotel = require('../models/hotelModel');
 const Coupon = require("../models/couponModel");
+const Booking = require('../models/bookingModel')
 module.exports = {
     listUsers: asyncHandler(async (req, res) => {
         console.log("2");
@@ -206,13 +207,59 @@ module.exports = {
                     discount: req.body.discount
                 })
                 console.log(couponData);
-                res.status(201).json({couponData})
+                res.status(201).json({ couponData })
             }
         } catch (error) {
             console.log("catch");
             console.log(error);
             res.status(404).json({ message: "Failed to add coupon" })
             throw new Error("Failed to add Coupon")
+        }
+    }),
+
+    statsLoader: asyncHandler(async (req, res) => {
+        try {
+
+            const usersStat = await User.find()
+            const bookingStat = await Booking.find()
+            const hostsStat = await Host.find()
+
+            Booking.find({})
+                .populate('propertyId') // Join the Hotel collection and populate the propertyId field
+                .exec((err, bookings) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        const hotelSales = {};
+
+                        // Loop through the bookings and count the sales for each hotel
+                        bookings.forEach(booking => {
+                            const hotelId = booking.propertyId._id.toString();
+                            if (!hotelSales.hasOwnProperty(hotelId)) {
+                                hotelSales[hotelId] = {
+                                    hotelName: booking.propertyId.pname,
+                                    totalSales: 0
+                                };
+                            }
+                            hotelSales[hotelId].totalSales++;
+                        });
+
+                        const salesData = Object.values(hotelSales)
+                        console.log(salesData);
+                        if (salesData) {
+                            res.status(201).json({
+                                users: usersStat.length,
+                                hosts: hostsStat.length,
+                                bookings: bookingStat.length,
+                                salesReport: salesData
+                            })
+                        }
+                    }
+                });
+
+
+        } catch (error) {
+            console.log(error.message);
         }
     })
 }

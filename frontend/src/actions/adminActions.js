@@ -10,6 +10,7 @@ import { hostPropertySuccess } from '../features/admin/hostPropertySlice';
 import { listApprovalsFail, listApprovalsReq, listApprovalsSuccess } from '../features/admin/listApprovalsSlice';
 import { listCoupons } from '../features/admin/couponSlice';
 import { addCouponsFail, addCouponsReq, addCouponsSuccess } from '../features/admin/addCouponSlice';
+import { getStats } from '../features/admin/statsSlice';
 export const listUsers = () => async (dispatch) => {
 
     try {
@@ -100,7 +101,7 @@ export const handleUsers = (id, status) => async (dispatch) => {
         const { data } = await axios.post(`http://localhost:5000/api/admin/handleuser/${id}`, sendStatus, config)
 
         dispatch(handleUserSuccess(data))
-        
+
     } catch (error) {
         const message =
             error.response && error.response.data
@@ -328,6 +329,26 @@ export const addCoupon = (cname, discount, vfrom, vto) => async (dispatch) => {
         console.log(message);
         dispatch((addCouponsFail(message)))
 
+    }
+}
+
+export const getStat = () => async (dispatch) => {
+    try {
+        console.log("444444444");
+        const config = {
+            headers: {
+                "Content-type": "application/json"
+            }
+        }
+        const { data } = await axios.get("http://localho3st:5000/api/admin/get-stats", config)
+        dispatch(getStats(data))
+
+    } catch (error) {
+        const message =
+            error.response && error.response.data
+                ? error.response.data.message
+                : error.message;
+        console.log(message);
     }
 }
 

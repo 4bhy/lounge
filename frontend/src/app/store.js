@@ -21,6 +21,7 @@ import couponReducer from "../features/admin/couponSlice";
 import addCouponReducer from "../features/admin/addCouponSlice";
 import listHostPropertiesReducer from "../features/host/listHostPropertiesSlice";
 import availabilityReducer from "../features/users/availabilitySlice";
+import statsReducer from "../features/admin/statsSlice";
 const store = configureStore({
     reducer: {
         userLogin: userLoginReducer,
@@ -43,7 +44,9 @@ const store = configureStore({
         couponData: couponReducer,
         addCoupon: addCouponReducer,
         listHostProperties: listHostPropertiesReducer,
-        checkAvailability:availabilityReducer
+        checkAvailability:availabilityReducer,
+        stats:statsReducer
+        
 
 
     }

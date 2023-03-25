@@ -283,11 +283,11 @@ module.exports = {
 
   editProfile: asyncHandler(async (req, res) => {
     try {
-
+      //req.user
       const userData = await User.findById({ _id: req.body.id })
       userData.name = req.body.name;
       userData.phone = req.body.phone;
-      userData.email = req.body.email;
+      userData.email = req.body.email; //desctru
       if (req.body.password != null) {
         userData.password = req.body.password;
       }
@@ -346,7 +346,7 @@ module.exports = {
         } else {
           res.status(201).json({ message: "Available" })
         }
-      }else{
+      } else {
         throw new Error("Something went wrong")
       }
 

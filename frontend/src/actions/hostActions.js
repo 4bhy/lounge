@@ -43,7 +43,10 @@ export const addProperty = (pname, pstate, city, pin, description, hostID, url, 
     }, config)
 
   } catch (error) {
-
+    const errorIs =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
   }
 
 }
@@ -97,7 +100,7 @@ export const handleBooking = (id) => async (dispatch) => {
 }
 
 export const approveCancellation = (id) => async (dispatch) => {
-  
+
   try {
     const config = {
       headers: {
@@ -124,7 +127,7 @@ export const listHostProperties = () => async (dispatch, getState) => {
     const {
       userLogin: { userInfo },
     } = getState();
-    
+
     const id = userInfo.host._id;
 
     const config = {
@@ -140,7 +143,7 @@ export const listHostProperties = () => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-        dispatch(listHostPropertyFail(errorIs))
+    dispatch(listHostPropertyFail(errorIs))
   }
 }
 

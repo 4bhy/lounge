@@ -323,8 +323,6 @@ const UserDashboard = () => {
                     Request Submitted!
                 </Alert>
             </Snackbar>
-
-          
         </div>
     )
 }

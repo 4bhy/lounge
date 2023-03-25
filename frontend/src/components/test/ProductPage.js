@@ -108,7 +108,7 @@ const ProductPage = () => {
   const { individualPropertyData } = individualProperties;
   const [checkIn, setCheckIn] = useState(null)
   const [checkOut, setCheckOut] = React.useState(null);
-  const [guests, setGuests] = useState(0)
+  const [guests, setGuests] = useState(1)
   const [totalPrice, setTotalPrice] = useState(0)
   const navigate = useNavigate()
   const [disabled, setDisabled] = useState(true)
@@ -200,13 +200,11 @@ const ProductPage = () => {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpenSnackbar(false);
   };
 
-  console.log(totalPrice, "totalprice");
-  console.log(individualPropertyData?.propertyInfo
-    .price, "ipp");
+
+  console.log(individualPropertyData?.propertyInfo.maxGuests, "ipp");
 
   console.log(individualPropertyData?.propertyInfo.averageRating, "avg rating");
 
@@ -220,8 +218,10 @@ const ProductPage = () => {
       toast.error("Please select a valid date!")
     } else if (checkOut < checkIn) {
       toast.error("Please select a valid date")
-    } else {
-      dispatch(checkAvailabilities(checkIn, checkOut, individualPropertyData.propertyInfo._id))
+    } else if(guests>individualPropertyData?.propertyInfo.maxGuests){
+      toast.error("Exceeded the maximum number of guests allowed")
+    }else {
+      dispatch(checkAvailabilities(checkIn, checkOut, individualPropertyData?.propertyInfo._id))
     }
   }
 

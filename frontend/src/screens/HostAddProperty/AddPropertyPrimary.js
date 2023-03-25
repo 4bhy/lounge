@@ -15,11 +15,6 @@ import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 
 
-import Typography from '@mui/material/Typography';
-import Slider from '@mui/material/Slider';
-import MapContainer from '../../components/MapContainer/MapContainer'
-import Maps from '../../components/MapContainer/Maps'
-
 import TextField from '@mui/material/TextField';
 import toast, { Toaster } from 'react-hot-toast'
 
@@ -103,13 +98,6 @@ const AddPropertyPrimary = () => {
     const [hostID, setHostID] = useState('')
     const dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     console.log("url:", url)
-    //     console.log("city:", city)
-    //     console.log("state:", pstate)
-    //     console.log("pin:", pin)
-    //     console.log("hostId", hostID);
-    // }, [url, city, pstate, pin, hostID]);
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
@@ -184,9 +172,6 @@ const AddPropertyPrimary = () => {
     }
 
 
-
-
-    // console.log("city:", city, "pin:", pin);
 
     const submitHandler = async (e) => {
         await searchPlace(address.city)
@@ -328,13 +313,13 @@ const AddPropertyPrimary = () => {
             <section class=" px-16">
                 <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
                     <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
-                        <div class="lg:col-span-2 lg:py-12 ">
+                        <div class="lg:col-span-2 lg:py-12">
 
                             <h1 class="text-2xl font-extrabold sm:text-3xl">
-                                Let us find your
+                                Take Your Business
 
                                 <strong class="block font-extrabold text-rose-700">
-                                    Forever Home.
+                                    ONLINE!
                                 </strong>
                             </h1>
 
@@ -364,36 +349,13 @@ const AddPropertyPrimary = () => {
                                     />
                                 </div>
                                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                    {/* <div>
-                                        <label class="sr-only border-4 border-gray-700" for="email">Region</label>
-                                        <input
-                                            class="w-full rounded-lg border-gray-700 p-3 text-sm"
-                                            placeholder="Region"
-                                            type="text"
-                                            id="email"
-                                            name="region"
-                                        />
-                                                                                <div className="search">
-                                            <span><i class="fa fa-map-signs mr-3 text-red-700" aria-hidden="true"></i></span>
-                                            <input ref={searchInput} type="text" placeholder="Search location...." />
-                                            <button onClick={findMyLocation}><GpsFixed /></button>
-                                        </div>
-                                    </div> */}
+                                 
                                     <div className="search flex">
-                                        {/* <span><i class="fa fa-map-signs mr-3 mt-4 text-red-700" aria-hidden="true"></i></span> */}
+
                                         <input ref={searchInput} type="text" className='w-full rounded-lg border p-3 text-sm mr-2' placeholder="Search location...." />
                                         <button onClick={findMyLocation}><GpsFixed /></button>
                                     </div>
-                                    {/* <div>
-
-                                        <div className="address">
-                                            <p>City: <span>{address.city}</span></p>
-                                            <p>State: <span>{address.state}</span></p>
-                                            <p>Zip: <span>{address.zip}</span></p>
-                                            <p>Country: <span>{address.country}</span></p>
-                                        </div>
-
-                                    </div> */}
+                                 
 
 
                                     <div>
@@ -483,24 +445,7 @@ const AddPropertyPrimary = () => {
                                             ))}
                                         </Select>
                                     </FormControl>
-                                    {/* 
-                                    <Box sx={{ width: 150 }}>
-                                        <Typography id="non-linear-slider" gutterBottom>
-                                            Rooms: {valueLabelFormat(calculateValue(value))}
-                                        </Typography>
-                                        <Slider
-                                            value={value}
-                                            min={1}
-                                            step={1}
-                                            max={10}
-                                            scale={calculateValue}
-                                            getAriaValueText={valueLabelFormat}
-                                            valueLabelFormat={valueLabelFormat}
-                                            onChange={handleChanges}
-                                            valueLabelDisplay="auto"
-                                            aria-labelledby="non-linear-slider"
-                                        />
-                                    </Box> */}
+                                 
 
                                     <Box
                                         component="form"

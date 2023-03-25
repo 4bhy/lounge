@@ -33,7 +33,6 @@ const ApprovalDataTable = () => {
             handleClose()
             dispatch(hotelApprovalAction(id))
             dispatch(listApprovalsAction())
-
         }
 
     }
