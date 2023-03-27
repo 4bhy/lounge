@@ -213,14 +213,19 @@ const ProductPage = () => {
     const today = new Date();
 
     if (!checkIn || !checkOut) {
-      toast.error("Please select a Check In and Check Out date!")
+      toast(
+        "Please select a valid Check In and Check Out date!",
+        {
+          duration: 3000,
+        }
+      );
     } else if (checkIn.$d < today) {
       toast.error("Please select a valid date!")
     } else if (checkOut < checkIn) {
       toast.error("Please select a valid date")
-    } else if(guests>individualPropertyData?.propertyInfo.maxGuests){
+    } else if (guests > individualPropertyData?.propertyInfo.maxGuests) {
       toast.error("Exceeded the maximum number of guests allowed")
-    }else {
+    } else {
       dispatch(checkAvailabilities(checkIn, checkOut, individualPropertyData?.propertyInfo._id))
     }
   }
@@ -290,7 +295,7 @@ const ProductPage = () => {
               <strong
                 class="rounded-full border border-blue-600 bg-gray-100 px-3 py-0.5 text-xs font-medium tracking-wide text-blue-600"
               >
-                Pre Order
+                Property Info
               </strong>
 
               <div class="flex justify-between mt-8">
@@ -299,9 +304,10 @@ const ProductPage = () => {
                     {individualPropertyData?.propertyInfo
                       .pname}
                   </h1>
-
-                  <p class="mt-0.5 text-sm">Highest Rated Product</p>
-
+                  {
+                    individualPropertyData?.propertyInfo?.averageRating >= 3.0 ? (<p class="mt-0.5 text-sm">Highest Rated Product</p>) : null
+                  }
+                 
                   <div class="mt-2 -ml-0.5 flex">
                     {individualPropertyData?.propertyInfo?.averageRating && (
                       <Rating name="half-rating-read"
@@ -315,7 +321,7 @@ const ProductPage = () => {
                 </div>
 
                 <p class="text-lg font-bold">₹ {individualPropertyData?.propertyInfo
-                  .price}/-</p>
+                  .price}/<span className='text-gray-500 text-sm'>night</span></p>
 
               </div>
 
@@ -367,7 +373,7 @@ const ProductPage = () => {
                 {isNaN(totalPrice) || totalPrice === 0 ? (
                   <div className="text-3xl font-medium">₹ {individualPropertyData?.propertyInfo.price}/-</div>
                 ) : (
-                  <div className="text-3xl font-medium">₹{totalPrice}/-</div>
+                  <div className="text-3xl font-medium">₹ {totalPrice}/-</div>
                 )}
 
                 <div className='flex justify-center m-4 p-2 gap-3'>
@@ -393,27 +399,23 @@ const ProductPage = () => {
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
-                  {/* 
-                  <input onChange={(e) => {
-                    console.log("44");
-                    setGuests(e.target.value)
-                  }} class="bg-gray-300 px-5  rounded-full" placeholder='Guests' type="number" min="0" max="100" /> */}
+
 
                   <FormControl sx={{ minWidth: 120 }} size="large">
                     <InputLabel id="demo-select-small">Guests</InputLabel>
                     <Select
                       labelId="demo-select-small"
                       id="demo-select-small"
-                      value={age}
+                      value={guests}
                       label="Age"
-                      onChange={handleChange}
+
                     >
                       <div class="custom-number-input m-4">
                         <label for="custom-input-number" class="w-full text-gray-700 text-sm font-semibold">Adults
                         </label>
                         <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent ">
                           <button onClick={(e) => {
-                            if (guests < 1) {
+                            if (guests <= 1) {
                             } else {
                               setGuests(guests - 1)
                             }
@@ -440,11 +442,11 @@ const ProductPage = () => {
                 <button onClick={handleAvailability} class="bg-white mr-4 mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4  border border-gray-400 rounded-full shadow">
                   Check Availability
                 </button>
-                
+
                 <div className="mt-4 flex">
                   <div className="text-sm mr-2 text-gray-600">Availability:</div>
                   {
-                    error ? ( <div className='text-sm text-red-500 font-medium font-style: italic'>Not Available</div>) :( <div className={availabilityData ? 'text-emerald-500 text-sm font-medium' : 'text-sm font-style: italic '}>{availabilityData ? availabilityData.message : '-'}</div>)
+                    error ? (<div className='text-sm text-red-500 font-medium font-style: italic'>Not Available</div>) : (<div className={availabilityData ? 'text-emerald-500 text-sm font-medium' : 'text-sm font-style: italic '}>{availabilityData ? availabilityData.message : '-'}</div>)
                   }
 
                 </div>

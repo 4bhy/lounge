@@ -1,5 +1,4 @@
 import React from 'react'
-
 import CardContainer from '../../components/Cards/CardContainer'
 import CTA from '../../components/Cards/CTA'
 import Footer from '../../components/Footer/Footer'

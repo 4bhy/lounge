@@ -13,10 +13,10 @@ import MenuItem from '@mui/material/MenuItem';
 import { userLogout } from '../../features/users/userLoginSlice'
 
 const Navbar = () => {
-  const navigate= useNavigate()
+  const navigate = useNavigate()
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
- 
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -39,37 +39,23 @@ const Navbar = () => {
               </a>
             </div>
 
-            <div class="relative">
+            <Link to="/host "><div class="relative">
               <label class="sr-only" for="search"> Search </label>
 
               <input
                 class="h-10 w-full rounded-full border-none bg-white pl-4 pr-10 text-sm shadow-sm sm:w-56"
                 id="search"
+                disabled
                 type="search"
-                placeholder="Search website..."
-              />
+                placeholder="Host With Us" />
 
               <button
                 type="button"
-                class="absolute top-1/2 right-1 -translate-y-1/2 rounded-full bg-gray-50 p-2 text-gray-600 transition hover:text-gray-700"
-              >
+                class="absolute top-1/2 right-1 -translate-y-1/2 rounded-full bg-gray-50 p-2 text-gray-600 transition hover:text-gray-700">
                 <span class="sr-only">Submit Search</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
+                <i class="fa fa-envelope-open" aria-hidden="true"></i>
               </button>
-            </div>
+            </div></Link>
           </div>
 
           <div class="flex items-center gap-4">
@@ -91,17 +77,14 @@ const Navbar = () => {
                     aria-controls={open ? 'basic-menu' : undefined}
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClick}
-                  >
+                    onClick={handleClick}>
 
-                    <a href="#" class="block shrink-0">
+                    <div class="block shrink-0 shadow-sm rounded-full p-2">
                       <span class="sr-only">Profile</span>
-                      <img
-                        alt="Man"
-                        src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-                        class="h-10 w-10 rounded-full object-cover"
-                      />
-                    </a>
+                      <a class="text-2xl text-gray-600 rounded-full object-cover antialiased font-style: italic">
+                        {userInfo?.user?.name.charAt(0)}
+                      </a>
+                    </div>
                   </Button>
                   <Menu
                     id="basic-menu"
@@ -150,7 +133,7 @@ const Navbar = () => {
                     >
 
                       <Link to="/login"><MenuItem onClick={handleClose}>Login</MenuItem></Link>
-                     <Link to="/register"><MenuItem onClick={handleClose}>Register</MenuItem></Link> 
+                      <Link to="/register"><MenuItem onClick={handleClose}>Register</MenuItem></Link>
                     </Menu>
 
                   </div>

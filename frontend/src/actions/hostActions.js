@@ -21,6 +21,7 @@ export const hostRegister = (fname, lname, newid, zip, email, dob, phone, addres
     dispatch(hostRegisterSuccess(data));
     console.log(data);
     localStorage.setItem("hostInfo", JSON.stringify(data));
+
   } catch (error) {
     console.log("error:", error);
     const errorIs = error.response && error.response.data.message ?
@@ -73,8 +74,6 @@ export const listBookingsHost = (id) => async (dispatch) => {
         : error.message;
   }
 
-
-
 }
 
 export const handleBooking = (id) => async (dispatch) => {
@@ -109,7 +108,7 @@ export const approveCancellation = (id) => async (dispatch) => {
     }
 
     const { data } = await axios.patch("http://localhost:5000/api/host/approve-cancellation/", { id }, config)
-    console.log(data, "actions");
+ 
 
   } catch (error) {
     const errorIs =
@@ -122,7 +121,7 @@ export const approveCancellation = (id) => async (dispatch) => {
 
 export const listHostProperties = () => async (dispatch, getState) => {
   try {
-    console.log("at list host prop");
+
     dispatch(listHostPropertyReq())
     const {
       userLogin: { userInfo },

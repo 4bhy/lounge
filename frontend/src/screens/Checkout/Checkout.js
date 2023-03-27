@@ -25,7 +25,7 @@ const CheckoutPage = () => {
       <Navbar />
       <div className="flex p-4 flex-col md:flex-row">
         <div className="w-full md:w-1/2 p-6">
-          <div className="bg-neutral-200 shadow-md rounded-3xl p-6">
+          <div className="bg-neutral-100 shadow-md rounded-3xl p-6">
             <img
               src={hotel.image}
               alt={hotel.name}
@@ -36,7 +36,7 @@ const CheckoutPage = () => {
           </div>
         </div>
         <div className="w-full md:w-1/2 p-6">
-          <div className="bg-neutral-200 shadow-md rounded-3xl p-10">
+          <div className="bg-neutral-100 shadow-md rounded-3xl p-10">
             <h2 className="text-xl font-bold mb-4">Reservation Details</h2>
             <table className="w-full">
               <tbody>
