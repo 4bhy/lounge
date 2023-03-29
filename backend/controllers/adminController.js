@@ -1,9 +1,10 @@
-const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Host = require('../models/hostModel')
 const Hotel = require('../models/hotelModel');
 const Coupon = require("../models/couponModel");
 const Booking = require('../models/bookingModel')
+const asyncHandler = require("express-async-handler");
+
 module.exports = {
     listUsers: asyncHandler(async (req, res) => {
         console.log("2");
@@ -146,7 +147,7 @@ module.exports = {
     }),
 
     handleApproval: asyncHandler(async (req, res) => {
-        console.log("RrrR");
+     
         try {
             const hostData = await Host.findById({ _id: req.body.id })
             hostData.isApproved = true;
@@ -210,7 +211,7 @@ module.exports = {
                 res.status(201).json({ couponData })
             }
         } catch (error) {
-            console.log("catch");
+      
             console.log(error);
             res.status(404).json({ message: "Failed to add coupon" })
             throw new Error("Failed to add Coupon")
@@ -219,13 +220,13 @@ module.exports = {
 
     statsLoader: asyncHandler(async (req, res) => {
         try {
-
+          
             const usersStat = await User.find()
             const bookingStat = await Booking.find()
             const hostsStat = await Host.find()
 
             Booking.find({})
-                .populate('propertyId') // Join the Hotel collection and populate the propertyId field
+                .populate('propertyId') 
                 .exec((err, bookings) => {
                     if (err) {
                         console.log(err);
@@ -256,8 +257,6 @@ module.exports = {
                         }
                     }
                 });
-
-
         } catch (error) {
             console.log(error.message);
         }

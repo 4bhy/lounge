@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { approveCancellation, handleBooking, listBookingsHost } from '../../../actions/hostActions'
 
 import Button from '@mui/material/Button';
@@ -10,60 +9,53 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import moment from 'moment';
 
 const HostTable = () => {
 
     const dispatch = useDispatch()
+    const [toggle, setToggle] = useState('Pending')
+    const [id, setId] = useState('')
+    const [open, setOpen] = React.useState(false);
+
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
     const bookings = useSelector((state) => state.bookings)
     const { hostBookingData } = bookings
-    console.log(hostBookingData);
 
-    useEffect((state) => {
-        dispatch(listBookingsHost(userInfo.host._id))
-    }, [])
+
+
 
     const clickHandler = async (id) => {
 
-        if(options=="false"){
-            console.log("55");
+        if (options == "false") {
             setOpen(false)
             await dispatch(handleBooking(id))
             await dispatch(listBookingsHost(userInfo.host._id))
-        }else{
-            console.log("44");
+        } else {
             setOpen(false)
             await dispatch(approveCancellation(id))
             await dispatch(listBookingsHost(userInfo.host._id))
-
         }
 
     }
-
-    const [toggle, setToggle] = useState('Pending')
-    console.log(toggle);
-    const [id, setId] = useState('')
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
 
     const handleClose = () => {
         setOpen(false);
     };
 
-
-    const [options, setOptions]= useState("false")
+    const [options, setOptions] = useState("false")
     const handleChange = async (e) => {
-      await setOptions(e.target.value)
+        await setOptions(e.target.value)
     };
+
+    useEffect((state) => {
+        dispatch(listBookingsHost(userInfo.host._id))
+    }, [])
 
     return (
 
@@ -73,7 +65,7 @@ const HostTable = () => {
                 </div>
                 <div class="bg-white p-8 rounded-md w-full">
                     <div class=" flex items-center justify-between pb-6">
-                        {/* host/reservation */}
+
                         <div>
                             <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
                                 <InputLabel id="demo-select-small">Options</InputLabel>
@@ -84,33 +76,23 @@ const HostTable = () => {
                                     label="Options"
                                     onChange={handleChange}
                                 >
-                                    <MenuItem  value={"false"}>Reservations</MenuItem>
-                                    <MenuItem  value={"true"}>Cancellations</MenuItem>
+                                    <MenuItem value={"false"}>Reservations</MenuItem>
+                                    <MenuItem value={"true"}>Cancellations</MenuItem>
                                 </Select>
                             </FormControl>
 
                         </div>
                         <div class="flex items-center justify-between">
-                            <div class="flex bg-gray-50 items-center p-2 rounded-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                <input class="bg-gray-50 outline-none ml-1 block " type="text" name="" id="" placeholder="Search..." />
-                            </div>
-                            <button onClick={() => { setToggle("Approved") }} class={toggle=="Approved"?'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-500 sm:text-sm dark:text-gray-700  hover:text-gray-100':'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700  hover:text-gray-500'}>
+
+                            <button onClick={() => { setToggle("Approved") }} class={toggle == "Approved" ? 'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-500 sm:text-sm dark:text-gray-700  hover:text-gray-100' : 'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700  hover:text-gray-500'}>
                                 Monitored
                             </button>
 
-                            <button onClick={() => { setToggle("Pending") }}  class={toggle==="Pending"?'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-500 sm:text-sm dark:text-gray-700  hover:text-gray-100':'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700  hover:text-gray-500'}>
+                            <button onClick={() => { setToggle("Pending") }} class={toggle === "Pending" ? 'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-500 sm:text-sm dark:text-gray-700  hover:text-gray-100' : 'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700  hover:text-gray-500'}>
                                 Unmonitored
                             </button>
                         </div>
                     </div>
-
-
 
                     <div>
                         <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -149,7 +131,7 @@ const HostTable = () => {
                                         </tr>
                                     </thead>
                                     {
-                                        hostBookingData?.bookingData?.filter(data=>data.isCancelled==options).filter(data => data.status === toggle).map((data, i) => (
+                                        hostBookingData?.bookingData?.filter(data => data.isCancelled == options).filter(data => data.status === toggle).map((data, i) => (
 
                                             <tbody>
                                                 <tr>
@@ -172,17 +154,18 @@ const HostTable = () => {
                                                     </td>
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                         <p class="text-gray-900 whitespace-no-wrap">
-                                                            {data.createdAt}
+                                                            {moment(data.createdAt).format("DD/MM/YY")}
                                                         </p>
                                                     </td>
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                         <p class="text-gray-900 whitespace-no-wrap">
-                                                            {data.checkIn}
+                                                            {moment(data.checkIn).format("DD/MM/YY")}
                                                         </p>
                                                     </td>
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                         <p class="text-gray-900 whitespace-no-wrap">
-                                                            {data.checkOut}
+                                                            {moment(data.checkOut).format("DD/MM/YY")}
+
                                                         </p>
                                                     </td>
                                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -232,8 +215,7 @@ const HostTable = () => {
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
+                aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">
                     {"Use Google's location service?"}
                 </DialogTitle>
@@ -249,7 +231,6 @@ const HostTable = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-
         </div>
     )
 }

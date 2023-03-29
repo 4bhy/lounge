@@ -307,7 +307,7 @@ const ProductPage = () => {
                   {
                     individualPropertyData?.propertyInfo?.averageRating >= 3.0 ? (<p class="mt-0.5 text-sm">Highest Rated Product</p>) : null
                   }
-                 
+
                   <div class="mt-2 -ml-0.5 flex">
                     {individualPropertyData?.propertyInfo?.averageRating && (
                       <Rating name="half-rating-read"

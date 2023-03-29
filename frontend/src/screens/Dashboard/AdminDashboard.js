@@ -3,15 +3,12 @@ import HostCrud from '../../components/AdminComponents/Tables/HostCrud'
 import Table from '../../components/HostComponents/Table/Table'
 import { useState } from 'react'
 import ChartsContainer from '../../components/AdminComponents/Charts/ChartsContainer'
-import HotelCard from '../../components/Cards/HotelCard'
 import HotelsCrud from '../../components/AdminComponents/Tables/HotelsCrud'
 import ApprovalDataTable from '../../components/AdminComponents/Tables/ApprovalDataTable'
 import CouponTable from '../../components/AdminComponents/Tables/CouponTable'
-import NewPie from '../../components/AdminComponents/Charts/NewPie'
 import logo from '../../components/Header/lounge-high-resolution.png'
 import { Link } from 'react-router-dom'
-import BarGraph from '../../components/AdminComponents/Charts/Bar'
-import Stats from '../../components/AdminComponents/Charts/Stats'
+
 const AdminDashboard = () => {
 
   const [toggle, setToggle] = useState('dashboard')
@@ -57,10 +54,10 @@ const AdminDashboard = () => {
               <div class="hidden lg:flex items-center">
                 <span class="text-base font-normal text-gray-500 mr-5">..❤️</span>
                 <div class="-mb-1">
-                  <a class="github-button" href="#" data-color-scheme="no-preference: dark; light: light; dark: light;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star themesberg/windster-tailwind-css-dashboard on GitHub">...</a>
+                  <a class="github-button"  data-color-scheme="no-preference: dark; light: light; dark: light;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star themesberg/windster-tailwind-css-dashboard on GitHub">...</a>
                 </div>
               </div>
-              <a href="#" class="hidden sm:inline-flex ml-5 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center items-center mr-3">
+              <a  class="hidden sm:inline-flex ml-5 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center items-center mr-3">
                 <svg class="svg-inline--fa fa-gem -ml-1 mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="gem" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                   <path fill="currentColor" d="M378.7 32H133.3L256 182.7L378.7 32zM512 192l-107.4-141.3L289.6 192H512zM107.4 50.67L0 192h222.4L107.4 50.67zM244.3 474.9C247.3 478.2 251.6 480 256 480s8.653-1.828 11.67-5.062L510.6 224H1.365L244.3 474.9z"></path>
                 </svg>
@@ -174,7 +171,7 @@ const AdminDashboard = () => {
                     </svg>
                     <span class="ml-4">Site</span>
                   </a></Link>
-                  <a href="#" target="_blank" class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 group transition duration-75 flex items-center p-2">
+                  <a  target="_blank" class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 group transition duration-75 flex items-center p-2">
                     <svg class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                       <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
                       <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>

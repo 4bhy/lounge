@@ -29,8 +29,6 @@ import EditUserProfile from "./screens/Dashboard/EditUserProfile";
 import ResetPassword from "./screens/LoginScreen/ResetPassword";
 
 
-
-
 function App() {
 
   const hostRegister = useSelector((state) => state.hostRegister)

@@ -165,7 +165,7 @@ const HotelsCrud = () => {
 
                 <DialogContent>
 
-                    <a href="#" class="block rounded-lg p-4 shadow-sm shadow-indigo-100">
+                    <a class="block rounded-lg p-4 shadow-sm shadow-indigo-100">
                         <img
                             src={individualPropertyData?.propertyInfo?.pic[0]}
                             alt="Home"

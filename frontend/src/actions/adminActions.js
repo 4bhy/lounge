@@ -334,13 +334,13 @@ export const addCoupon = (cname, discount, vfrom, vto) => async (dispatch) => {
 
 export const getStat = () => async (dispatch) => {
     try {
-        console.log("444444444");
+      
         const config = {
             headers: {
                 "Content-type": "application/json"
             }
         }
-        const { data } = await axios.get("http://localho3st:5000/api/admin/get-stats", config)
+        const { data } = await axios.get("http://localhost:5000/api/admin/get-stats", config)
         dispatch(getStats(data))
 
     } catch (error) {

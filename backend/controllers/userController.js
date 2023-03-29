@@ -6,11 +6,10 @@ const Coupon = require("../models/couponModel");
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../utils/generateToken");
 const nodemailer = require("nodemailer");
-
-require('dotenv').config();
-
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
+
+require('dotenv').config();
 
 module.exports = {
   registerUser: (async (req, res) => {
@@ -227,7 +226,7 @@ module.exports = {
 
   cancelBooking: asyncHandler(async (req, res) => {
     try {
-      console.log("3454");
+
       const bookingData = await Booking.findById({ _id: req.params.id })
 
       bookingData.isCancelled = "true";
@@ -252,7 +251,7 @@ module.exports = {
     try {
 
       const { uid, pid, title, review, rating } = req.body;
-      console.log(req.body);
+  
       const propertyData = await Hotel.findById({ _id: pid })
 
       const reviews = {
@@ -283,13 +282,14 @@ module.exports = {
 
   editProfile: asyncHandler(async (req, res) => {
     try {
-      //req.user
-      const userData = await User.findById({ _id: req.body.id })
-      userData.name = req.body.name;
-      userData.phone = req.body.phone;
-      userData.email = req.body.email; //desctru
+      const id= req.user._id;
+      const {name, email, phone, password}= req.body
+      const userData = await User.findById({ _id:id })
+      userData.name = name;
+      userData.phone = phone;
+      userData.email = email; 
       if (req.body.password != null) {
-        userData.password = req.body.password;
+        userData.password = password;
       }
       const user = await userData.save()
       const host = await Host.findOne({
@@ -313,7 +313,6 @@ module.exports = {
       const bookingData = await Booking.find({ propertyId: req.body.id })
 
       const bookingDates = bookingData.map(booking => [booking.checkIn, booking.checkOut]);
-
       function expandDateRange(checkIn, checkOut) {
         if (!(checkIn instanceof Date)) {
           checkIn = new Date(checkIn);
