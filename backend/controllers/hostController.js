@@ -147,16 +147,55 @@ module.exports = {
 
     listingHostProperties: asyncHandler(async (req, res) => {
         try {
-            console.log( req.params.id);
             const hostProperties = await Hotel.find({ hostID: req.params.id })
             if (hostProperties) {
                 res.status(201).json({ hostProperties })
-            }else{
-                res.status(404).json({message:"No Properites to Display"})
+            } else {
+                res.status(404).json({ message: "No Properites to Display" })
             }
         } catch (error) {
             console.log(error);
             throw new Error("Cant find properties!")
         }
+    }),
+
+    getReport: asyncHandler(async (req, res) => {
+        try {
+            console.log("in");
+            const bookings = await Booking.find({
+                hostId: req.params.id,
+                isCancelled: "false"
+            }).populate('propertyId');
+
+            const earningsByProperty = {};
+
+            for (let i = 0; i < bookings.length; i++) {
+                const booking = bookings[i];
+                const property = booking.propertyId;
+                const amount = parseFloat(booking.amount);
+                if (!earningsByProperty[property.pname]) {
+                    earningsByProperty[property.pname] = 0;
+                }
+                earningsByProperty[property.pname] += amount;
+            }
+
+            const report = [];
+
+            for (let pname in earningsByProperty) {
+                report.push({
+                    pname: pname,
+                    totalAmount: earningsByProperty[pname]
+                });
+            }
+
+            if(report){
+                res.status(201).json({report:report})
+            }
+            
+        } catch (error) {
+            console.log(error);
+        }
     })
+
+
 }

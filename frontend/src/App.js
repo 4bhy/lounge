@@ -27,6 +27,7 @@ import ForgotPassword from "./screens/LoginScreen/ForgotPassword";
 import ProductPage from "./components/test/ProductPage";
 import EditUserProfile from "./screens/Dashboard/EditUserProfile";
 import ResetPassword from "./screens/LoginScreen/ResetPassword";
+import BookingDetails from "./screens/DetailsScreen.js/BookingDetails";
 
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
           <Route path="/details/:id" element={<ProductPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/checkout-payment" element={<CheckoutPayment />} />
+          <Route path="/booking-details" element={<BookingDetails />} />
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/user/edit-profile" element={<EditUserProfile/>}/>
           <Route path="/host" element={<HostLanding />}></Route>

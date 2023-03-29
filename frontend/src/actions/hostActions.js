@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { handleHostFail, handleHostReq, handleHostSuccess } from '../features/admin/handleHostsSlice';
 import { hostRegisterReq, hostRegisterFail, hostRegisterSuccess } from '../features/host/hostRegisterSlice';
+import { hostStatFail, hostStatReq, hostStatSucsess } from '../features/host/hostStatSlice';
 import { listHostPropertyFail, listHostPropertyReq, listHostPropertySuccess } from '../features/host/listHostPropertiesSlice';
 import { hostBooking } from '../features/users/bookingsSlice';
 
@@ -12,14 +13,14 @@ export const hostRegister = (fname, lname, newid, zip, email, dob, phone, addres
       },
     };
     dispatch(hostRegisterReq());
-    console.log("Actions log:", fname, lname, newid, zip, email, dob, phone, address, apart, cstate, id, idState, url);
+
     const { data } = await axios.post('http://localhost:5000/api/host/register', {
       fname, lname, newid, zip, email, dob, phone, address, apart, cstate, id, idState, url
     },
       config
     );
     dispatch(hostRegisterSuccess(data));
-    console.log(data);
+
     localStorage.setItem("hostInfo", JSON.stringify(data));
 
   } catch (error) {
@@ -32,8 +33,8 @@ export const hostRegister = (fname, lname, newid, zip, email, dob, phone, addres
 
 export const addProperty = (pname, pstate, city, pin, description, hostID, url, type, value, amenities) => async (dispatch) => {
   try {
-    console.log(url, "url66");
-    console.log("testting..");
+   
+   
     const config = {
       headers: {
         "Content-type": "application/json"
@@ -56,7 +57,7 @@ export const addProperty = (pname, pstate, city, pin, description, hostID, url, 
 export const listBookingsHost = (id) => async (dispatch) => {
 
   try {
-    console.log(id);
+
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -64,7 +65,7 @@ export const listBookingsHost = (id) => async (dispatch) => {
     }
 
     const { data } = await axios.get(`http://localhost:5000/api/host/list-bookings/${id}`, config)
-    console.log(data, "actions");
+ 
     dispatch(hostBooking(data))
 
   } catch (error) {
@@ -79,7 +80,7 @@ export const listBookingsHost = (id) => async (dispatch) => {
 export const handleBooking = (id) => async (dispatch) => {
 
   try {
-    console.log(id);
+   
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -87,7 +88,7 @@ export const handleBooking = (id) => async (dispatch) => {
     }
 
     const { data } = await axios.get(`http://localhost:5000/api/host/handle-booking/${id}`, config)
-    console.log(data, "actions");
+
 
   } catch (error) {
     const errorIs =
@@ -108,7 +109,7 @@ export const approveCancellation = (id) => async (dispatch) => {
     }
 
     const { data } = await axios.patch("http://localhost:5000/api/host/approve-cancellation/", { id }, config)
- 
+
 
   } catch (error) {
     const errorIs =
@@ -143,6 +144,35 @@ export const listHostProperties = () => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch(listHostPropertyFail(errorIs))
+  }
+}
+
+export const getHostStats = () => async (dispatch, getState) => {
+  try {
+    console.log(22);
+    dispatch(hostStatReq())
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const id = userInfo.host._id;
+    console.log(userInfo, "pp");
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    }
+    const { data } = await axios.get(`http://localhost:5000/api/host/get-report/${id}`, config)
+    console.log(data);
+    dispatch(hostStatSucsess(data))
+
+  } catch (error) {
+    const errorIs =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch(hostStatFail(errorIs))
   }
 }
 

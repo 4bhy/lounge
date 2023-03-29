@@ -5,6 +5,7 @@ import './Counter.css'
 import { Link } from "react-router-dom";
 
 const CheckoutPage = () => {
+  
   const [hotel, setHotel] = useState({
     name: "Luxury Hotel",
     image:

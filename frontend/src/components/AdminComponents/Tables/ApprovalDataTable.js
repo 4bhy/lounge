@@ -9,7 +9,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -84,7 +83,6 @@ const ApprovalDataTable = () => {
     })
 
     return (
-
         <div>
             <div class="inline-flex mt-2 xs:mt-0">
                 <div class="bg-white p-8 rounded-md w-full">
