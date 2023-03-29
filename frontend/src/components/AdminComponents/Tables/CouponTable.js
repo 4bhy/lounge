@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from 'react'
-
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCoupon, getCoupons } from '../../../actions/adminActions';
-
 import dayjs from 'dayjs';
 import TextField from '@mui/material/TextField';
-
-
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
-import FilledInput from '@mui/material/FilledInput';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
-
 import toast, { Toaster } from 'react-hot-toast';
 import { addCouponsFail } from '../../../features/admin/addCouponSlice';
 
@@ -28,8 +19,6 @@ const CouponTable = () => {
   const [open, setOpen] = React.useState(false);
   const [cname, setCname] = useState("")
   const [discount, setDiscount] = useState("")
-
-
 
   const couponData = useSelector((state) => state.couponData)
   const addCoupons = useSelector((state) => state.addCoupon)
@@ -65,10 +54,7 @@ const CouponTable = () => {
 
 
   useEffect(() => {
-
     dispatch(getCoupons())
-
-
   }, [])
 
   const [vfrom, setVfrom] = React.useState(dayjs('2022-04-07'));
@@ -81,16 +67,7 @@ const CouponTable = () => {
       <div><Toaster /></div>
       <section class="container px-4 mx-auto">
         <div class="mt-6 md:flex md:items-center md:justify-between">
-          <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700">
-
-            <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">
-              Active
-            </button>
-
-            <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">
-              Expired
-            </button>
-          </div>
+         
 
           <div class="relative flex items-center mt-4 md:mt-0">
             <button onClick={handleClickOpen} class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700">
@@ -110,7 +87,6 @@ const CouponTable = () => {
           </div>
         </div>
 
-
         <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
           <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
             <thead class="bg-gray-50">
@@ -118,10 +94,7 @@ const CouponTable = () => {
                 <th scope="col" class="px-6 py-4 font-medium text-gray-900">Name</th>
                 <th scope="col" class="px-6 py-4 font-medium text-gray-900">State</th>
                 <th scope="col" class="px-6 py-4 font-medium text-gray-900">Discount</th>
-                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Valid From</th>
-                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Valid To</th>
                 <th scope="col" class="px-6 py-4 font-medium text-gray-900">Actions</th>
-                <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
               </tr>
             </thead>
             {
@@ -132,8 +105,8 @@ const CouponTable = () => {
                       <div class="relative h-10 w-10">
                         <img
                           class="h-full w-full rounded-full object-cover object-center"
-                          src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt=""
+                          src="https://w7.pngwing.com/pngs/780/46/png-transparent-computer-icons-coupon-voucher-coupon-miscellaneous-text-rectangle-thumbnail.png"
+                          alt="png"
                         />
                       </div>
                       <div class="text-sm">
@@ -157,26 +130,10 @@ const CouponTable = () => {
                         </span>
                       </div>
                     </td>
+                  
+                 
                     <td class="px-6 py-4">
-                      <div class="flex gap-2">
-                        <span
-                          class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"
-                        >
-                          { }
-                        </span>
-                      </div>
-                    </td>
-                    <td class="px-6 py-4">
-                      <div class="flex gap-2">
-                        <span
-                          class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"
-                        >
-                          {data.validTo}
-                        </span>
-                      </div>
-                    </td>
-                    <td class="px-6 py-4">
-                      <div class="flex justify-end gap-4">
+                      <div class="flex justify-center gap-4">
                         <a x-data="{ tooltip: 'Delete' }" >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -248,23 +205,6 @@ const CouponTable = () => {
                     <TextField onChange={(e) => { setCname(e.target.value) }} id="standard-basic" label="Coupon Name" variant="standard" />
                   </Box>
                 </div>
-
-
-                {/* <input
-                  type="text"
-                  
-                  onChange={(e) => { setCname(e.target.value) }}
-                  class="block border border-grey-light w-full p-4 rounded mb-4"
-                  name="fullname"
-                  placeholder="Coupon Name" /> */}
-
-                {/* <input
-                  onChange={(e) => { setDiscount(e.target.value) }}
-                  type="text"
-                  
-                  class="block border border-grey-light w-full p-4 rounded mb-4"
-                  name="email"
-                  placeholder="Discount" /> */}
                 <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                   <div className='p-4'>
 
@@ -280,74 +220,8 @@ const CouponTable = () => {
                       />
                       <FormHelperText id="standard-weight-helper-text">Discount</FormHelperText>
                     </FormControl>
-
-
                   </div>
                 </Box>
-                {/* <div className='p-4'>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <Stack spacing={3}>
-
-                      <DesktopDatePicker
-                        label="For desktop"
-                        value={vfrom}
-                        minDate={dayjs('2017-01-01')}
-                        onChange={(newValue) => {
-                          setVfrom(newValue);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-
-                    </Stack>
-                  </LocalizationProvider>
-                </div> */}
-                {/* 
-                <div className='p-4'>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <Stack spacing={3}>
-
-                      <DesktopDatePicker
-                        label="For desktop"
-                        value={vto}
-                        minDate={dayjs('2017-01-01')}
-                        onChange={(newValue) => {
-                          setVto(newValue);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-
-                    </Stack>
-                  </LocalizationProvider>
-                </div> */}
-
-
-                <input
-                  type="date"
-
-                  onChange={(e) => { setVfrom(e.target.value) }}
-                  class="block border border-grey-light w-full p-4 rounded mb-4"
-                  name="fullname"
-                  placeholder="Coupon Name" />
-
-
-                <input
-                  type="date"
-
-                  onChange={(e) => { setVto(e.target.value) }}
-                  class="block border border-grey-light w-full p-4 rounded mb-4"
-                  name="fullname"
-                  placeholder="Coupon Name" />
-
-
-                {/* <div class="text-center text-sm text-grey-dark mt-4">
-                  By signing up, you agree to the
-                  <a class="no-underline border-b border-grey-dark text-grey-dark" >
-                    Terms of Service
-                  </a> and
-                  <a class="no-underline border-b border-grey-dark text-grey-dark" >
-                    Privacy Policy
-                  </a>
-                </div> */}
               </div>
             </div>
           </div>

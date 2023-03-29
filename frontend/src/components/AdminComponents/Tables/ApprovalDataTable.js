@@ -59,7 +59,7 @@ const ApprovalDataTable = () => {
     const [age, setAge] = useState('hosts');
 
     const handleChange = (event) => {
-        console.log(age, "33");
+
         setAge(event.target.value);
     };
 
@@ -102,24 +102,11 @@ const ApprovalDataTable = () => {
                                     <MenuItem value={"hotels"}>HOTELS</MenuItem>
                                 </Select>
                             </FormControl>
-                            {/* <h2 class="text-gray-600 font-semibold"><Link to="/host/reservations"><button>Reservations</button></Link></h2> */}
                             <span class="text-xs"></span>
                         </div>
 
                         <div class="flex items-center justify-between">
-                            <div class="flex bg-gray-50 items-center p-2 rounded-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                <input class="bg-gray-50 outline-none ml-1 block " type="text" name="" id="" placeholder="search..." />
-                            </div>
-
                             <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700">
-
-
                                 <button onClick={() => { setToggle("true") }} class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700  hover:text-gray-500">
                                     Monitored
                                 </button>
@@ -165,7 +152,6 @@ const ApprovalDataTable = () => {
 
                                                 {
                                                     approvalsData?.hosts.filter(data => data.isApproved == toggle).map((data, index) => (
-                                                        // console.log(data)
                                                         <tr key={index}>
                                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                                 <div class="flex items-center">
@@ -187,9 +173,6 @@ const ApprovalDataTable = () => {
                                                                                 src={data.URL}
                                                                                 alt="" />
                                                                         </div>
-
-
-
                                                                     </form>
                                                                     <div class="ml-3">
                                                                         <p class="text-gray-900 whitespace-no-wrap">
@@ -203,7 +186,7 @@ const ApprovalDataTable = () => {
                                                             </td>
                                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                                 <p class="text-gray-900 whitespace-no-wrap">
-                                                                    {data.createdAt}
+                                                                    {moment(data.createdAt).format("DD/MM/YY")}
                                                                 </p>
                                                             </td>
                                                             {
@@ -286,7 +269,8 @@ const ApprovalDataTable = () => {
                                                             </td>
                                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                                 <p class="text-gray-900 whitespace-no-wrap">
-                                                                    {data.createdAt}
+                                                                {moment(data.createdAt).format("DD/MM/YY")}
+
                                                                 </p>
                                                             </td>
                                                             {
@@ -384,8 +368,6 @@ const ApprovalDataTable = () => {
                     </div>
                 </DialogContent>
             </Dialog>
-
-
         </div>
 
     )
