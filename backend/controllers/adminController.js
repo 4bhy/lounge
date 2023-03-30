@@ -7,13 +7,13 @@ const asyncHandler = require("express-async-handler");
 
 module.exports = {
     listUsers: asyncHandler(async (req, res) => {
-        console.log("2");
+      
         const users = await User.find()
         res.json(users)
     }),
 
     listHosts: asyncHandler(async (req, res) => {
-        console.log("33");
+       
         const hosts = await Host.find()
         res.json(hosts)
     }),
@@ -25,7 +25,7 @@ module.exports = {
 
     listApprovals: asyncHandler(async (req, res) => {
         try {
-            console.log("44");
+     
             const hotels = await Hotel.find()
             const hosts = await Host.find()
 
@@ -193,13 +193,12 @@ module.exports = {
 
     addCoupon: asyncHandler(async (req, res) => {
         try {
-            console.log(req.body);
             const find = await Coupon.findOne({ couponName: req.body.cname })
             if (find) {
-                console.log(find);
+
                 res.status(404).json({ message: "Copoun already exists!" })
             } else {
-                console.log("201");
+
                 const couponData = await Coupon.create({
                     couponName: req.body.cname,
                     validFrom: req.body.vfrom,

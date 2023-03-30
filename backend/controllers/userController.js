@@ -175,7 +175,7 @@ module.exports = {
         guests: guests,
         checkIn: checkIn,
         checkOut: checkOut,
-        status: "Pending",
+        status: "Approved",
         invoice: Math.floor((Math.random() * 1000) + 1)
       })
       await booking.save();
@@ -226,7 +226,7 @@ module.exports = {
 
   cancelBooking: asyncHandler(async (req, res) => {
     try {
-
+      console.log("33");
       const bookingData = await Booking.findById({ _id: req.params.id })
 
       bookingData.isCancelled = "true";
@@ -238,6 +238,7 @@ module.exports = {
         })
       }
     } catch (error) {
+      console.log("55");
       console.log(error.message);
       res.status(401).json({
         title: "Cancellation Failed",
@@ -251,7 +252,7 @@ module.exports = {
     try {
 
       const { uid, pid, title, review, rating } = req.body;
-  
+
       const propertyData = await Hotel.findById({ _id: pid })
 
       const reviews = {
@@ -282,12 +283,12 @@ module.exports = {
 
   editProfile: asyncHandler(async (req, res) => {
     try {
-      const id= req.user._id;
-      const {name, email, phone, password}= req.body
-      const userData = await User.findById({ _id:id })
+      const id = req.user._id;
+      const { name, email, phone, password } = req.body
+      const userData = await User.findById({ _id: id })
       userData.name = name;
       userData.phone = phone;
-      userData.email = email; 
+      userData.email = email;
       if (req.body.password != null) {
         userData.password = password;
       }

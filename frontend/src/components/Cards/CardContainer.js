@@ -6,9 +6,6 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LandingPagination from '../Pagination/LandingPagination'
 
-
-
-
 const CardContainer = () => {
 
   const navigate = useNavigate()
@@ -28,10 +25,8 @@ const CardContainer = () => {
     navigate(`/details/${id}`)
   }
 
-
-
   const [currentPage, setCurrentPage] = useState(1)
-  const [postsPerPage, setPostsPerPage] = useState(6)
+  const [postsPerPage, setPostsPerPage] = useState(3)
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage

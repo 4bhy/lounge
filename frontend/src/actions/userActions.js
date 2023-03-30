@@ -124,7 +124,7 @@ export const getLinkAction = (email) => async (dispatch) => {
     }
 
     const { data } = await axios.post("http://localhost:5000/api/users/get-link", { email }, config)
-    console.log(data);
+
 
   } catch (error) {
     const errorIs =
@@ -167,7 +167,7 @@ export const resetPassword = (email, password) => async (dispatch) => {
 export const listBookings = (id) => async (dispatch) => {
 
   try {
-    console.log(id);
+  
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -214,7 +214,7 @@ export const submitReview = (pid, uid, rating, title, review) => async (dispatch
     const {
       userLogin: { userInfo },
     } = getState();
-    console.log(userInfo, "getjnjnltate");
+   
 
     const config = {
       headers: {
@@ -254,7 +254,7 @@ export const editProfile = (name, email, phone, password) => async (dispatch, ge
     if (data) {
       dispatch(userLoginSuccess(data));
       localStorage.setItem("userInfo", JSON.stringify(data));
-      console.log(data);
+ 
     }
 
   } catch (error) {
@@ -275,7 +275,7 @@ export const checkAvailabilities = (checkIn, checkOut, id) => async (dispatch) =
       },
     }
     const { data } = await axios.post("http://localhost:5000/api/users/check-availability", { checkIn, checkOut, id }, config)
-    console.log(data, "oo");
+  
     dispatch(availabilitySuccess(data))
     
   } catch (error) {

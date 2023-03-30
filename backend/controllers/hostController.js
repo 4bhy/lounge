@@ -161,7 +161,7 @@ module.exports = {
 
     getReport: asyncHandler(async (req, res) => {
         try {
-            console.log("in");
+        
             const bookings = await Booking.find({
                 hostId: req.params.id,
                 isCancelled: "false"

@@ -55,7 +55,6 @@ const UserDashboard = () => {
                 console.log(error, "snackbar");
             }
             dispatch(listBookings(userInfo.user._id))
-
         }
 
     }

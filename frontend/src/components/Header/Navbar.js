@@ -30,20 +30,20 @@ const Navbar = () => {
 
   return (
     <div>
-      <header aria-label="Page Header" class="bg-gray-50">
-        <div class="mx-auto max-w-screen-xl px-4 py-3 sm:px-6 lg:px-8 flex items-center justify-between">
-          <div class="flex items-center gap-4">
-            <div class='justify-evenly justify-items-start'>
-              <a href="#">
-                <Link to="/"><img src={logo} alt="Logo" class="h-8" /></Link>
-              </a>
+      <header aria-label="Page Header" className="bg-gray-50">
+        <div className="mx-auto max-w-screen-xl px-4 py-3 sm:px-6 lg:px-8 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className='justify-evenly justify-items-start'>
+              <span >
+                <Link to="/"><img src={logo} alt="Logo" className="h-8" /></Link>
+              </span>
             </div>
 
-            <Link to="/host "><div class="relative">
-              <label class="sr-only" for="search"> Search </label>
+            <Link to="/host "><div className="relative">
+              <label className="sr-only"> Search </label>
 
               <input
-                class="h-10 w-full rounded-full border-none bg-white pl-4 pr-10 text-sm shadow-sm sm:w-56"
+                className="h-10 w-full rounded-full border-none bg-white pl-4 pr-10 text-sm shadow-sm sm:w-56"
                 id="search"
                 disabled
                 type="search"
@@ -51,23 +51,23 @@ const Navbar = () => {
 
               <button
                 type="button"
-                class="absolute top-1/2 right-1 -translate-y-1/2 rounded-full bg-gray-50 p-2 text-gray-600 transition hover:text-gray-700">
-                <span class="sr-only">Submit Search</span>
-                <i class="fa fa-envelope-open" aria-hidden="true"></i>
+                className="absolute top-1/2 right-1 -translate-y-1/2 rounded-full bg-gray-50 p-2 text-gray-600 transition hover:text-gray-700">
+                <span className="sr-only">Submit Search</span>
+                <i className="fa fa-envelope-open" aria-hidden="true"></i>
               </button>
             </div></Link>
           </div>
 
-          <div class="flex items-center gap-4">
+          <div className="flex items-center gap-4">
             <Link to="/findmore">
-              <a class="block shrink-0 rounded-full bg-white p-2.5 text-gray-600 shadow-sm hover:text-gray-700">
-                <i class="fa fa-compass" aria-hidden="true"></i>
-              </a>
+              <span className="block shrink-0 rounded-full bg-white p-2.5 text-gray-600 shadow-sm hover:text-gray-700">
+                <i className="fa fa-compass" aria-hidden="true"></i>
+              </span>
             </Link>
 
             <span
               aria-hidden="true"
-              class="block h-6 w-px rounded-full bg-gray-200"
+              className="block h-6 w-px rounded-full bg-gray-200"
             ></span>
             {
               userInfo ?
@@ -78,12 +78,11 @@ const Navbar = () => {
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}>
-
-                    <div class="block shrink-0 shadow-sm rounded-full p-2">
-                      <span class="sr-only">Profile</span>
-                      <a class="text-2xl text-gray-600 rounded-full object-cover antialiased font-style: italic">
+                    <div className="block shrink-0 shadow-sm rounded-full p-2">
+                      <span className="sr-only">Profile</span>
+                      <span className="text-2xl text-gray-600 rounded-full object-cover antialiased font-style: italic">
                         {userInfo?.user?.name.charAt(0)}
-                      </a>
+                      </span>
                     </div>
                   </Button>
                   <Menu
@@ -113,14 +112,14 @@ const Navbar = () => {
                       aria-expanded={open ? 'true' : undefined}
                       onClick={handleClick}>
 
-                      <a href="#" class="block shrink-0">
-                        <span class="sr-only">Profile</span>
+                      <span  className="block shrink-0">
+                        <span className="sr-only">Profile</span>
                         <img
                           alt="Man"
                           src="https://png.pngtree.com/png-clipart/20220113/ourmid/pngtree-cartoon-hand-drawn-default-avatar-png-image_4156609.png"
-                          class="h-10 w-10 rounded-full object-cover"
+                          className="h-10 w-10 rounded-full object-cover"
                         />
-                      </a>
+                      </span>
                     </Button>
                     <Menu
                       id="basic-menu"

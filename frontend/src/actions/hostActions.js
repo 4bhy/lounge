@@ -149,7 +149,7 @@ export const listHostProperties = () => async (dispatch, getState) => {
 
 export const getHostStats = () => async (dispatch, getState) => {
   try {
-    console.log(22);
+
     dispatch(hostStatReq())
 
     const {
@@ -157,14 +157,14 @@ export const getHostStats = () => async (dispatch, getState) => {
     } = getState();
 
     const id = userInfo.host._id;
-    console.log(userInfo, "pp");
+
     const config = {
       headers: {
         "Content-type": "application/json",
       },
     }
     const { data } = await axios.get(`http://localhost:5000/api/host/get-report/${id}`, config)
-    console.log(data);
+
     dispatch(hostStatSucsess(data))
 
   } catch (error) {

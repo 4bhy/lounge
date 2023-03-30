@@ -1,7 +1,5 @@
 import React from 'react'
 
-
-
 const LandingPagination = ({ totalPosts, postsPerPage, setCurrentPage, currentPage }) => {
 
     let pages = []

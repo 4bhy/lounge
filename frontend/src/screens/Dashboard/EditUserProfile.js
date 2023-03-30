@@ -18,7 +18,7 @@ const EditUserProfile = () => {
     const dispatch = useDispatch()
 
     const submitHandler = async () => {
-        console.log("test");
+     
         if (!name || !email || !phone) {
             toast.error("Fields cant be empty.")
         } else if (password != null && password.length <= 4) {
