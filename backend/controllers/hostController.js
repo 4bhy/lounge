@@ -188,10 +188,48 @@ module.exports = {
                 });
             }
 
-            if(report){
-                res.status(201).json({report:report})
-            }
+            Booking.find({ hostId: req.params.id, isCancelled: "false" })
+                .exec(function (err, bookings) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        // Map the bookings to an array of objects that contain the hotel information and booking amount
+                        const bookingsByHotel = bookings.map(function (booking) {
+                            return {
+                                hotel: booking.propertyId,
+                                amount: parseFloat(booking.amount)
+                            };
+                        });
+
+                        // Reduce the array of bookings by hotel, calculating the total earnings and total number of bookings for the host
+                        const totals = bookingsByHotel.reduce(function (totals, booking) {
+                            const hotelId = booking.hotel._id;
+
+                            // Calculate the total earnings for the host
+                            totals.earnings += booking.amount;
+
+                            // Calculate the total number of bookings for each hotel
+                            if (!totals.bookings[hotelId]) {
+                                totals.bookings[hotelId] = 0;
+                            }
+                            totals.bookings[hotelId] += 1;
+
+                            return totals;
+                        }, { earnings: 0, bookings: {} });
+                        if(report && totals)
+                            res.status(201).json({ report: report, totals:totals })
             
+                    }
+                });
+
+        } catch (error) {
+            console.log(error);
+        }
+    }),
+
+    getCardStats: asyncHandler(async (req, res) => {
+        try {
+
         } catch (error) {
             console.log(error);
         }

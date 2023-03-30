@@ -5,58 +5,56 @@ import { getHostStats } from '../../../actions/hostActions';
 
 const HostPieChart = () => {
 
-    const data = [
-        {
-            name: 'Page A',
-        
-            pv: 2400,
-        
-        },
-        {
-            name: 'Page B',
-        
-            pv: 2800,
-        
-        },
-      
-    ];
-
     const dispatch = useDispatch()
-
-    
     const { stats } = useSelector((state) => state.hostStats)
 
     useEffect(() => {
-      
         dispatch(getHostStats())
     }, [])
+
+    const getIntroOfPage = (label) => { 
+        return '';
+    };
+
+
+    const CustomTooltip = ({ active, payload, label }) => {
+        if (active && payload && payload.length) {
+            return (
+                <div className="custom-tooltip">
+                    <p className="label">{`${label} : ${payload[0].value}`}</p>
+                    <p className="intro">{getIntroOfPage(label)}</p>
+                   
+                </div>
+            );
+        }
+
+        return null;
+    };
 
     return (
 
         <div className='h-48'>
-            <ResponsiveContainer width="50%" height="100%">
+            <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-                    width={50}
+                    width={500}
                     height={300}
-                    data={stats.report}
+                    data={stats?.report}
                     margin={{
                         top: 5,
                         right: 30,
                         left: 20,
                         bottom: 5,
                     }}
-                    barSize={20}
                 >
-                    <XAxis dataKey="pname" scale="point" padding={{ left: 10, right: 10 }} />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
                     <CartesianGrid strokeDasharray="3 3" />
-                    <Bar dataKey="totalAmount" fill="#8884d8" background={{ fill: '#eee' }} />
+                    <XAxis dataKey="pname" />
+                    <YAxis />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Legend />
+                    <Bar dataKey="totalAmount" barSize={20} fill="#8884d8" />
                 </BarChart>
             </ResponsiveContainer>
         </div>
-
     )
 }
 

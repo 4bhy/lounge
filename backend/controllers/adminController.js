@@ -147,7 +147,7 @@ module.exports = {
     }),
 
     handleApproval: asyncHandler(async (req, res) => {
-     
+
         try {
             const hostData = await Host.findById({ _id: req.body.id })
             hostData.isApproved = true;
@@ -189,7 +189,6 @@ module.exports = {
             res.status(404).json({ message: "Failed to list coupons" })
             throw new Error("Failed to list coupons")
         }
-
     }),
 
     addCoupon: asyncHandler(async (req, res) => {
@@ -211,7 +210,7 @@ module.exports = {
                 res.status(201).json({ couponData })
             }
         } catch (error) {
-      
+
             console.log(error);
             res.status(404).json({ message: "Failed to add coupon" })
             throw new Error("Failed to add Coupon")
@@ -220,13 +219,12 @@ module.exports = {
 
     statsLoader: asyncHandler(async (req, res) => {
         try {
-          
             const usersStat = await User.find()
             const bookingStat = await Booking.find()
             const hostsStat = await Host.find()
 
             Booking.find({})
-                .populate('propertyId') 
+                .populate('propertyId')
                 .exec((err, bookings) => {
                     if (err) {
                         console.log(err);
@@ -260,5 +258,5 @@ module.exports = {
         } catch (error) {
             console.log(error.message);
         }
-    })
+    }),
 }
