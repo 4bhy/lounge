@@ -8,7 +8,7 @@ const FindMore = () => {
   return (
     <div>
         <Navbar/>
-        {/* <StoreHead/> */}
+        <StoreHead/>
         <CardContainer/>
         <Footer/>
     </div>

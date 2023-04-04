@@ -19,6 +19,7 @@ import { userBooking } from "../features/users/bookingsSlice";
 import { async } from "@firebase/util";
 import { messageFail, messageSuccess } from "../features/users/messageSlice";
 import { availabilityError, availabilityFail, availabilityReq, availabilitySuccess } from "../features/users/availabilitySlice";
+import { searchFail, searchReq, searchSuccess } from "../features/users/searchSlice";
 
 
 export const login = (email, password) => async (dispatch) => {
@@ -167,7 +168,7 @@ export const resetPassword = (email, password) => async (dispatch) => {
 export const listBookings = (id) => async (dispatch) => {
 
   try {
-  
+
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -214,7 +215,7 @@ export const submitReview = (pid, uid, rating, title, review) => async (dispatch
     const {
       userLogin: { userInfo },
     } = getState();
-   
+
 
     const config = {
       headers: {
@@ -254,7 +255,7 @@ export const editProfile = (name, email, phone, password) => async (dispatch, ge
     if (data) {
       dispatch(userLoginSuccess(data));
       localStorage.setItem("userInfo", JSON.stringify(data));
- 
+
     }
 
   } catch (error) {
@@ -275,17 +276,38 @@ export const checkAvailabilities = (checkIn, checkOut, id) => async (dispatch) =
       },
     }
     const { data } = await axios.post("http://localhost:5000/api/users/check-availability", { checkIn, checkOut, id }, config)
-  
+
     dispatch(availabilitySuccess(data))
-    
+
   } catch (error) {
     const errorIs =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-        console.log(errorIs, "At error");
+    console.log(errorIs, "At error");
 
     dispatch(availabilityFail(errorIs))
+  }
+}
+
+export const searchBar = (location, checkIn, checkOut, guests) => async (dispatch) => {
+  try {
+    dispatch(searchReq())
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    }
+    const { data } = await axios.post("http://localhost:5000/api/users/search-bar", { location, checkIn, checkOut, guests }, config)
+    console.log(data, "ddata");
+    dispatch(searchSuccess(data))
+  } catch (error) {
+    const errorIs =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+        console.log(errorIs, "dfdsd");
+    dispatch(searchFail(errorIs))
   }
 }
 

@@ -6,10 +6,9 @@ const Coupon = require("../models/couponModel");
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../utils/generateToken");
 const nodemailer = require("nodemailer");
-const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
-
 
 require('dotenv').config();
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 module.exports = {
   registerUser: (async (req, res) => {
@@ -141,7 +140,7 @@ module.exports = {
       console.log(password);
       const userData = await User.findOne({ email })
       const host = await Host.findOne({ userId: userData._id })
-      // $2a$10$3JiwvCHcVPcEhzwxfU6Z4e90RlG8x2SjBmEtfNlHrU1TckPL27bdW
+
       if (!userData) {
         res.status(404).json("Invalid Email")
       } else {
@@ -238,7 +237,6 @@ module.exports = {
         })
       }
     } catch (error) {
-      console.log("55");
       console.log(error.message);
       res.status(401).json({
         title: "Cancellation Failed",
@@ -353,6 +351,44 @@ module.exports = {
     } catch (error) {
       console.log(error.message);
       res.status(404).json({ message: error.message })
+    }
+  }),
+
+  searchBar: asyncHandler(async (req, res) => {
+    try {
+      // Get all properties in the given city/state
+      const { location, checkIn, checkOut } = req.body
+      const properties = await Hotel.find({ pstate: location });
+
+      // Filter the available properties based on bookings
+      const availableProperties = await Promise.all(properties.map(async (property) => {
+        const bookings = await Booking.find({ propertyId: property._id });
+        const available = !bookings.some((booking) => {
+          const bookedCheckIn = new Date(booking.checkIn);
+          const bookedCheckOut = new Date(booking.checkOut);
+          const checkInDate = new Date(checkIn);
+          const checkOutDate = new Date(checkOut);
+          return (
+            (bookedCheckIn <= checkInDate && bookedCheckOut >= checkInDate) ||
+            (bookedCheckIn <= checkOutDate && bookedCheckOut >= checkOutDate) ||
+            (bookedCheckIn >= checkInDate && bookedCheckOut <= checkOutDate)
+          );
+        });
+        if (available) {
+          return property;
+        }
+        return null;
+      }));
+
+      const finalProperties = availableProperties.filter((property) => property !== null);
+      if (finalProperties) {
+        console.log(finalProperties);
+        res.status(201).json({ final: finalProperties })
+      }
+
+    } catch (error) {
+      console.log(error.message);
+      res.status(404).json({ message: "Can't find any properties" })
     }
   })
 

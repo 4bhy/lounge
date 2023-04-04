@@ -23,6 +23,7 @@ import listHostPropertiesReducer from "../features/host/listHostPropertiesSlice"
 import availabilityReducer from "../features/users/availabilitySlice";
 import statsReducer from "../features/admin/statsSlice";
 import hostStatReducer from "../features/host/hostStatSlice";
+import searchReducer from "../features/users/searchSlice";
 const store = configureStore({
     reducer: {
         userLogin: userLoginReducer,
@@ -47,8 +48,8 @@ const store = configureStore({
         listHostProperties: listHostPropertiesReducer,
         checkAvailability:availabilityReducer,
         stats:statsReducer,
-        hostStats:hostStatReducer
-        
+        hostStats:hostStatReducer,
+        search:searchReducer
     }
 })
 

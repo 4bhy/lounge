@@ -12,7 +12,7 @@ router.get("/list-bookings/:id", bookingsHost)
 router.get("/handle-booking/:id", handleBooking)
 router.patch("/approve-cancellation", approveCancellation)
 router.get("/list-properties/:id", listingHostProperties)
-router.get("/get-report/:id", getReport)
+router.get("/get-report/:id", getReport) 
 
 module.exports = router
 

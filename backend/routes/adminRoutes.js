@@ -11,7 +11,7 @@ router.get('/view-hosts/:id', viewHostDetails)
 router.post('/handleuser/:id', handleUser)
 router.post('/handlehost/:id', handleHost)
 router.post('/handlehotels/:id', handleHotels)
-router.post('/view-property ', viewHostProperty)
+router.post('/view-property ', viewHostProperty) //middlwware for protection
 router.post('/handle-approval', handleApproval)
 router.get('/hotel-approval/:id', hotelApproval)
 router.get('/get-coupons', getCoupons)

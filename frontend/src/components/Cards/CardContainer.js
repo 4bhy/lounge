@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LandingPagination from '../Pagination/LandingPagination'
+import { searchBar } from '../../actions/userActions'
+import { toast, Toaster } from 'react-hot-toast'
 
 const CardContainer = () => {
 
@@ -18,6 +20,7 @@ const CardContainer = () => {
   }, [])
 
   const listHotels = useSelector((state) => state.listHotels)
+  const { searchLoading, searchList, searchError } = useSelector((state) => state.search)
 
   const { hotelsList } = listHotels
 
@@ -30,10 +33,15 @@ const CardContainer = () => {
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage
-  const currentPosts = hotelsList?.filter(data => data.isApproved === "true").slice(firstPostIndex, lastPostIndex)
+  let currentPosts = []
 
-  const [search, setSearch] = useState("")
-  console.log(search);
+  if (searchList != null) {
+    currentPosts = searchList?.final?.filter(data => data.isApproved === "true")
+      .slice(firstPostIndex, lastPostIndex)
+  } else {
+    currentPosts = hotelsList?.filter(data => data.isApproved === "true")
+      .slice(firstPostIndex, lastPostIndex)
+  }
 
   const [query, setQuery] = useState('');
 
@@ -46,8 +54,45 @@ const CardContainer = () => {
     return regex.test(product.pname);
   });
 
+  const [location, setLocation] = useState("")
+  const [checkIn, setCheckIn] = useState("")
+  const [checkOut, setCheckOut] = useState("")
+  const [guests, setGuests] = useState("")
+
+  const submitHandler = () => {
+    if (!location || !checkIn || !checkOut || !guests) {
+      toast.error("Please include all fields!")
+    } else {
+      dispatch(searchBar(location, checkIn, checkOut, guests))
+
+    }
+  }
+
+
   return (
     <div>
+      <div><Toaster /></div>
+      <div className='flex justify-center'>
+        <div className="bar mt-10 w-650 bg-white shadow-md rounded-full flex justify-center text-sm">
+          <div className="location w-34 px-6 py-2 rounded-full transition-colors duration-250 ease">
+            <p className='text-green-500'>Location</p>
+            <input onChange={(e) => setLocation(e.target.value)} type="text" placeholder="Where are you going?" className="bg-transparent border-none mt-2 placeholder-gray-500 focus:outline-none" />
+          </div>
+          <div className="check-in w-22 px-6 py-2 rounded-full transition-colors duration-250 ease">
+            <p className='text-green-500'>Check in</p>
+            <input onChange={(e) => setCheckIn(e.target.value)} type="text" placeholder="Add dates" className="bg-transparent border-none mt-2 placeholder-gray-500 focus:outline-none" />
+          </div>
+          <div className="check-out w-22 px-6 py-2 rounded-full transition-colors duration-250 ease">
+            <p className='text-green-500'>Check out</p>
+            <input onChange={(e) => setCheckOut(e.target.value)} type="text" placeholder="Add dates" className="bg-transparent border-none mt-2 placeholder-gray-500 focus:outline-none" />
+          </div>
+          <div className="guests w-22 px-6 py-2 rounded-full relative transition-colors duration-250 ease">
+            <p className='text-green-500'>Guests</p>
+            <input onChange={(e) => setGuests(e.target.value)} type="text" placeholder="Add guests" className="bg-transparent border-none placeholder-gray-500 mt-2 focus:outline-none" />
+            <button onClick={submitHandler} className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-green-600 text-white rounded-full text-xs px-4 py-1"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
 
       <div className='flex justify-center mr-6 mt-3'>
         <div class="relative text-gray-600">
@@ -59,58 +104,61 @@ const CardContainer = () => {
           </button>
         </div>
       </div>
-
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-1'>
-
-        {filteredProducts?.map((data, i) => (
-          <div className="flex flex-wrap" onClick={() => {
-            propertyHandler(data._id)
-          }}>
-            <a href="#" className="block ml-6 rounded-lg p-6 shadow-sm shadow-indigo-100">
-              <img
-                alt="Home"
-                src={data.pic[0]}
-                className="h-56 w-full rounded-md object-cover"
-              />
-              <div className="mt-2">
-                <dl>
-                  <div>
-                    <dt className="sr-only">Price</dt>
-                    <dd className="text-sm text-gray-500">₹{data.price}</dd>
-                  </div>
-                  <div>
-                    <dt className="sr-only">{data.pname}</dt>
-                    <dd className="font-medium">{data.pname}</dd>
-                  </div>
-                </dl>
-                <div className="mt-6 flex items-center gap-8 text-xs">
-                  <div className="sm:inline-flex sm:shrink-0 sm:items-center">
-                    {/* Parking SVG here */}
-                    <div className="mt-1.5 sm:ml-3 sm:mt-0">
-                      <p className="text-gray-500">Parking</p>
-                      <p className="font-medium">2 spaces</p>
+      {
+        searchError ? (<h1>No ksdvnsvn</h1>) : (
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-1'>
+            {filteredProducts?.map((data, i) => (
+              <div className="flex flex-wrap" onClick={() => {
+                propertyHandler(data._id)
+              }}>
+                <a href="#" className="block ml-6 rounded-lg p-6 shadow-sm shadow-indigo-100">
+                  <img
+                    alt="Home"
+                    src={data.pic[0]}
+                    className="h-56 w-full rounded-md object-cover"
+                  />
+                  <div className="mt-2">
+                    <dl>
+                      <div>
+                        <dt className="sr-only">Price</dt>
+                        <dd className="text-sm text-gray-500">₹{data.price}</dd>
+                      </div>
+                      <div>
+                        <dt className="sr-only">{data.pname}</dt>
+                        <dd className="font-medium">{data.pname}</dd>
+                      </div>
+                    </dl>
+                    <div className="mt-6 flex items-center gap-8 text-xs">
+                      <div className="sm:inline-flex sm:shrink-0 sm:items-center">
+                        {/* Parking SVG here */}
+                        <div className="mt-1.5 sm:ml-3 sm:mt-0">
+                          <p className="text-gray-500">Parking</p>
+                          <p className="font-medium">2 spaces</p>
+                        </div>
+                      </div>
+                      <div className="sm:inline-flex sm:shrink-0 sm:items-center">
+                        {/* Bathroom SVG here */}
+                        <div className="mt-1.5 sm:ml-3 sm:mt-0">
+                          <p className="text-gray-500">Bathroom</p>
+                          <p className="font-medium">2 rooms</p>
+                        </div>
+                      </div>
+                      <div className="sm:inline-flex sm:shrink-0 sm:items-center">
+                        {/* Bedroom SVG here */}
+                        <div className="mt-1.5 sm:ml-3 sm:mt-0">
+                          <p className="text-gray-500">Bedroom</p>
+                          <p className="font-medium">4 rooms</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="sm:inline-flex sm:shrink-0 sm:items-center">
-                    {/* Bathroom SVG here */}
-                    <div className="mt-1.5 sm:ml-3 sm:mt-0">
-                      <p className="text-gray-500">Bathroom</p>
-                      <p className="font-medium">2 rooms</p>
-                    </div>
-                  </div>
-                  <div className="sm:inline-flex sm:shrink-0 sm:items-center">
-                    {/* Bedroom SVG here */}
-                    <div className="mt-1.5 sm:ml-3 sm:mt-0">
-                      <p className="text-gray-500">Bedroom</p>
-                      <p className="font-medium">4 rooms</p>
-                    </div>
-                  </div>
-                </div>
+                </a>
               </div>
-            </a>
+            ))}
           </div>
-        ))}
-      </div>
+        )
+      }
+
       <div className='mt-8'>
         <LandingPagination totalPosts={4}
           postsPerPage={postsPerPage}
