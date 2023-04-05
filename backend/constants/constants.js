@@ -1,3 +1,3 @@
 module.exports = {
-    RESET_PASSWORD_URL: 'http://localhost:3000/reset-password'
+    RESET_PASSWORD_URL: 'https://lounge-co0w.onrender.com/reset-password'
 };
