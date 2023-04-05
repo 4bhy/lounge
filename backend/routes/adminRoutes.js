@@ -4,11 +4,11 @@ const {listUsers, listHosts, handleUser, handleHost, handleHotels,listHotels, vi
 const adminProtect = require("../middlewares/adminAuth");
 const router = express.Router();
 
-router.get('/listusers',adminProtect, listUsers)
-router.get('/listhosts',adminProtect, listHosts)
+router.get('/listusers', listUsers)
+router.get('/listhosts', listHosts)
 router.get('/list-approvals',adminProtect, listApprovals)
-router.get('/listhotels',adminProtect, listHotels)
-router.get('/view-hosts/:id',adminProtect, viewHostDetails)
+router.get('/listhotels', listHotels)
+router.get('/view-hosts/:id',viewHostDetails)
 router.post('/handleuser/:id',adminProtect, handleUser)
 router.post('/handlehost/:id',adminProtect, handleHost)
 router.post('/handlehotels/:id',adminProtect, handleHotels)
