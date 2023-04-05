@@ -359,7 +359,7 @@ export const getCoupons = () => async (dispatch, getState) => {
             }
         }
         const timestamp = Date.now(); 
-        const { data } = await axiosConfig.get(`/api/admin/get-coupons?timestamp=${timestamp}`, config)
+        const { data } = await axiosConfig.get(`/admin/get-coupons?timestamp=${timestamp}`, config)
         
         dispatch(listCoupons(data))
 
@@ -389,7 +389,7 @@ export const addCoupon = (cname, discount, vfrom, vto) => async (dispatch, getSt
                 Authorization: `Bearer ${userInfo.token}`,
             }
         }
-        const { data } = await axiosConfig.post("/api/admin/add-coupon/", { cname, discount, vfrom, vto }, config)
+        const { data } = await axiosConfig.post("/admin/add-coupon/", { cname, discount, vfrom, vto }, config)
         dispatch(addCouponsSuccess(data))
 
     } catch (error) {
