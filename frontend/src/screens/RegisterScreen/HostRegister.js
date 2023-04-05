@@ -49,11 +49,11 @@ const HostRegister = () => {
         }
     }, [hostInfo]);
 
-    // useEffect(() => {
-    //     if (hostInfo) {
-    //         navigate("/host/dashboard");
-    //     }
-    // }, [hostInfo]);
+    useEffect(() => {
+        if (hostInfo) {
+            navigate("/host/dashboard");
+        }
+    }, [hostInfo]);
 
     const submitHandler = async (e) => {
         console.log("submithandler");
@@ -221,11 +221,11 @@ const HostRegister = () => {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description" >
                     <DialogTitle id="alert-dialog-title">
-                        {"Use Google's location service?"}
+                        {"Thank You"}
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            YOur request has been submitted! You'll be notified after the approval.
+                            Your request has been submitted! You'll be notified after the approval.
                             Meanwhile take a look at the latest listings
                         </DialogContentText>
                     </DialogContent>

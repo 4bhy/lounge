@@ -47,8 +47,6 @@ module.exports = {
 
   authUser: asyncHandler((async (req, res) => {
 
-    //sanitize input, no sql injection
-    //remive sppcl caharacters, use regex, node sanitize module
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     const host = await Host.findOne({
@@ -310,7 +308,6 @@ module.exports = {
   checkAvailability: asyncHandler(async (req, res) => {
     try {
       const bookingData = await Booking.find({ propertyId: req.body.id })
-
       const bookingDates = bookingData.map(booking => [booking.checkIn, booking.checkOut]);
       function expandDateRange(checkIn, checkOut) {
         if (!(checkIn instanceof Date)) {
