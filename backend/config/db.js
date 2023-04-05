@@ -4,7 +4,7 @@ const mongoose= require('mongoose')
 const connectDB= async()=>{
     mongoose.set('strictQuery', false)
   try {
-        mongoose.connect('mongodb://localhost:27017/hotel', {
+        mongoose.connect(process.env.MONGODB_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     

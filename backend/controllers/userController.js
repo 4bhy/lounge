@@ -6,6 +6,7 @@ const Coupon = require("../models/couponModel");
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../utils/generateToken");
 const nodemailer = require("nodemailer");
+const {RESET_PASSWORD_URL}= require("../constants/constants")
 
 require('dotenv').config();
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
@@ -102,7 +103,7 @@ module.exports = {
         return res.status(404).json({ status: "User Not Exists!!" });
       }
       const token = await generateToken(oldUser._id)
-      const link = `http://localhost:3000/reset-password/${oldUser._id}/${token}`;
+      const link = `${RESET_PASSWORD_URL}/${oldUser._id}/${token}`;
 
       var transporter = nodemailer.createTransport({
         service: "gmail",
@@ -112,10 +113,9 @@ module.exports = {
         },
       });
 
-
       let info = await transporter.sendMail({
         from: 'abhy.r010@gmail.com', // sender address
-        to: "jokerhap9444@gmail.com", // list of receivers
+        to:  email, // list of receivers
         subject: "Password Reset", // Subject line
         html: link, // html body
       });
