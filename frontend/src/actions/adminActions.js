@@ -11,6 +11,8 @@ import { listApprovalsFail, listApprovalsReq, listApprovalsSuccess } from '../fe
 import { listCoupons } from '../features/admin/couponSlice';
 import { addCouponsFail, addCouponsReq, addCouponsSuccess } from '../features/admin/addCouponSlice';
 import { getStats } from '../features/admin/statsSlice';
+import axiosConfig from '../config/axios';
+
 export const listUsers = () => async (dispatch, getState) => {
 
     try {
@@ -27,7 +29,7 @@ export const listUsers = () => async (dispatch, getState) => {
         }
 
         dispatch(listUsersReq());
-        const { data } = await axios.get("http://localhost:5000/api/admin/listusers", config)
+        const { data } = await axiosConfig.get("/admin/listusers", config)
         dispatch(listUsersSuccess(data));
 
     } catch (error) {
@@ -55,7 +57,7 @@ export const listHosts = () => async (dispatch, getState) => {
             }
         }
         dispatch(listHostsReq())
-        const { data } = await axios.get('http://localhost:5000/api/admin/listhosts', config)
+        const { data } = await axiosConfig.get('/admin/listhosts', config)
 
         dispatch(listHostsSuccess(data))
 
@@ -84,7 +86,7 @@ export const listHotel = () => async (dispatch, getState) => {
         }
         dispatch(listHotelsReq())
 
-        const { data } = await axios.get('http://localhost:5000/api/admin/listhotels', config)
+        const { data } = await axiosConfig.get('/admin/listhotels', config)
         dispatch(listHotelsSuccess(data))
 
 
@@ -117,7 +119,7 @@ export const handleUsers = (id, status) => async (dispatch, getState) => {
             blocked: status,
         };
 
-        const { data } = await axios.post(`http://localhost:5000/api/admin/handleuser/${id}`, sendStatus, config)
+        const { data } = await axiosConfig.post(`/admin/handleuser/${id}`, sendStatus, config)
 
         dispatch(handleUserSuccess(data))
 
@@ -152,7 +154,7 @@ export const handleHosts = (id, status) => async (dispatch, getState) => {
             blocked: status,
         };
 
-        const { data } = await axios.post(`http://localhost:5000/api/admin/handlehost/${id}`, sendStatus, config)
+        const { data } = await axiosConfig.post(`/admin/handlehost/${id}`, sendStatus, config)
 
 
 
@@ -183,7 +185,7 @@ export const viewProperty = (id) => async (dispatch, getState) => {
         //     hostId:id
         // }
 
-        const { data } = await axios.post("http://localhost:5000/api/admin/view-property", { id }, config)
+        const { data } = await axiosConfig.post("/admin/view-property", { id }, config)
         dispatch(hostPropertySuccess(data))
     } catch (error) {
         const message =
@@ -210,7 +212,7 @@ export const viewHosts = (id) => async (dispatch, getState) => {
 
         dispatch(viewHostsReq())
 
-        const { data } = await axios.get(`http://localhost:5000/api/admin/view-hosts/${id}`, config)
+        const { data } = await axiosConfig.get(`/admin/view-hosts/${id}`, config)
 
         dispatch(viewHostsSuccess(data))
 
@@ -240,7 +242,7 @@ export const listApprovalsAction = () => async (dispatch, getState) => {
             }
         }
 
-        const { data } = await axios.get("http://localhost:5000/api/admin/list-approvals", config)
+        const { data } = await axiosConfig.get("/admin/list-approvals", config)
 
         dispatch(listApprovalsSuccess(data))
     } catch (error) {
@@ -272,7 +274,7 @@ export const handleHotels = (id, status) => async (dispatch, getState) => {
             status: status,
         };
 
-        const { data } = await axios.post(`http://localhost:5000/api/admin/handlehotels/${id}`, sendStatus, config)
+        const { data } = await axiosConfig.post(`/admin/handlehotels/${id}`, sendStatus, config)
 
 
         dispatch(handleHotelsSuccess(data))
@@ -302,7 +304,7 @@ export const handleApproval = (id) => async (dispatch, getState) => {
             }
         }
 
-        const { data } = await axios.post("http://localhost:5000/api/admin/handle-approval/", { id }, config)
+        const { data } = await axiosConfig.post("/admin/handle-approval/", { id }, config)
 
     } catch (error) {
 
@@ -329,7 +331,7 @@ export const hotelApprovalAction = (id) => async (dispatch, getState) => {
                 Authorization: `Bearer ${userInfo.token}`,
             }
         }
-        const { data } = await axios.get(`http://localhost:5000/api/admin/hotel-approval/${id}`, config)
+        const { data } = await axiosConfig.get(`/admin/hotel-approval/${id}`, config)
 
     } catch (error) {
 
@@ -356,10 +358,9 @@ export const getCoupons = () => async (dispatch, getState) => {
                 Authorization: `Bearer ${userInfo.token}`,
             }
         }
-        const timestamp = Date.now(); // get current timestamp
-        const { data } = await axios.get(`http://localhost:5000/api/admin/get-coupons?timestamp=${timestamp}`, config)
-        console.log("after getting 1");
-        console.log(data, "data after log, 1");
+        const timestamp = Date.now(); 
+        const { data } = await axiosConfig.get(`/api/admin/get-coupons?timestamp=${timestamp}`, config)
+        
         dispatch(listCoupons(data))
 
     } catch (error) {
@@ -388,7 +389,7 @@ export const addCoupon = (cname, discount, vfrom, vto) => async (dispatch, getSt
                 Authorization: `Bearer ${userInfo.token}`,
             }
         }
-        const { data } = await axios.post("http://localhost:5000/api/admin/add-coupon/", { cname, discount, vfrom, vto }, config)
+        const { data } = await axiosConfig.post("/api/admin/add-coupon/", { cname, discount, vfrom, vto }, config)
         dispatch(addCouponsSuccess(data))
 
     } catch (error) {
@@ -404,7 +405,7 @@ export const addCoupon = (cname, discount, vfrom, vto) => async (dispatch, getSt
 
 export const getStat = () => async (dispatch, getState) => {
     try {
-        
+
         const {
             userLogin: { userInfo },
         } = getState();
@@ -416,7 +417,7 @@ export const getStat = () => async (dispatch, getState) => {
                 Authorization: `Bearer ${userInfo.token}`,
             }
         }
-        const { data } = await axios.get("http://localhost:5000/api/admin/get-stats", config)
+        const { data } = await axiosConfig.get("/admin/get-stats", config)
         dispatch(getStats(data))
 
     } catch (error) {

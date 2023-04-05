@@ -9,13 +9,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-
 import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
-
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-
+import axiosConfig from '../../config/axios';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -44,11 +41,8 @@ const CARD_OPTIONS = {
 
 const PaymentForm = ({state, discountPrice, couponId}) => {
 
-
-    const [success, setSuccess] = useState(false)
     const stripe = useStripe()
     const elements = useElements()
-
     const userInfo = state.userInfo;
     const propertyData = state.propertyData;
     const checkIn = state.checkIn;
@@ -70,7 +64,7 @@ const PaymentForm = ({state, discountPrice, couponId}) => {
         if (!error) {
             try {
                 const { id } = paymentMethod
-                const response = await axios.post("http://localhost:5000/api/users/payment", {
+                const response = await axiosConfig.post("/users/payment", {
                     amount: discount,
                     id,
                     userInfo,
@@ -104,14 +98,6 @@ const PaymentForm = ({state, discountPrice, couponId}) => {
     const handleClose = () => {
         setOpen(false);
     };
-
-    // useEffect(()=>{
-
-    //     setTimeout(() => {
-    //        navigate("/")
-    //     }, 4000);
-
-    // }, [redirector])
 
     return (
         <>
@@ -149,8 +135,7 @@ const PaymentForm = ({state, discountPrice, couponId}) => {
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={opens}
-                onClick={handleClose}
-            >
+                onClick={handleClose}>
                 <CircularProgress color="inherit" />
             </Backdrop>
         </>

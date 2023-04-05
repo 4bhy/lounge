@@ -1,6 +1,4 @@
 import axios from "axios";
-
-
 import {
   userLoginFail,
   userLoginReq,
@@ -14,13 +12,12 @@ import {
 } from "../features/users/userRegisterSlice";
 
 
-import individualPropertySlice, { individualPropertySuccess, individualPropertyReq, individualPropertyFail } from "../features/users/individualPropertySlice";
+import { individualPropertySuccess, individualPropertyReq, individualPropertyFail } from "../features/users/individualPropertySlice";
 import { userBooking } from "../features/users/bookingsSlice";
-import { async } from "@firebase/util";
 import { messageFail, messageSuccess } from "../features/users/messageSlice";
 import { availabilityError, availabilityFail, availabilityReq, availabilitySuccess } from "../features/users/availabilitySlice";
 import { searchFail, searchReq, searchSuccess } from "../features/users/searchSlice";
-
+import axiosConfig from "../config/axios";
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -31,8 +28,8 @@ export const login = (email, password) => async (dispatch) => {
     };
     dispatch(userLoginReq());
 
-    const { data } = await axios.post(
-      `http://localhost:5000/api/users/login`,
+    const { data } = await axiosConfig.post(
+      `/users/login`,
       {
         email,
         password,
@@ -52,10 +49,6 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-// export const logout = () => async (dispatch) => {
-//   localStorage.removeItem("userInfo");
-//   dispatch(userLogout());
-// };
 
 export const register = (name, email, password, phoneNumber) => async (dispatch) => {
   try {
@@ -67,8 +60,8 @@ export const register = (name, email, password, phoneNumber) => async (dispatch)
     };
     dispatch(userRegisterReq());
 
-    const { data } = await axios.post(
-      `http://localhost:5000/api/users/`,
+    const { data } = await axiosConfig.post(
+      `/users/`,
       {
         name,
         email,
@@ -78,7 +71,7 @@ export const register = (name, email, password, phoneNumber) => async (dispatch)
       config
     );
 
-    // console.log(data);
+
     dispatch(userRegisterSuccess(data));
     dispatch(userLoginSuccess(data));
 
@@ -101,8 +94,9 @@ export const individualProperty = (id) => async (dispatch) => {
         "Content-type": "application/json",
       },
     }
-    const { data } = await axios.get(`http://localhost:5000/api/users/individual-property/${id}`, config)
+    const { data } = await axiosConfig.get(`/users/individual-property/${id}`, config)
     dispatch(individualPropertySuccess(data))
+
   } catch (error) {
     const errorIs =
       error.response && error.response.data.message
@@ -122,7 +116,7 @@ export const getLinkAction = (email) => async (dispatch) => {
       },
     }
 
-    const { data } = await axios.post("http://localhost:5000/api/users/get-link", { email }, config)
+    const { data } = await axiosConfig.post("/users/get-link", { email }, config)
 
 
   } catch (error) {
@@ -143,11 +137,10 @@ export const resetPassword = (email, password) => async (dispatch) => {
     const config = {
       headers: {
         "Content-type": "application/json",
-
       }
     }
 
-    const { data } = await axios.post("http://localhost:5000/api/users/reset-password", { email, password }, config)
+    const { data } = await axiosConfig.post("/users/reset-password", { email, password }, config)
 
     dispatch(userLoginSuccess(data));
     localStorage.setItem("userInfo", JSON.stringify(data));
@@ -173,7 +166,7 @@ export const listBookings = (id) => async (dispatch) => {
       },
     }
 
-    const { data } = await axios.get(`http://localhost:5000/api/users/list-bookings/${id}`, config)
+    const { data } = await axiosConfig.get(`/users/list-bookings/${id}`, config)
 
     dispatch(userBooking(data))
 
@@ -195,7 +188,7 @@ export const userCancellation = (id) => async (dispatch) => {
       },
     }
 
-    const { data } = await axios.get(`http://localhost:5000/api/users/cancel-booking/${id}`, config)
+    const { data } = await axiosConfig.get(`/users/cancel-booking/${id}`, config)
     dispatch(messageSuccess(data))
 
   } catch (error) {
@@ -221,7 +214,7 @@ export const submitReview = (pid, uid, rating, title, review) => async (dispatch
         Authorization: `Bearer ${userInfo.token}`,
       }
     }
-    const { data } = await axios.post("http://localhost:5000/api/users/submit-review", { pid, uid, rating, title, review }, config)
+    const { data } = await axiosConfig.post("/users/submit-review", { pid, uid, rating, title, review }, config)
 
   } catch (error) {
     const errorIs =
@@ -249,7 +242,7 @@ export const editProfile = (name, email, phone, password) => async (dispatch, ge
     }
     const id = userInfo.user._id;
 
-    const { data } = await axios.post("http://localhost:5000/api/users/edit-profile", { name, email, phone, password, id }, config)
+    const { data } = await axiosConfig.post("/users/edit-profile", { name, email, phone, password, id }, config)
     if (data) {
       dispatch(userLoginSuccess(data));
       localStorage.setItem("userInfo", JSON.stringify(data));
@@ -273,7 +266,7 @@ export const checkAvailabilities = (checkIn, checkOut, id) => async (dispatch) =
         "Content-type": "application/json",
       },
     }
-    const { data } = await axios.post("http://localhost:5000/api/users/check-availability", { checkIn, checkOut, id }, config)
+    const { data } = await axiosConfig.post("/users/check-availability", { checkIn, checkOut, id }, config)
 
     dispatch(availabilitySuccess(data))
 
@@ -296,7 +289,7 @@ export const searchBar = (location, checkIn, checkOut, guests) => async (dispatc
         "Content-type": "application/json",
       },
     }
-    const { data } = await axios.post("http://localhost:5000/api/users/search-bar", { location, checkIn, checkOut, guests }, config)
+    const { data } = await axiosConfig.post("/users/search-bar", { location, checkIn, checkOut, guests }, config)
  
     dispatch(searchSuccess(data))
   } catch (error) {

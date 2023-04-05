@@ -4,7 +4,7 @@ import { hostRegisterReq, hostRegisterFail, hostRegisterSuccess } from '../featu
 import { hostStatFail, hostStatReq, hostStatSucsess } from '../features/host/hostStatSlice';
 import { listHostPropertyFail, listHostPropertyReq, listHostPropertySuccess } from '../features/host/listHostPropertiesSlice';
 import { hostBooking } from '../features/users/bookingsSlice';
-
+import axiosConfig from '../config/axios';
 export const hostRegister = (fname, lname, newid, zip, email, dob, phone, address, apart, cstate, id, idState, url) => async (dispatch) => {
   try {
     const config = {
@@ -14,7 +14,7 @@ export const hostRegister = (fname, lname, newid, zip, email, dob, phone, addres
     };
     dispatch(hostRegisterReq());
 
-    const { data } = await axios.post('http://localhost:5000/api/host/register', {
+    const { data } = await axiosConfig.post('/host/register', {
       fname, lname, newid, zip, email, dob, phone, address, apart, cstate, id, idState, url
     },
       config
@@ -40,7 +40,7 @@ export const addProperty = (pname, pstate, city, pin, description, hostID, url, 
         "Content-type": "application/json"
       },
     };
-    const { data } = await axios.post('http://localhost:5000/api/host/add-property', {
+    const { data } = await axiosConfig.post('/host/add-property', {
       pname, pstate, city, pin, description, hostID, url, type, value, amenities
     }, config)
 
@@ -64,7 +64,7 @@ export const listBookingsHost = (id) => async (dispatch) => {
       },
     }
 
-    const { data } = await axios.get(`http://localhost:5000/api/host/list-bookings/${id}`, config)
+    const { data } = await axiosConfig.get(`/host/list-bookings/${id}`, config)
  
     dispatch(hostBooking(data))
 
@@ -87,7 +87,7 @@ export const handleBooking = (id) => async (dispatch) => {
       },
     }
 
-    const { data } = await axios.get(`http://localhost:5000/api/host/handle-booking/${id}`, config)
+    const { data } = await axiosConfig.get(`/host/handle-booking/${id}`, config)
 
 
   } catch (error) {
@@ -108,7 +108,7 @@ export const approveCancellation = (id) => async (dispatch) => {
       },
     }
 
-    const { data } = await axios.patch("http://localhost:5000/api/host/approve-cancellation/", { id }, config)
+    const { data } = await axiosConfig.patch("/host/approve-cancellation/", { id }, config)
 
 
   } catch (error) {
@@ -135,7 +135,7 @@ export const listHostProperties = () => async (dispatch, getState) => {
         "Content-type": "application/json",
       },
     }
-    const { data } = await axios.get(`http://localhost:5000/api/host/list-properties/${id}`, config)
+    const { data } = await axiosConfig.get(`/host/list-properties/${id}`, config)
 
     dispatch(listHostPropertySuccess(data))
   } catch (error) {
@@ -163,7 +163,7 @@ export const getHostStats = () => async (dispatch, getState) => {
         "Content-type": "application/json",
       },
     }
-    const { data } = await axios.get(`http://localhost:5000/api/host/get-report/${id}`, config)
+    const { data } = await axiosConfig.get(`/host/get-report/${id}`, config)
 
     dispatch(hostStatSucsess(data))
 

@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import StripeContainer from '../../components/Stripe/StripeContainer'
 import './CheckoutPayment.css'
 import { useLocation } from 'react-router-dom'
-
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -19,8 +17,6 @@ import toast, { Toaster } from 'react-hot-toast';
 const CheckoutPayment = () => {
 
     const { state } = useLocation()
-    const [cin, setCin] = useState()
-    const [cout, SetCout] = useState()
     const [discountPrice, setDiscountPrice] = useState(state.totalPrice)
     const [checker, setChecker] = useState(false)
     const [currentCoupon, setCurrentCoupon] = useState({
@@ -76,7 +72,7 @@ const CheckoutPayment = () => {
             }
 
         } catch (error) {
-            console.log(error);
+        
             toast.error("Something went wrong")
         }
 
@@ -90,8 +86,6 @@ const CheckoutPayment = () => {
         setDiscountPrice(state.totalPrice)
     }
 
-    console.log("current coupon id",currentCoupon.id);
-    console.log("couponid",couponId);
 
     return (
         <div>
@@ -243,21 +237,13 @@ const CheckoutPayment = () => {
                                                 </div>
                                             </div>
                                             <div class="mb-3">
-                                                {/* <label class="text-gray-600 font-semibold text-sm mb-2 ml-1">Card number</label>
-                                                        <div>
-                                                            <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="0000 0000 0000 0000" type="text" />
-                                                        </div> */}
+                                               
                                                 <StripeContainer couponId={couponId}  state={state} discountPrice={discountPrice} />
                                             </div>
 
                                         </div>
                                     </div>
-                                    {/* <div class="w-full p-3">
-                                            <label for="type2" class="flex items-center cursor-pointer">
-                                                <input type="radio" class="form-radio h-5 w-5 text-indigo-500" name="type" id="type2"/>
-                                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" width="80" class="ml-3" />
-                                            </label>
-                                        </div> */}
+                                    
                                 </div>
 
                             </div>
