@@ -1,12 +1,8 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import BasicMenu from '../Avatar/UserAvatar'
-import LoggedOutMenu from '../Avatar/LoggedOutMenu'
 import { useDispatch } from 'react-redux'
 import logo from './lounge-high-resolution.png'
-
-
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';

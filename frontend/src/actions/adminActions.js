@@ -11,20 +11,20 @@ import { listApprovalsFail, listApprovalsReq, listApprovalsSuccess } from '../fe
 import { listCoupons } from '../features/admin/couponSlice';
 import { addCouponsFail, addCouponsReq, addCouponsSuccess } from '../features/admin/addCouponSlice';
 import { getStats } from '../features/admin/statsSlice';
-export const listUsers = () => async (dispatch) => {
+export const listUsers = () => async (dispatch, getState) => {
 
     try {
-        // const {
-        //     userLogin: { userInfo },
-        // } = getState();
+        const {
+            userLogin: { userInfo },
+        } = getState();
 
-        // console.log(userInfo);
 
         const config = {
             headers: {
-                "Content-type": "application/json"
-            },
-        };
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
+            }
+        }
 
         dispatch(listUsersReq());
         const { data } = await axios.get("http://localhost:5000/api/admin/listusers", config)
@@ -39,12 +39,19 @@ export const listUsers = () => async (dispatch) => {
 
 }
 
-export const listHosts = () => async (dispatch) => {
+export const listHosts = () => async (dispatch, getState) => {
 
     try {
+
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+
         const config = {
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
             }
         }
         dispatch(listHostsReq())
@@ -61,12 +68,18 @@ export const listHosts = () => async (dispatch) => {
 
 }
 
-export const listHotel = () => async (dispatch) => {
+export const listHotel = () => async (dispatch, getState) => {
 
     try {
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+
         const config = {
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
             }
         }
         dispatch(listHotelsReq())
@@ -83,15 +96,21 @@ export const listHotel = () => async (dispatch) => {
 
 }
 
-export const handleUsers = (id, status) => async (dispatch) => {
+export const handleUsers = (id, status) => async (dispatch, getState) => {
 
     try {
 
         dispatch(handleUserReq())
 
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+
         const config = {
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
             }
         }
         const sendStatus = {
@@ -112,15 +131,21 @@ export const handleUsers = (id, status) => async (dispatch) => {
 
 }
 
-export const handleHosts = (id, status) => async (dispatch) => {
+export const handleHosts = (id, status) => async (dispatch, getState) => {
 
     try {
 
         dispatch(handleHostReq())
 
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+
         const config = {
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
             }
         }
         const sendStatus = {
@@ -141,13 +166,17 @@ export const handleHosts = (id, status) => async (dispatch) => {
 
 }
 
-export const viewProperty = (id) => async (dispatch) => {
+export const viewProperty = (id) => async (dispatch, getState) => {
     try {
+        const {
+            userLogin: { userInfo },
+        } = getState();
 
 
         const config = {
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
             }
         }
         // const id={
@@ -164,12 +193,18 @@ export const viewProperty = (id) => async (dispatch) => {
     }
 }
 
-export const viewHosts = (id) => async (dispatch) => {
+export const viewHosts = (id) => async (dispatch, getState) => {
     try {
+
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
 
         const config = {
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
             }
         }
 
@@ -188,14 +223,20 @@ export const viewHosts = (id) => async (dispatch) => {
     }
 }
 
-export const listApprovalsAction = () => async (dispatch) => {
-    console.log("testing..");
+export const listApprovalsAction = () => async (dispatch, getState) => {
+
     try {
         dispatch(listApprovalsReq())
 
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+
         const config = {
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
             }
         }
 
@@ -211,14 +252,20 @@ export const listApprovalsAction = () => async (dispatch) => {
     }
 }
 
-export const handleHotels = (id, status) => async (dispatch) => {
+export const handleHotels = (id, status) => async (dispatch, getState) => {
 
     try {
         dispatch(handleHotelsReq())
 
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+
         const config = {
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
             }
         }
         const sendStatus = {
@@ -239,14 +286,19 @@ export const handleHotels = (id, status) => async (dispatch) => {
     }
 
 }
-export const handleApproval = (id) => async (dispatch) => {
+export const handleApproval = (id) => async (dispatch, getState) => {
 
     try {
 
-        console.log("handle approval");
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+
         const config = {
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
             }
         }
 
@@ -263,12 +315,18 @@ export const handleApproval = (id) => async (dispatch) => {
 
 }
 
-export const hotelApprovalAction = (id) => async (dispatch) => {
+export const hotelApprovalAction = (id) => async (dispatch, getState) => {
 
     try {
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+
         const config = {
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
             }
         }
         const { data } = await axios.get(`http://localhost:5000/api/admin/hotel-approval/${id}`, config)
@@ -284,12 +342,18 @@ export const hotelApprovalAction = (id) => async (dispatch) => {
 
 }
 
-export const getCoupons = () => async (dispatch) => {
+export const getCoupons = () => async (dispatch, getState) => {
     try {
-        console.log("get coupons");
+
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+
         const config = {
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
             }
         }
         const timestamp = Date.now(); // get current timestamp
@@ -309,13 +373,19 @@ export const getCoupons = () => async (dispatch) => {
     }
 }
 
-export const addCoupon = (cname, discount, vfrom, vto) => async (dispatch) => {
+export const addCoupon = (cname, discount, vfrom, vto) => async (dispatch, getState) => {
 
     try {
         dispatch(addCouponsReq())
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+
         const config = {
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
             }
         }
         const { data } = await axios.post("http://localhost:5000/api/admin/add-coupon/", { cname, discount, vfrom, vto }, config)
@@ -332,12 +402,18 @@ export const addCoupon = (cname, discount, vfrom, vto) => async (dispatch) => {
     }
 }
 
-export const getStat = () => async (dispatch) => {
+export const getStat = () => async (dispatch, getState) => {
     try {
-      
+        
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+
         const config = {
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
             }
         }
         const { data } = await axios.get("http://localhost:5000/api/admin/get-stats", config)

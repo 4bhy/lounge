@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { listHotel } from '../../actions/adminActions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,6 +7,12 @@ import { useNavigate } from 'react-router-dom'
 import LandingPagination from '../Pagination/LandingPagination'
 import { searchBar } from '../../actions/userActions'
 import { toast, Toaster } from 'react-hot-toast'
+import { searchFail, searchSuccess } from '../../features/users/searchSlice'
+import Loading from '../Loading'
+import { TextField } from '@mui/material'
+import { LocalizationProvider, DatePicker } from '@mui/lab';
+import AdapterDayjs from '@mui/lab/AdapterDayjs';
+
 
 const CardContainer = () => {
 
@@ -22,7 +28,7 @@ const CardContainer = () => {
   const listHotels = useSelector((state) => state.listHotels)
   const { searchLoading, searchList, searchError } = useSelector((state) => state.search)
 
-  const { hotelsList } = listHotels
+  const { hotelsList, loading, error } = listHotels
 
   const propertyHandler = async (id) => {
     navigate(`/details/${id}`)
@@ -67,6 +73,14 @@ const CardContainer = () => {
 
     }
   }
+  const clearHandler = () => {
+    setLocation(null)
+    setCheckIn(null)
+    setCheckOut(null)
+    setGuests(null)
+    dispatch(searchSuccess(null))
+    dispatch(searchFail(null))
+  }
 
 
   return (
@@ -76,36 +90,57 @@ const CardContainer = () => {
         <div className="bar mt-10 w-650 bg-white shadow-md rounded-full flex justify-center text-sm">
           <div className="location w-34 px-6 py-2 rounded-full transition-colors duration-250 ease">
             <p className='text-green-500'>Location</p>
-            <input onChange={(e) => setLocation(e.target.value)} type="text" placeholder="Where are you going?" className="bg-transparent border-none mt-2 placeholder-gray-500 focus:outline-none" />
+            <input onChange={(e) => setLocation(e.target.value)} value={location} type="text" placeholder="Where are you going?" className="bg-transparent border-none mt-2 placeholder-gray-500 focus:outline-none" />
           </div>
           <div className="check-in w-22 px-6 py-2 rounded-full transition-colors duration-250 ease">
             <p className='text-green-500'>Check in</p>
-            <input onChange={(e) => setCheckIn(e.target.value)} type="text" placeholder="Add dates" className="bg-transparent border-none mt-2 placeholder-gray-500 focus:outline-none" />
+            <input onChange={(e) => setCheckIn(e.target.value)} value={checkIn} type="date" placeholder="Add dates" className="bg-transparent border-none mt-2 placeholder-gray-500 focus:outline-none" />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Check In"
+                value={checkIn}
+                onChange={(newValue) => {
+                  setCheckIn(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+                inputProps={{}} // Set inputProps to an empty object to prevent Mui-error class from being added
+              />
+            </LocalizationProvider>
+
           </div>
           <div className="check-out w-22 px-6 py-2 rounded-full transition-colors duration-250 ease">
             <p className='text-green-500'>Check out</p>
-            <input onChange={(e) => setCheckOut(e.target.value)} type="text" placeholder="Add dates" className="bg-transparent border-none mt-2 placeholder-gray-500 focus:outline-none" />
+            <input onChange={(e) => setCheckOut(e.target.value)} type="date" value={checkOut} placeholder="Add dates" className="bg-transparent border-none mt-2 placeholder-gray-500 focus:outline-none" />
           </div>
           <div className="guests w-22 px-6 py-2 rounded-full relative transition-colors duration-250 ease">
             <p className='text-green-500'>Guests</p>
-            <input onChange={(e) => setGuests(e.target.value)} type="text" placeholder="Add guests" className="bg-transparent border-none placeholder-gray-500 mt-2 focus:outline-none" />
+            <input onChange={(e) => setGuests(e.target.value)} value={guests} type="text" placeholder="Add guests" className="bg-transparent border-none placeholder-gray-500 mt-2 focus:outline-none" />
             <button onClick={submitHandler} className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-green-600 text-white rounded-full text-xs px-4 py-1"><i class="fa fa-search" aria-hidden="true"></i></button>
           </div>
         </div>
       </div>
-
-      <div className='flex justify-center mr-6 mt-3'>
-        <div class="relative text-gray-600">
-          <input onChange={handleQueryChange} type="search" name="serch" placeholder="Search" class="bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none border" />
-          <button type="submit" class="absolute right-0 top-0 mt-3 mr-4">
-            <svg className="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 56.966 56.966" style={{ enableBackground: 'new 0 0 56.966 56.966' }} width="512px" height="512px">
-              <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
-            </svg>
+      {
+        (searchError || searchList) && <div className="justify-center justify-items-center mt-2 flex">
+          <button onClick={clearHandler} className="text-green-500 border border-green-500 hover:bg-teal-500 hover:text-white active:bg-green-600 font-bold uppercase px-6 rounded-full outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
+            Clear
           </button>
         </div>
-      </div>
+
+      }
+
       {
-        searchError ? (<h1>No ksdvnsvn</h1>) : (
+        searchLoading && <Loading />
+      }
+      {
+        loading && <Loading/>
+      }
+
+      {
+        searchError ? (<div className="bg-neutral-50 justify-items-center justify-center " style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <img src="https://cdn.dribbble.com/users/88213/screenshots/8560585/media/7263b7aaa8077a322b0f12a7cd7c7404.png" className="" style={{ margin: 'auto' }} />
+
+        </div>
+        ) : (
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-1'>
             {filteredProducts?.map((data, i) => (
               <div className="flex flex-wrap" onClick={() => {

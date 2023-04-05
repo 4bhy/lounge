@@ -10,18 +10,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { checkAvailabilities, individualProperty, submitReview } from '../../actions/userActions'
-
-
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
-
-
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -32,12 +27,12 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-
-
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { toast, Toaster } from 'react-hot-toast'
 import { resetAvailability } from '../../features/users/availabilitySlice'
+import Loading from '../Loading'
+import LoadingSmall from '../Loading/LoadingSmall'
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -105,7 +100,7 @@ function getLabelText(value) {
 const ProductPage = () => {
 
   const individualProperties = useSelector((state) => state.individualProperty)
-  const { individualPropertyData } = individualProperties;
+  const { individualPropertyData, individualPropertyLoading } = individualProperties;
   const [checkIn, setCheckIn] = useState(null)
   const [checkOut, setCheckOut] = React.useState(null);
   const [guests, setGuests] = useState(1)
@@ -204,12 +199,7 @@ const ProductPage = () => {
   };
 
 
-  console.log(individualPropertyData?.propertyInfo.maxGuests, "ipp");
-
-  console.log(individualPropertyData?.propertyInfo.averageRating, "avg rating");
-
   const handleAvailability = () => {
-    console.log("44");
     const today = new Date();
 
     if (!checkIn || !checkOut) {
@@ -246,14 +236,14 @@ const ProductPage = () => {
     }
   }, [error])
 
-  console.log(error, "333");
-
-
   return (
     <div>
       <div><Toaster /></div>
       <Navbar />
       <section>
+        {
+          individualPropertyLoading && <Loading />
+        }
         <div class="relative max-w-screen-xl px-4 py-8 mx-auto">
           <div class="grid items-start grid-cols-1 gap-8 md:grid-cols-2">
             <div class="grid grid-cols-2 gap-4 md:grid-cols-1">
@@ -440,7 +430,7 @@ const ProductPage = () => {
               <div className='flex justify-center m-2 p-2 gap-3'>
 
                 <button onClick={handleAvailability} class="bg-white mr-4 mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4  border border-gray-400 rounded-full shadow">
-                  Check Availability
+                  {loading ? <LoadingSmall /> : 'Check Availability'}
                 </button>
 
                 <div className="mt-4 flex">

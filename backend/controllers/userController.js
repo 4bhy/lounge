@@ -37,6 +37,7 @@ module.exports = {
         isAdmin: user.isAdmin,
         blocked: user.blocked,
         token: generateToken(user._id),
+        user:user
       });
     } else {
       res.status(400);
@@ -206,7 +207,6 @@ module.exports = {
   }),
 
 
-
   bookings: asyncHandler(async (req, res) => {
     try {
       const bookingData = await Booking.find({ userId: req.params.id }).sort({
@@ -225,7 +225,7 @@ module.exports = {
 
   cancelBooking: asyncHandler(async (req, res) => {
     try {
-      console.log("33");
+      
       const bookingData = await Booking.findById({ _id: req.params.id })
 
       bookingData.isCancelled = "true";
@@ -356,11 +356,11 @@ module.exports = {
 
   searchBar: asyncHandler(async (req, res) => {
     try {
-      // Get all properties in the given city/state
+      
       const { location, checkIn, checkOut } = req.body
       const properties = await Hotel.find({ pstate: location });
 
-      // Filter the available properties based on bookings
+  
       const availableProperties = await Promise.all(properties.map(async (property) => {
         const bookings = await Booking.find({ propertyId: property._id });
         const available = !bookings.some((booking) => {
@@ -381,14 +381,16 @@ module.exports = {
       }));
 
       const finalProperties = availableProperties.filter((property) => property !== null);
-      if (finalProperties) {
+      if (finalProperties.length!=0) {
         console.log(finalProperties);
         res.status(201).json({ final: finalProperties })
+      }else{
+        throw new Error("Cant Find Any Properties")
       }
 
     } catch (error) {
       console.log(error.message);
-      res.status(404).json({ message: "Can't find any properties" })
+      res.status(404).json({ message: "Can't find Any Properties" })
     }
   })
 

@@ -95,16 +95,14 @@ export const register = (name, email, password, phoneNumber) => async (dispatch)
 export const individualProperty = (id) => async (dispatch) => {
   try {
 
+    dispatch(individualPropertyReq())
     const config = {
       headers: {
         "Content-type": "application/json",
       },
     }
-    dispatch(individualPropertyReq())
     const { data } = await axios.get(`http://localhost:5000/api/users/individual-property/${id}`, config)
     dispatch(individualPropertySuccess(data))
-
-
   } catch (error) {
     const errorIs =
       error.response && error.response.data.message
@@ -299,14 +297,14 @@ export const searchBar = (location, checkIn, checkOut, guests) => async (dispatc
       },
     }
     const { data } = await axios.post("http://localhost:5000/api/users/search-bar", { location, checkIn, checkOut, guests }, config)
-    console.log(data, "ddata");
+ 
     dispatch(searchSuccess(data))
   } catch (error) {
     const errorIs =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-        console.log(errorIs, "dfdsd");
+
     dispatch(searchFail(errorIs))
   }
 }
