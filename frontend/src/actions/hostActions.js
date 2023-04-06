@@ -5,6 +5,7 @@ import { hostStatFail, hostStatReq, hostStatSucsess } from '../features/host/hos
 import { listHostPropertyFail, listHostPropertyReq, listHostPropertySuccess } from '../features/host/listHostPropertiesSlice';
 import { hostBooking } from '../features/users/bookingsSlice';
 import axiosConfig from '../config/axios';
+import { addPropertyFail, addPropertyReq, addPropertySuccess } from '../features/host/addPropertySlice';
 export const hostRegister = (fname, lname, newid, zip, email, dob, phone, address, apart, cstate, id, idState, url) => async (dispatch) => {
   try {
     const config = {
@@ -33,8 +34,8 @@ export const hostRegister = (fname, lname, newid, zip, email, dob, phone, addres
 
 export const addProperty = (pname, pstate, city, pin, description, hostID, url, type, value, amenities) => async (dispatch) => {
   try {
-   
-   
+
+    dispatch(addPropertyReq())
     const config = {
       headers: {
         "Content-type": "application/json"
@@ -43,12 +44,13 @@ export const addProperty = (pname, pstate, city, pin, description, hostID, url, 
     const { data } = await axiosConfig.post('/host/add-property', {
       pname, pstate, city, pin, description, hostID, url, type, value, amenities
     }, config)
-
+    dispatch(addPropertySuccess(data))
   } catch (error) {
     const errorIs =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
+    dispatch(addPropertyFail(errorIs))
   }
 
 }
@@ -65,7 +67,7 @@ export const listBookingsHost = (id) => async (dispatch) => {
     }
 
     const { data } = await axiosConfig.get(`/host/list-bookings/${id}`, config)
- 
+
     dispatch(hostBooking(data))
 
   } catch (error) {
@@ -80,7 +82,7 @@ export const listBookingsHost = (id) => async (dispatch) => {
 export const handleBooking = (id) => async (dispatch) => {
 
   try {
-   
+
     const config = {
       headers: {
         "Content-type": "application/json",

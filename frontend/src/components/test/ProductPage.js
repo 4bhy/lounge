@@ -371,6 +371,7 @@ const ProductPage = () => {
                     <DatePicker
                       label="Check In"
                       value={checkIn}
+                      minDate={new Date()} 
                       onChange={(newValue) => {
                         setCheckIn(newValue);
                       }}
@@ -382,6 +383,7 @@ const ProductPage = () => {
                     <DatePicker
                       size="small"
                       label="Check Out"
+                      minDate={new Date()} 
                       value={checkOut}
                       onChange={(newValue) => {
                         setCheckOut(newValue);

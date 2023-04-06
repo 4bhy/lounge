@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { storage_bucket } from '../../firebase-config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { useDispatch, useSelector } from 'react-redux'
@@ -20,6 +20,7 @@ import toast, { Toaster } from 'react-hot-toast'
 
 import { Search, GpsFixed } from "@mui/icons-material"
 import Navbar from '../../components/Header/Navbar'
+import Loading from '../../components/Loading'
 
 const apiKey = 'AIzaSyD3o7U1Vwnw3kRCw6mzkxleKVG--CSFSew';
 const mapApiJs = 'https://maps.googleapis.com/maps/api/js';
@@ -101,6 +102,8 @@ const AddPropertyPrimary = () => {
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
+    const addProperty= useSelector((state)=> state.addProperty)
+    const {addPropertyLoading, addPropertyData, addPropertyError}= addProperty
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -305,6 +308,13 @@ const AddPropertyPrimary = () => {
             }
         });
     }
+    const navigate= useNavigate()
+    
+    useEffect(()=>{
+        if(addPropertyData){
+            navigate("host/dashboard")
+        }
+    },[addPropertyData])
 
     return (
         <div>
@@ -395,6 +405,10 @@ const AddPropertyPrimary = () => {
                                         />
                                     </div>
                                 </div>
+
+                                {
+                                    addPropertyLoading && <Loading/>
+                                }
 
                                 <div class="grid grid-cols-1 gap-4 text-center sm:grid-cols-3" onChange={(e) => { setType(e.target.value) }}>
                                     <div class="rounded-xl p-4">
