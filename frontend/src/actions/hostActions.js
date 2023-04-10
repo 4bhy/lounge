@@ -32,9 +32,10 @@ export const hostRegister = (fname, lname, newid, zip, email, dob, phone, addres
   }
 }
 
-export const addProperty = (pname, pstate, city, pin, description, hostID, url, type, value, amenities) => async (dispatch) => {
+export const addPropertyAction = (pname, pstate, city, pin, description, hostID, url, type, value, amenities) => async (dispatch) => {
+  console.log("kk");
   try {
-
+    console.log("fcvbh");
     dispatch(addPropertyReq())
     const config = {
       headers: {
@@ -44,6 +45,7 @@ export const addProperty = (pname, pstate, city, pin, description, hostID, url, 
     const { data } = await axiosConfig.post('/host/add-property', {
       pname, pstate, city, pin, description, hostID, url, type, value, amenities
     }, config)
+    console.log(data, "tf data?");
     dispatch(addPropertySuccess(data))
   } catch (error) {
     const errorIs =

@@ -65,10 +65,11 @@ module.exports = {
     }),
 
     addProperty: asyncHandler(async (req, res) => {
+        console.log("5678");
         try {
 
             const { pname, pstate, city, pin, description, hostID, url, type, value, amenities } = req.body;
-
+            
             const hotel = await Hotel.create({
                 pname: pname,
                 pstate: pstate,

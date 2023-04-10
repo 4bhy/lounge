@@ -44,7 +44,7 @@ const CardContainer = () => {
   if (searchList != null) {
     currentPosts = searchList?.final?.filter(data => data.isApproved === "true")
       .slice(firstPostIndex, lastPostIndex)
-  } else {
+  } else {  
     currentPosts = hotelsList?.filter(data => data.isApproved === "true")
       .slice(firstPostIndex, lastPostIndex)
   }

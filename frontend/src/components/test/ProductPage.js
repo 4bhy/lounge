@@ -371,7 +371,7 @@ const ProductPage = () => {
                     <DatePicker
                       label="Check In"
                       value={checkIn}
-                      minDate={new Date()} 
+                      minDate={new Date()}
                       onChange={(newValue) => {
                         setCheckIn(newValue);
                       }}
@@ -383,7 +383,7 @@ const ProductPage = () => {
                     <DatePicker
                       size="small"
                       label="Check Out"
-                      minDate={new Date()} 
+                      minDate={new Date()}
                       value={checkOut}
                       onChange={(newValue) => {
                         setCheckOut(newValue);
@@ -391,40 +391,27 @@ const ProductPage = () => {
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
+                  <div class="custom-number-input -mt-6">
+                    <label for="custom-input-number" class="w-full text-gray-700 text-sm font-semibold">Guests
+                    </label>
+                    <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent ">
+                      <button onClick={(e) => {
+                        if (guests <= 1) {
+                        } else {
+                          setGuests(guests - 1)
+                        }
+                      }} data-action="decrement" class=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l m-2 cursor-pointer outline-none">
+                        <span class="m-auto text-2xl font-thin">−</span>
+                      </button>
+                      <span className=' mt-4 text-xl'>{guests}</span>
 
-
-                  <FormControl sx={{ minWidth: 120 }} size="large">
-                    <InputLabel id="demo-select-small">Guests</InputLabel>
-                    <Select
-                      labelId="demo-select-small"
-                      id="demo-select-small"
-                      value={guests}
-                      label="Age"
-
-                    >
-                      <div class="custom-number-input m-4">
-                        <label for="custom-input-number" class="w-full text-gray-700 text-sm font-semibold">Adults
-                        </label>
-                        <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent ">
-                          <button onClick={(e) => {
-                            if (guests <= 1) {
-                            } else {
-                              setGuests(guests - 1)
-                            }
-                          }} data-action="decrement" class=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l m-2 cursor-pointer outline-none">
-                            <span class="m-auto text-2xl font-thin">−</span>
-                          </button>
-                          <span className=' mt-4 text-xl'>{guests}</span>
-
-                          <button onClick={(e) => {
-                            setGuests(guests + 1)
-                          }} data-action="increment" class="bg-gray-300 text-gray-600 m-2 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
-                            <span class="m-auto text-2xl font-thin">+</span>
-                          </button>
-                        </div>
-                      </div>
-                    </Select>
-                  </FormControl>
+                      <button onClick={(e) => {
+                        setGuests(guests + 1)
+                      }} data-action="increment" class="bg-gray-300 text-gray-600 m-2 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
+                        <span class="m-auto text-2xl font-thin">+</span>
+                      </button>
+                    </div>
+                  </div>
 
                 </div>
 

@@ -27,9 +27,6 @@ const HostTable = () => {
     const bookings = useSelector((state) => state.bookings)
     const { hostBookingData } = bookings
 
-
-
-
     const clickHandler = async (id) => {
 
         if (options == "false") {
@@ -85,11 +82,11 @@ const HostTable = () => {
                         <div class="flex items-center justify-between">
 
                             <button onClick={() => { setToggle("Approved") }} class={toggle == "Approved" ? 'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-500 sm:text-sm dark:text-gray-700  hover:text-gray-100' : 'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700  hover:text-gray-500'}>
-                                Monitored
+                                UPCOMING
                             </button>
 
                             <button onClick={() => { setToggle("Pending") }} class={toggle === "Pending" ? 'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-500 sm:text-sm dark:text-gray-700  hover:text-gray-100' : 'px-5 py-2 text-xs font-medium border text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:text-gray-700  hover:text-gray-500'}>
-                                Unmonitored
+                                EXIPRED
                             </button>
                         </div>
                     </div>
@@ -124,10 +121,7 @@ const HostTable = () => {
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                 Amount
                                             </th>
-                                            <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                STATUS
-                                            </th>
+                                         
                                         </tr>
                                     </thead>
                                     {
@@ -173,14 +167,7 @@ const HostTable = () => {
                                                             ₹ {data.amount}
                                                         </p>
                                                     </td>
-                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                        <button onClick={() => {
-                                                            setId(data._id)
-                                                            setOpen(true)
-                                                        }} class="inline-block px-6 py-2.5  bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">
-                                                            {toggle == 'Approved' ? "Approved" : 'Approve'}
-                                                        </button>
-                                                    </td>
+                                                    
                                                 </tr>
 
                                             </tbody>
@@ -188,23 +175,7 @@ const HostTable = () => {
                                     }
 
                                 </table>
-                                <div
-                                    class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
-                                    <span class="text-xs xs:text-sm text-gray-900">
-                                        Showing 1 to 4 of 50 Entries
-                                    </span>
-                                    <div class="inline-flex mt-2 xs:mt-0">
-                                        <button
-                                            class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
-                                            Prev
-                                        </button>
-                                        &nbsp; &nbsp;
-                                        <button
-                                            class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
-                                            Next
-                                        </button>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>

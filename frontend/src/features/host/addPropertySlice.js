@@ -10,6 +10,7 @@ const addPropertySlice = createSlice({
       state.addPropertyLoading = true;
     },
     addPropertySuccess: (state, action) => {
+      console.log("slice", action.payload);
       state.addPropertyLoading = false;
       state.addPropertyData = action.payload;
     },

@@ -3,8 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { storage_bucket } from '../../firebase-config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { useDispatch, useSelector } from 'react-redux'
-import { addProperty } from '../../actions/hostActions'
-
+import { addPropertyAction } from '../../actions/hostActions'
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -13,14 +12,13 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
-
-
 import TextField from '@mui/material/TextField';
 import toast, { Toaster } from 'react-hot-toast'
-
 import { Search, GpsFixed } from "@mui/icons-material"
 import Navbar from '../../components/Header/Navbar'
 import Loading from '../../components/Loading'
+import SimpleBackdrop from '../../components/Loading/Backdrop'
+import { addPropertySuccess } from '../../features/host/addPropertySlice'
 
 const apiKey = 'AIzaSyD3o7U1Vwnw3kRCw6mzkxleKVG--CSFSew';
 const mapApiJs = 'https://maps.googleapis.com/maps/api/js';
@@ -87,7 +85,8 @@ const extractAddress = (place) => {
 
 
 const AddPropertyPrimary = () => {
-    const [amenities, setAmenities] = useState([]);
+
+    const [amenities, setAmenities] = useState(['']);
     const [pname, setPname] = useState("")
     const [pstate, setPstate] = useState("")
     const [city, setCity] = useState("")
@@ -97,13 +96,14 @@ const AddPropertyPrimary = () => {
     const [pic, setPic] = useState("")
     const [type, setType] = useState("")
     const [hostID, setHostID] = useState('')
+    const [button, setButton]= useState(false)
     const dispatch = useDispatch()
 
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
-    const addProperty= useSelector((state)=> state.addProperty)
-    const {addPropertyLoading, addPropertyData, addPropertyError}= addProperty
+    const addProperty = useSelector((state) => state.addProperty)
+    const { addPropertyLoading, addPropertyData, addPropertyError } = addProperty
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -148,52 +148,30 @@ const AddPropertyPrimary = () => {
 
     const [value, setValue] = React.useState(10);
 
-    const handleChanges = (event, newValue) => {
-        if (typeof newValue === 'number') {
-            setValue(newValue);
-            console.log(value);
-        }
-    };
 
-
-    function valueLabelFormat(value) {
-        const units = [''];
-
-        let unitIndex = 0;
-        let scaledValue = value;
-
-        while (scaledValue >= 20 && unitIndex < units.length - 1) {
-            unitIndex += 1;
-            scaledValue /= 1;
-        }
-
-        return `${scaledValue} ${units[unitIndex]}`;
+    const dispatchHandler = () => {
+        console.log("kjhgf");
+        // dispatch(addProperty(pname, pstate, city, pin, description, hostID, url, type, value, amenities))
     }
 
-    function calculateValue(value) {
-        return value;
-    }
-
-
-
-    const submitHandler = async (e) => {
-        await searchPlace(address.city)
-        e.preventDefault()
+    const submitHandler = async () => {
+        console.log("submit handlder");
+        searchPlace(address.city)
         setCity(address.city)
         setPin(address.zip)
         setPstate(address.state)
         setHostID(userInfo.host._id)
-        dispatchHandler();
+        if (url.length == 0) {
+            toast.error("Please Add an Image")
+        } else {
+            await dispatch(addPropertyAction(pname, pstate, city, pin, description, hostID, url, type, value, amenities))
+        }
+
     }
 
-    const dispatchHandler = () => {
-
-        dispatch(addProperty(pname, pstate, city, pin, description, hostID, url, type, value, amenities))
-
-    }
 
     const uploadFile = async (val) => {
-
+        setButton(true)
         let file = val;
         let fileRef = ref(storage_bucket, "ProfilePics/" + file.name);
         const uploadTask = uploadBytesResumable(fileRef, file);
@@ -203,25 +181,25 @@ const AddPropertyPrimary = () => {
             console.log("upload is " + progress + "% done.");
             if (progress === 100) {
                 console.log(file.name);
-                getDownloadURL(uploadTask.snapshot.ref).then((URL) => {
-                    if (URL) {
-                        setURL(URL);
-                        console.log(url, "^6");
+                getDownloadURL(uploadTask.snapshot.ref)
+                    .then((URL) => {
+                        console.log("url", URL);
+                        setURL((prevUrls) => [...prevUrls, URL]);
+                        setButton(false)
+                        console.log(URL, "^6");
                         console.log("in!!!!");
-                    }
-                })
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        toast.error("Image upload failed. Please try again!");
+                    });
             }
         });
     };
 
-
-
-
     //maps
-
     const searchInput = useRef(null);
     const [address, setAddress] = useState({});
-
 
     // init gmap script
     const initMapScript = () => {
@@ -248,15 +226,8 @@ const AddPropertyPrimary = () => {
         autocomplete.addListener("place_changed", () => onChangeAddress(autocomplete));
 
     }
-    const [lattitude, setLatitude] = useState("")
-    const [longitude, setLongitude] = useState("")
-
 
     const reverseGeocode = ({ latitude: lat, longitude: lng }) => {
-        console.log("doesit");
-        console.log(lat, "latt");
-        console.log(lng, "lng");
-        console.log(lattitude, longitude, "latt and longit");
         const url = `${geocodeJson}?key=${apiKey}&latlng=${lat},${lng}`;
         searchInput.current.value = "Getting your location...";
         fetch(url)
@@ -270,14 +241,12 @@ const AddPropertyPrimary = () => {
     }
 
     const findMyLocation = (e) => {
-        console.log("rrrr");
+
         e.preventDefault()
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 reverseGeocode(position.coords)
-
             })
-
             searchPlace(city)
 
         }
@@ -290,36 +259,39 @@ const AddPropertyPrimary = () => {
 
     const [place, setPlace] = useState(null);
 
-
     const searchPlace = (placeName) => {
-        console.log("333");
         const service = new window.google.maps.places.PlacesService(document.createElement('div'));
-
-        service.findPlaceFromQuery({ query: placeName }, (results, status) => {
-            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-                console.log("latt");
-                const placeDetails = results[0];
-                const latitude = placeDetails.geometry.location.lat();
-                const longitude = placeDetails.geometry.location.lng();
-                setPlace({ name: placeName, latitude, longitude });
-                console.log(place);
-            } else {
-                console.log(`Place details search failed with status: ${status}`);
+        service.findPlaceFromQuery(
+            {
+                query: placeName,
+                fields: ["name", "geometry", "address_component"],
+            },
+            (results, status) => {
+                if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                    const placeDetails = results[0];
+                    const latitude = placeDetails.geometry.location.lat();
+                    const longitude = placeDetails.geometry.location.lng();
+                    setPlace({ name: placeName, latitude, longitude });
+                    console.log(place);
+                } else {
+                    // console.log("Place details search failed with status:" ${ status });
+                }
             }
-        });
-    }
-    const navigate= useNavigate()
-    
-    useEffect(()=>{
-        if(addPropertyData){
-            navigate("host/dashboard")
+        );
+    };
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (addPropertyData != null) {
+            navigate("/host/dashboard")
+            dispatch(addPropertySuccess(null))
         }
-    },[addPropertyData])
+    }, [addPropertyData])
 
     return (
         <div>
-            <div><Toaster /></div>
             <Navbar />
+            <div><Toaster /></div>
             <section class=" px-16">
                 <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
                     <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
@@ -340,7 +312,7 @@ const AddPropertyPrimary = () => {
                         </div>
 
                         <div class="rounded-lg bg-white p-8 shadow-2xl lg:col-span-3 lg:p-12">
-                            <form class="space-y-4">
+                            <div class="space-y-4">
                                 <div>
                                     <label class="sr-only" for="pname">Name</label>
                                     <input
@@ -359,14 +331,12 @@ const AddPropertyPrimary = () => {
                                     />
                                 </div>
                                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                 
+
                                     <div className="search flex">
 
                                         <input ref={searchInput} type="text" className='w-full rounded-lg border p-3 text-sm mr-2' placeholder="Search location...." />
                                         <button onClick={findMyLocation}><GpsFixed /></button>
                                     </div>
-                                 
-
 
                                     <div>
                                         <label class="sr-only" for="city">City</label>
@@ -407,7 +377,7 @@ const AddPropertyPrimary = () => {
                                 </div>
 
                                 {
-                                    addPropertyLoading && <Loading/>
+                                    addPropertyLoading && <SimpleBackdrop />
                                 }
 
                                 <div class="grid grid-cols-1 gap-4 text-center sm:grid-cols-3" onChange={(e) => { setType(e.target.value) }}>
@@ -459,7 +429,7 @@ const AddPropertyPrimary = () => {
                                             ))}
                                         </Select>
                                     </FormControl>
-                                 
+
 
                                     <Box
                                         component="form"
@@ -495,7 +465,7 @@ const AddPropertyPrimary = () => {
                                     ></textarea>
                                 </div>
                                 <div>
-                                    <form >
+                                    <div >
                                         <div class="flex items-center justify-center w-full p-2">
                                             <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-10 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-white-800 dark:bg-white-700 hover:bg-gray-100 dark:border-white-600 dark:hover:border-gray-500 dark:hover:bg-white-600">
                                                 <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -510,14 +480,14 @@ const AddPropertyPrimary = () => {
                                                 uploadFile(pic)
                                             }}>UPLOAD</button>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                                 <div className='w-full flex flex-col justify-center'>
                                     <button onClick={submitHandler} class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                                         SUBMIT
                                     </button>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
