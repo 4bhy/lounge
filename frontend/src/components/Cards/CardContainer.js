@@ -12,6 +12,7 @@ import Loading from '../Loading'
 import { TextField } from '@mui/material'
 import { LocalizationProvider, DatePicker } from '@mui/lab';
 import AdapterDayjs from '@mui/lab/AdapterDayjs';
+import SimpleBackdrop from '../Loading/Backdrop'
 
 
 const CardContainer = () => {
@@ -129,7 +130,7 @@ const CardContainer = () => {
       }
 
       {
-        searchLoading && <Loading />
+        searchLoading && <SimpleBackdrop />
       }
       {
         loading && <Loading/>

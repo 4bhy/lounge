@@ -10,7 +10,7 @@ import { hostPropertySuccess } from '../features/admin/hostPropertySlice';
 import { listApprovalsFail, listApprovalsReq, listApprovalsSuccess } from '../features/admin/listApprovalsSlice';
 import { listCoupons } from '../features/admin/couponSlice';
 import { addCouponsFail, addCouponsReq, addCouponsSuccess } from '../features/admin/addCouponSlice';
-import { getStats } from '../features/admin/statsSlice';
+import { getStats, getStatsFail, getStatsReq } from '../features/admin/statsSlice';
 import axiosConfig from '../config/axios';
 
 export const listUsers = () => async (dispatch, getState) => {
@@ -44,7 +44,6 @@ export const listUsers = () => async (dispatch, getState) => {
 export const listHosts = () => async (dispatch, getState) => {
 
     try {
-
         const {
             userLogin: { userInfo },
         } = getState();
@@ -358,9 +357,9 @@ export const getCoupons = () => async (dispatch, getState) => {
                 Authorization: `Bearer ${userInfo.token}`,
             }
         }
-        const timestamp = Date.now(); 
+        const timestamp = Date.now();
         const { data } = await axiosConfig.get(`/admin/get-coupons?timestamp=${timestamp}`, config)
-        
+
         dispatch(listCoupons(data))
 
     } catch (error) {
@@ -405,7 +404,7 @@ export const addCoupon = (cname, discount, vfrom, vto) => async (dispatch, getSt
 
 export const getStat = () => async (dispatch, getState) => {
     try {
-
+        getStatsReq()
         const {
             userLogin: { userInfo },
         } = getState();
@@ -425,7 +424,7 @@ export const getStat = () => async (dispatch, getState) => {
             error.response && error.response.data
                 ? error.response.data.message
                 : error.message;
-        console.log(message);
+        getStatsFail(message)
     }
 }
 

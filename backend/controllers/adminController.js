@@ -7,13 +7,13 @@ const asyncHandler = require("express-async-handler");
 
 module.exports = {
     listUsers: asyncHandler(async (req, res) => {
-      
+
         const users = await User.find()
         res.json(users)
     }),
 
     listHosts: asyncHandler(async (req, res) => {
-       
+
         const hosts = await Host.find()
         res.json(hosts)
     }),
@@ -25,7 +25,7 @@ module.exports = {
 
     listApprovals: asyncHandler(async (req, res) => {
         try {
-     
+
             const hotels = await Hotel.find()
             const hosts = await Host.find()
 
@@ -230,7 +230,6 @@ module.exports = {
                     } else {
                         const hotelSales = {};
 
-                        // Loop through the bookings and count the sales for each hotel
                         bookings.forEach(booking => {
                             const hotelId = booking.propertyId._id.toString();
                             if (!hotelSales.hasOwnProperty(hotelId)) {

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { listHostProperties } from '../../../actions/hostActions'
+import SimpleBackdrop from '../../Loading/Backdrop'
 
 const PropertyCard = () => {
 
     const listHostProperty = useSelector((state) => state.listHostProperties)
-    const { listHostPropertyData } = listHostProperty
+    const { listHostPropertyData, loading } = listHostProperty
     const [value, setValue] = useState("3")
 
     const [show, setShow] = useState(false)
@@ -39,6 +40,9 @@ const PropertyCard = () => {
                     <div class="h-1 w-10 bg-indigo-500 rounded"></div>
                 </div>
             </div>
+            {
+                loading && <SimpleBackdrop />
+            }
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
                 {
                     listHostPropertyData?.hostProperties?.slice(0, value).map((data, index) => (
@@ -107,7 +111,7 @@ const PropertyCard = () => {
                             Show Less
                             <div class="absolute duration-300 inset-0 w-full h-full transition-all scale-0 group-hover:scale-100 group-hover:bg-white/30 rounded-2xl">
                             </div>
-                    </button>)
+                        </button>)
                 }
             </main>
         </div>

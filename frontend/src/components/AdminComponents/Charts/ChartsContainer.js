@@ -13,8 +13,6 @@ const ChartsContainer = () => {
     <div>
      <Stats/>
      <Spider/>
-     
-   
     </div>
   )
 }

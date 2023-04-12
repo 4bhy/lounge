@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getHostStats } from '../../../actions/hostActions'
-
+import Backdrop from '../../Loading/Backdrop'
 
 const HostCardStats = () => {
 
     const dispatch = useDispatch()
-    const { stats } = useSelector((state) => state.hostStats)
+    const { stats, loading, error } = useSelector((state) => state.hostStats)
 
     useEffect(() => {
         dispatch(getHostStats())
     }, [])
 
     return (
+
         <div className='flex flex-wrap justify-center '>
             <div className="mt-4 w-full lg:w-6/12 md:w-3/12 xl:w-3/12 px-5 mb-4">
                 <div className="relative flex flex-col min-w-0 break-words bg-white rounded mb-3 xl:mb-0 shadow-lg">
@@ -34,7 +35,9 @@ const HostCardStats = () => {
                     </div>
                 </div>
             </div>
-
+            {
+                loading && <Backdrop />
+            }
             <div className=" mt-4 w-full lg:w-6/12 md:w-3/12 xl:w-3/12 px-5">
                 <div className="relative flex flex-col min-w-0 break-words bg-white rounded mb-4 xl:mb-0 shadow-lg">
                     <div className="flex-auto p-4">

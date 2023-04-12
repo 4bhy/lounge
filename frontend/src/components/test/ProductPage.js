@@ -33,6 +33,7 @@ import { toast, Toaster } from 'react-hot-toast'
 import { resetAvailability } from '../../features/users/availabilitySlice'
 import Loading from '../Loading'
 import LoadingSmall from '../Loading/LoadingSmall'
+import SimpleBackdrop from '../Loading/Backdrop'
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -242,7 +243,7 @@ const ProductPage = () => {
       <Navbar />
       <section>
         {
-          individualPropertyLoading && <Loading />
+          individualPropertyLoading && <SimpleBackdrop />
         }
         <div class="relative max-w-screen-xl px-4 py-8 mx-auto">
           <div class="grid items-start grid-cols-1 gap-8 md:grid-cols-2">
@@ -412,7 +413,6 @@ const ProductPage = () => {
                       </button>
                     </div>
                   </div>
-
                 </div>
 
               </div>

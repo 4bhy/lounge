@@ -20,6 +20,6 @@ const hostStatSlice = createSlice({
     }
 })
 
-export default hostStatSlice .reducer;
+export default hostStatSlice.reducer;
 
 export const { hostStatReq, hostStatSucsess, hostStatFail } = hostStatSlice .actions
