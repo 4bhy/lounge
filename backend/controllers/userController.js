@@ -250,7 +250,7 @@ module.exports = {
   
       const booking = await Booking.findOne({ user: uid, property: pid });
       if (booking) {
-        const reviewExists = booking.reviews.some((r) => r.user.toString() === uid);
+        const reviewExists = booking.reviews.some((r) => r.user.toString() == uid);
         if (reviewExists) {
           throw new Error('You have already submitted a review for this property');
         }

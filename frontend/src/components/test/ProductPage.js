@@ -35,6 +35,7 @@ import Loading from '../Loading'
 import LoadingSmall from '../Loading/LoadingSmall'
 import SimpleBackdrop from '../Loading/Backdrop'
 import SwingLoad from '../Loading/SwingLoad'
+import moment from 'moment'
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -497,7 +498,7 @@ const ProductPage = () => {
                   </p>
 
                   <footer class="mt-4">
-                    <p class="text-xs text-gray-500">{data.user}{data.createdAt}</p>
+                    <p class="text-xs text-gray-500"> {moment(data.createdAt).format("DD/MM/YY")}</p>
                   </footer>
                 </blockquote>
               ))
