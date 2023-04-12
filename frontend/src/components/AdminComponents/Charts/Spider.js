@@ -16,6 +16,7 @@ import {
 import { getStat } from '../../../actions/adminActions';
 import Loading from '../../Loading';
 import SimpleBackdrop from '../../Loading/Backdrop';
+import PingLoading from '../../Loading/PingLoading';
 
 const Spider = () => {
 
@@ -58,7 +59,7 @@ const Spider = () => {
           )
         }
         {
-          loading && <SimpleBackdrop />
+          loading && <PingLoading />
         }
 
         <p></p>

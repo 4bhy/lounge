@@ -15,6 +15,7 @@ import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import Navbar from '../../components/Header/Navbar'
 import moment from 'moment';
+import SwingLoad from '../../components/Loading/SwingLoad'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -29,7 +30,7 @@ const UserDashboard = () => {
     const [status, setStatus] = useState('')
 
     const booking = useSelector((state) => state.bookings)
-    const { userBookingData } = booking;
+    const { userBookingData, loading} = booking;
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin;
@@ -169,7 +170,9 @@ const UserDashboard = () => {
                     </button>
                 </div>
             </div>
-
+            {
+                loading && <SwingLoad/>
+            }
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full mb-4">
                 {
                     filteredBookings?.length == 0 ? (<div className='mb-4 flex items-center justify-center'>

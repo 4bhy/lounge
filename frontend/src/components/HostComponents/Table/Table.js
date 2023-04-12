@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { listUsers, handleUsers } from '../../../actions/adminActions'
 import moment from 'moment'
+import PingLoading from '../../Loading/PingLoading'
 
 const Table = () => {
 
@@ -31,7 +32,7 @@ const Table = () => {
                         <h2 class="text-gray-600 font-semibold">Users</h2>
                         <span class="text-xs"></span>
                     </div>
-                  
+
                 </div>
                 <div>
                     <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -59,6 +60,9 @@ const Table = () => {
                                     </tr>
                                 </thead>
                                 {
+                                    loading && <div class="z-50 fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50"><PingLoading /></div>
+                                }
+                                {
                                     usersList?.map((usersList, index) => (
                                         <tbody key={index}>
                                             <tr>
@@ -81,13 +85,13 @@ const Table = () => {
                                                 </td>
                                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                     <p class="text-gray-900 whitespace-no-wrap">
-                                                    {moment(usersList.createdAt).format("DD/MM/YY")}
+                                                        {moment(usersList.createdAt).format("DD/MM/YY")}
                                                     </p>
                                                 </td>
                                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                   
+
                                                     <button type="button" onClick={() => {
-                                                        
+
                                                         setblocked(usersList.blocked)
                                                         userHandler(usersList._id, usersList.blocked)
                                                     }} class={usersList.blocked ? 'inline-block px-6 py-2.5  bg-red-300 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-red-400 hover:shadow-lg focus:bg-red-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-400 active:shadow-lg transition duration-150 ease-in-out' : 'inline-block px-6 py-2.5  bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out'}>{usersList.blocked ? 'Blocked' : 'Active'}</button>
@@ -98,23 +102,7 @@ const Table = () => {
                                         </tbody>
                                     ))}
                             </table>
-                            <div
-                                class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
-                                <span class="text-xs xs:text-sm text-gray-900">
-                                    Showing 1 to 4 of 50 Entries
-                                </span>
-                                <div class="inline-flex mt-2 xs:mt-0">
-                                    <button
-                                        class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
-                                        Prev
-                                    </button>
-                                    &nbsp; &nbsp;
-                                    <button
-                                        class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
-                                        Next
-                                    </button>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>

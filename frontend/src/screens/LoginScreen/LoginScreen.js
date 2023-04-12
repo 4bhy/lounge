@@ -8,6 +8,7 @@ import ErrorMessage from '../../components/ErrorMessage';
 import './LoginScreen.css'
 import { userLoginFail, userLogout } from '../../features/users/userLoginSlice';
 import logo from '../../components/Header/lounge-high-resolution.png';
+import PingLoading from '../../components/Loading/PingLoading';
 
 
 const LoginScreen = () => {
@@ -74,12 +75,7 @@ const LoginScreen = () => {
                                     class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
                                     placeholder="Enter email"
                                 />
-                                {
-                                    loading && <Loading />
-                                }
-
-
-
+                                {loading && <div class="z-50 fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50"><PingLoading /></div>}
                                 <span class="absolute inset-y-0 right-4 inline-flex items-center">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -139,7 +135,7 @@ const LoginScreen = () => {
                         </div>
 
                         <button
-                            
+
                             onClick={submitHandler}
                             class="block w-full rounded-lg bg-emerald-500 px-5 py-3 text-sm font-medium text-white"
                         >
@@ -148,7 +144,7 @@ const LoginScreen = () => {
 
                         <p class="text-center text-sm text-gray-500">
 
-                           <Link to="/reset-password"> <button class="underline">Forgot Passoword</button></Link>
+                            <Link to="/reset-password"> <button class="underline">Forgot Passoword</button></Link>
                         </p>
                     </form>
                     <p class="text-center text-sm text-gray-500">

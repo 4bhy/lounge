@@ -13,6 +13,7 @@ import { TextField } from '@mui/material'
 import { LocalizationProvider, DatePicker } from '@mui/lab';
 import AdapterDayjs from '@mui/lab/AdapterDayjs';
 import SimpleBackdrop from '../Loading/Backdrop'
+import SwingLoad from '../Loading/SwingLoad'
 
 
 const CardContainer = () => {
@@ -133,7 +134,7 @@ const CardContainer = () => {
         searchLoading && <SimpleBackdrop />
       }
       {
-        loading && <Loading/>
+        loading &&  <SwingLoad/>
       }
 
       {

@@ -13,7 +13,7 @@ import {
 
 
 import { individualPropertySuccess, individualPropertyReq, individualPropertyFail } from "../features/users/individualPropertySlice";
-import { userBooking } from "../features/users/bookingsSlice";
+import { userBooking, userBookingFail, userBookingReq } from "../features/users/bookingsSlice";
 import { messageFail, messageSuccess } from "../features/users/messageSlice";
 import { availabilityError, availabilityFail, availabilityReq, availabilitySuccess } from "../features/users/availabilitySlice";
 import { searchFail, searchReq, searchSuccess } from "../features/users/searchSlice";
@@ -159,7 +159,7 @@ export const resetPassword = (email, password) => async (dispatch) => {
 export const listBookings = (id) => async (dispatch) => {
 
   try {
-
+    dispatch(userBookingReq())
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -175,6 +175,8 @@ export const listBookings = (id) => async (dispatch) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
+    dispatch(userBookingFail(errorIs))
+
   }
 
 }
@@ -290,7 +292,7 @@ export const searchBar = (location, checkIn, checkOut, guests) => async (dispatc
       },
     }
     const { data } = await axiosConfig.post("/users/search-bar", { location, checkIn, checkOut, guests }, config)
- 
+
     dispatch(searchSuccess(data))
   } catch (error) {
     const errorIs =

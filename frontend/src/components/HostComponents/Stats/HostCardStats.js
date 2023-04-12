@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getHostStats } from '../../../actions/hostActions'
 import Backdrop from '../../Loading/Backdrop'
+import SwingLoad from '../../Loading/SwingLoad'
+import PingLoading from '../../Loading/PingLoading'
 
 const HostCardStats = () => {
 
@@ -36,7 +38,7 @@ const HostCardStats = () => {
                 </div>
             </div>
             {
-                loading && <Backdrop />
+                loading && <div class="z-50 fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50"><PingLoading /></div>
             }
             <div className=" mt-4 w-full lg:w-6/12 md:w-3/12 xl:w-3/12 px-5">
                 <div className="relative flex flex-col min-w-0 break-words bg-white rounded mb-4 xl:mb-0 shadow-lg">

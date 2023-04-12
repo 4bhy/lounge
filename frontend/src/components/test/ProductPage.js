@@ -34,6 +34,7 @@ import { resetAvailability } from '../../features/users/availabilitySlice'
 import Loading from '../Loading'
 import LoadingSmall from '../Loading/LoadingSmall'
 import SimpleBackdrop from '../Loading/Backdrop'
+import SwingLoad from '../Loading/SwingLoad'
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -243,9 +244,11 @@ const ProductPage = () => {
       <Navbar />
       <section>
         {
-          individualPropertyLoading && <SimpleBackdrop />
+          individualPropertyLoading && <SwingLoad />
         }
-        <div class="relative max-w-screen-xl px-4 py-8 mx-auto">
+        {
+          individualPropertyData &&
+          <div class="relative max-w-screen-xl px-4 py-8 mx-auto">
           <div class="grid items-start grid-cols-1 gap-8 md:grid-cols-2">
             <div class="grid grid-cols-2 gap-4 md:grid-cols-1">
               <img
@@ -442,7 +445,7 @@ const ProductPage = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>}
       </section>
 
 

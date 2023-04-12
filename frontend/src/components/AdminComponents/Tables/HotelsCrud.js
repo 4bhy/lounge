@@ -13,6 +13,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import PingLoading from '../../Loading/PingLoading'
 
 const HotelsCrud = () => {
 
@@ -80,6 +81,9 @@ const HotelsCrud = () => {
                                         </th>
                                     </tr>
                                 </thead>
+                                {
+                                    loading && <div class="z-50 fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50"><PingLoading /></div>
+                                }
                                 {
                                     hotelsList?.map((hotelsList, index) => (
                                         <tbody>

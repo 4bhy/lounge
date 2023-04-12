@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { handleHosts, listHosts } from '../../../actions/adminActions'
 import { viewHosts } from '../../../actions/adminActions'
 import moment from 'moment'
+import PingLoading from '../../Loading/PingLoading'
 
 const HostCrud = () => {
 
@@ -32,7 +33,7 @@ const HostCrud = () => {
                             <h2 class="text-gray-600 font-semibold">Hosts</h2>
                             <span class="text-xs"></span>
                         </div>
-                       
+
                     </div>
                     <div>
                         <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -59,6 +60,9 @@ const HostCrud = () => {
                                             </th>
                                         </tr>
                                     </thead>
+                                    {
+                                        loading && <div class="z-50 fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50"><PingLoading /></div>
+                                    }
                                     {
                                         hostsList?.map((hostsList, index) => (
                                             <tbody>

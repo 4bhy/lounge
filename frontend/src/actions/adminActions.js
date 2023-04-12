@@ -76,11 +76,10 @@ export const listHotel = () => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
 
-
         const config = {
             headers: {
                 "Content-type": "application/json",
-                Authorization: `Bearer ${userInfo.token}`,
+                // Authorization: `Bearer ${userInfo.token}`,
             }
         }
         dispatch(listHotelsReq())
@@ -404,7 +403,7 @@ export const addCoupon = (cname, discount, vfrom, vto) => async (dispatch, getSt
 
 export const getStat = () => async (dispatch, getState) => {
     try {
-        getStatsReq()
+       dispatch(getStatsReq())
         const {
             userLogin: { userInfo },
         } = getState();
@@ -424,7 +423,7 @@ export const getStat = () => async (dispatch, getState) => {
             error.response && error.response.data
                 ? error.response.data.message
                 : error.message;
-        getStatsFail(message)
+        dispatch(getStatsFail(message))
     }
 }
 

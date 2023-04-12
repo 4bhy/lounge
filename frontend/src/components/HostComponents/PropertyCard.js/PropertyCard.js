@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { listHostProperties } from '../../../actions/hostActions'
 import SimpleBackdrop from '../../Loading/Backdrop'
+import PingLoading from '../../Loading/PingLoading'
+import SwingLoad from '../../Loading/SwingLoad'
 
 const PropertyCard = () => {
 
@@ -41,7 +43,7 @@ const PropertyCard = () => {
                 </div>
             </div>
             {
-                loading && <SimpleBackdrop />
+                loading && <div class="z-50 fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50"><PingLoading /></div>
             }
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
                 {
