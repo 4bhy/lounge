@@ -246,36 +246,44 @@ module.exports = {
 
   submitReview: asyncHandler(async (req, res) => {
     try {
-
       const { uid, pid, title, review, rating } = req.body;
-
-      const propertyData = await Hotel.findById({ _id: pid })
-
+  
+      const booking = await Booking.findOne({ user: uid, property: pid });
+      if (booking) {
+        const reviewExists = booking.reviews.some((r) => r.user.toString() === uid);
+        if (reviewExists) {
+          throw new Error('You have already submitted a review for this property');
+        }
+      }
+  
+      const propertyData = await Hotel.findById(pid);
+  
       const reviews = {
         user: uid,
         title: title,
         rating: rating,
-        description: review
-      }
-      await propertyData.reviews.push(reviews)
+        description: review,
+      };
+  
+      await propertyData.reviews.push(reviews);
       propertyData.totalRatings += rating;
-      await propertyData.save()
-
+      await propertyData.save();
+  
       const length = propertyData.reviews.length;
-      propertyData.averageRating = Math.round(((propertyData.totalRatings) / length) * 2) / 2;
-
-      const data = await propertyData.save()
+      propertyData.averageRating = Math.round((propertyData.totalRatings / length) * 2) / 2;
+  
+      const data = await propertyData.save();
       if (data) {
-        res.status(201).json({ message: "Review Submitted" })
+        res.status(201).json({ message: 'Review submitted' });
       } else {
-        throw new Error("Failed to submit review")
+        throw new Error('Failed to submit review');
       }
     } catch (error) {
       console.log(error);
-      res.status(404).json({ error })
+      res.status(404).json({ error:error.message });
     }
-
   }),
+  
 
   editProfile: asyncHandler(async (req, res) => {
     try {

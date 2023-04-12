@@ -131,7 +131,7 @@ const CardContainer = () => {
       }
 
       {
-        searchLoading && <SimpleBackdrop />
+        searchLoading && <SwingLoad />
       }
       {
         loading &&  <SwingLoad/>

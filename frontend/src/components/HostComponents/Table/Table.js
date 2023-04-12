@@ -37,8 +37,11 @@ const Table = () => {
                 <div>
                     <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                         <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-
-                            <table class="min-w-full leading-normal">
+                            {
+                                loading && <div class="z-50 fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50"><PingLoading /></div>
+                            }
+                            { usersList &&
+                                <table class="min-w-full leading-normal">
                                 <thead>
                                     <tr>
                                         <th
@@ -59,9 +62,7 @@ const Table = () => {
                                         </th>
                                     </tr>
                                 </thead>
-                                {
-                                    loading && <div class="z-50 fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50"><PingLoading /></div>
-                                }
+
                                 {
                                     usersList?.map((usersList, index) => (
                                         <tbody key={index}>
@@ -101,7 +102,7 @@ const Table = () => {
 
                                         </tbody>
                                     ))}
-                            </table>
+                            </table>}
 
                         </div>
                     </div>

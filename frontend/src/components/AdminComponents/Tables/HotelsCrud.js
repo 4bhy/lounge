@@ -60,86 +60,72 @@ const HotelsCrud = () => {
                 <div>
                     <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                         <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                            <table class="min-w-full leading-normal">
-                                <thead>
-                                    <tr>
-                                        <th
-                                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            Name
-                                        </th>
-                                        <th
-                                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            products
-                                        </th>
-                                        <th
-                                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            Type
-                                        </th>
-                                        <th
-                                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            STATUS
-                                        </th>
-                                    </tr>
-                                </thead>
-                                {
-                                    loading && <div class="z-50 fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50"><PingLoading /></div>
-                                }
-                                {
-                                    hotelsList?.map((hotelsList, index) => (
-                                        <tbody>
-                                            <tr key={index}>
-                                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    <div class="flex items-center " onClick={() => {
-                                                        setId(hotelsList._id)
-                                                        handleClickOpen()
-                                                    }}>
-                                                        <div class="flex-shrink-0 w-10 h-10">
-                                                            <img class="w-full h-full rounded-full"
-                                                                src={hotelsList.pic[0]}
-                                                                alt="" />
+                            {
+                                loading && <div class="z-50 fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50"><PingLoading /></div>
+                            }
+                            {hotelsList &&
+                                <table class="min-w-full leading-normal">
+                                    <thead>
+                                        <tr>
+                                            <th
+                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Name
+                                            </th>
+                                            <th
+                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                products
+                                            </th>
+                                            <th
+                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Type
+                                            </th>
+                                            <th
+                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                STATUS
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    {
+                                        hotelsList?.map((hotelsList, index) => (
+                                            <tbody>
+                                                <tr key={index}>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <div class="flex items-center " onClick={() => {
+                                                            setId(hotelsList._id)
+                                                            handleClickOpen()
+                                                        }}>
+                                                            <div class="flex-shrink-0 w-10 h-10">
+                                                                <img class="w-full h-full rounded-full"
+                                                                    src={hotelsList.pic[0]}
+                                                                    alt="" />
+                                                            </div>
+                                                            <div class="ml-3">
+                                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                                    {hotelsList.pname}
+                                                                </p>
+                                                            </div>
                                                         </div>
-                                                        <div class="ml-3">
-                                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                                {hotelsList.pname}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    <p class="text-gray-900 whitespace-no-wrap">{hotelsList.pstate}</p>
-                                                </td>
-                                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    <p class="text-gray-900 whitespace-no-wrap">
-                                                        {hotelsList.type}
-                                                    </p>
-                                                </td>
-                                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    <button type="button" onClick={() => {
-                                                        hotelsHandler(hotelsList._id, hotelsList.isApproved)
-                                                    }} class="inline-block px-6 py-2.5  bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">{hotelsList.isApproved === "true" ? 'Active' : 'Blocked'}</button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    ))
-                                }
-                            </table>
-                            <div
-                                class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
-                                <span class="text-xs xs:text-sm text-gray-900">
-                                    Showing 1 to 4 of 50 Entries
-                                </span>
-                                <div class="inline-flex mt-2 xs:mt-0">
-                                    <button
-                                        class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
-                                        Prev
-                                    </button>
-                                    &nbsp; &nbsp;
-                                    <button
-                                        class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
-                                        Next
-                                    </button>
-                                </div>
-                            </div>
+                                                    </td>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <p class="text-gray-900 whitespace-no-wrap">{hotelsList.pstate}</p>
+                                                    </td>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <p class="text-gray-900 whitespace-no-wrap">
+                                                            {hotelsList.type}
+                                                        </p>
+                                                    </td>
+                                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                        <button type="button" onClick={() => {
+                                                            hotelsHandler(hotelsList._id, hotelsList.isApproved)
+                                                        }} class="inline-block px-6 py-2.5  bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">{hotelsList.isApproved === "true" ? 'Active' : 'Blocked'}</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        ))
+                                    }
+                                </table>
+                            }           
                         </div>
                     </div>
                 </div>

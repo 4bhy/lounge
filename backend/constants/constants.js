@@ -1,3 +1,3 @@
 module.exports = {
-    RESET_PASSWORD_URL: 'https://lounge-co0w.onrender.com/reset-password'
+    RESET_PASSWORD_URL: 'https://glowing-banoffee-f9f433.netlify.app/reset-password'
 };

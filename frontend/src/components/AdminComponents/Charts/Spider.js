@@ -33,7 +33,9 @@ const Spider = () => {
 
     <div className='h-screen mt-16'>
       <div style={{ width: '100%' }}>
-
+        {
+          loading && <div class="z-50 fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50"><PingLoading /></div>
+        }
         {
           statsData && (
             <ResponsiveContainer width="100%" height={200}>
@@ -58,9 +60,7 @@ const Spider = () => {
             </ResponsiveContainer>
           )
         }
-        {
-          loading && <PingLoading />
-        }
+
 
         <p></p>
 
