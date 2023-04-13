@@ -160,12 +160,6 @@ const ProductPage = () => {
   }, [guests])
 
 
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
   const [open, setOpen] = React.useState(false);
 
   const handleClose = () => {
@@ -193,9 +187,6 @@ const ProductPage = () => {
 
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
-  const handleClick = () => {
-    setOpenSnackbar(true);
-  };
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {

@@ -6,7 +6,7 @@ const Coupon = require("../models/couponModel");
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../utils/generateToken");
 const nodemailer = require("nodemailer");
-const {RESET_PASSWORD_URL}= require("../constants/constants")
+const { RESET_PASSWORD_URL } = require("../constants/constants")
 
 require('dotenv').config();
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
@@ -38,7 +38,7 @@ module.exports = {
         isAdmin: user.isAdmin,
         blocked: user.blocked,
         token: generateToken(user._id),
-        user:user
+        user: user
       });
     } else {
       res.status(400);
@@ -115,7 +115,7 @@ module.exports = {
 
       let info = await transporter.sendMail({
         from: 'abhy.r010@gmail.com', // sender address
-        to:  email, // list of receivers
+        to: email, // list of receivers
         subject: "Password Reset", // Subject line
         html: link, // html body
       });
@@ -223,7 +223,7 @@ module.exports = {
 
   cancelBooking: asyncHandler(async (req, res) => {
     try {
-      
+
       const bookingData = await Booking.findById({ _id: req.params.id })
 
       bookingData.isCancelled = "true";
@@ -246,32 +246,33 @@ module.exports = {
 
   submitReview: asyncHandler(async (req, res) => {
     try {
-      
+
       const { pid, title, review, rating } = req.body;
       const booking = await Booking.findOne({ user: req.user._id, property: pid });
-      if (booking) {
-        const reviewExists = booking.reviews.some((r) => r.user.toString() == req.user._id);
+
+
+      const propertyData = await Hotel.findById(pid);
+      if (propertyData) {
+        const reviewExists = propertyData.reviews.some((r) => r.user.toString() == req.user._id);
         if (reviewExists) {
           throw new Error('You have already submitted a review for this property');
         }
       }
-  
-      const propertyData = await Hotel.findById(pid);
-  
+      
       const reviews = {
         user: req.user._id,
         title: title,
         rating: rating,
         description: review,
       };
-  
+
       await propertyData.reviews.push(reviews);
       propertyData.totalRatings += rating;
       await propertyData.save();
-  
+
       const length = propertyData.reviews.length;
       propertyData.averageRating = Math.round((propertyData.totalRatings / length) * 2) / 2;
-  
+
       const data = await propertyData.save();
       if (data) {
         res.status(201).json({ message: 'Review submitted' });
@@ -280,10 +281,10 @@ module.exports = {
       }
     } catch (error) {
       console.log(error);
-      res.status(404).json({ error:error.message });
+      res.status(404).json({ error: error.message });
     }
   }),
-  
+
 
   editProfile: asyncHandler(async (req, res) => {
     try {
@@ -361,11 +362,11 @@ module.exports = {
 
   searchBar: asyncHandler(async (req, res) => {
     try {
-      
+
       const { location, checkIn, checkOut } = req.body
       const properties = await Hotel.find({ pstate: location });
 
-  
+
       const availableProperties = await Promise.all(properties.map(async (property) => {
         const bookings = await Booking.find({ propertyId: property._id });
         const available = !bookings.some((booking) => {
@@ -386,10 +387,10 @@ module.exports = {
       }));
 
       const finalProperties = availableProperties.filter((property) => property !== null);
-      if (finalProperties.length!=0) {
+      if (finalProperties.length != 0) {
         console.log(finalProperties);
         res.status(201).json({ final: finalProperties })
-      }else{
+      } else {
         throw new Error("Cant Find Any Properties")
       }
 
