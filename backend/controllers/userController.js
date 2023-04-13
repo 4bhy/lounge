@@ -246,7 +246,7 @@ module.exports = {
 
   submitReview: asyncHandler(async (req, res) => {
     try {
-   
+      
       const { pid, title, review, rating } = req.body;
       const booking = await Booking.findOne({ user: req.user._id, property: pid });
       if (booking) {
@@ -259,7 +259,7 @@ module.exports = {
       const propertyData = await Hotel.findById(pid);
   
       const reviews = {
-        user: uid,
+        user: req.user._id,
         title: title,
         rating: rating,
         description: review,
