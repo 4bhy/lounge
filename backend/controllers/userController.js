@@ -246,11 +246,11 @@ module.exports = {
 
   submitReview: asyncHandler(async (req, res) => {
     try {
-      const { uid, pid, title, review, rating } = req.body;
-  
-      const booking = await Booking.findOne({ user: uid, property: pid });
+   
+      const { pid, title, review, rating } = req.body;
+      const booking = await Booking.findOne({ user: req.user._id, property: pid });
       if (booking) {
-        const reviewExists = booking.reviews.some((r) => r.user.toString() == uid);
+        const reviewExists = booking.reviews.some((r) => r.user.toString() == req.user._id);
         if (reviewExists) {
           throw new Error('You have already submitted a review for this property');
         }
