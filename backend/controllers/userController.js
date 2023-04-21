@@ -372,12 +372,11 @@ module.exports = {
       const { location, checkIn, checkOut } = req.body
       const properties = await Hotel.find({
         $or: [
-          { pstate: location },
-          { pname: location },
-          { city: location }
+          { pstate: { $regex: location, $options: 'i' } },
+          { pname: { $regex: location, $options: 'i' } },
+          { city: { $regex: location, $options: 'i' } }
         ]
       });
-      
 
 
       const availableProperties = await Promise.all(properties.map(async (property) => {
