@@ -116,9 +116,15 @@ module.exports = {
       let info = await transporter.sendMail({
         from: 'abhy.r010@gmail.com', // sender address
         to: email, // list of receivers
-        subject: "Password Reset", // Subject line
-        html: link, // html body
+        subject: "Password Reset for Lounge", // Subject line
+        html: `<p>Hi there,</p>
+               <p>You have requested to reset your password for Lounge. Please click on the following link to reset your password:</p>
+               <a href="${link}">${link}</a>
+               <p>If you did not make this request, please ignore this email.</p>
+               <p>Best regards,</p>
+               <p>The Lounge team</p>`, // html body
       });
+
 
       console.log("Message sent: %s", info.messageId);
       console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
@@ -258,7 +264,7 @@ module.exports = {
           throw new Error('You have already submitted a review for this property');
         }
       }
-      
+
       const reviews = {
         user: req.user._id,
         title: title,
