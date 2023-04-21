@@ -8,6 +8,7 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { authentication } from '../../firebase-config';
 import logo from '../../components/Header/lounge-high-resolution.png'
 import toast, { Toaster } from 'react-hot-toast';
+import PingLoading from '../../components/Loading/PingLoading';
 
 const RegisterScreen = () => {
     const [fname, setFname] = useState("");
@@ -236,9 +237,7 @@ const RegisterScreen = () => {
 
                     {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
                     {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
-                    {
-                        loading && <Loading />
-                    }
+                    {loading && <div class="z-50 fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50"><PingLoading /></div>}
                     {
                         button ? <button
                             onClick={(e) => {

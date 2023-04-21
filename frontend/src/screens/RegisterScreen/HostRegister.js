@@ -14,6 +14,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Loading from '../../components/Loading'
 import LoadingSmall from '../../components/Loading/LoadingSmall'
+import Footer from '../../components/Footer/Footer'
+import Navbar from '../../components/Header/Navbar'
 
 const HostRegister = () => {
 
@@ -104,6 +106,7 @@ const HostRegister = () => {
 
     return (
         <div>
+            <Navbar/>
             <div class="h-screen grid place-items-center ">
                 <div class="w-full md:w-11/12 lg:w-8/12 sm:mx-auto rounded border mt-4 mx-8">
                     <div class="bg-white p-10  shadow-slate-500 shadow-2xl">
@@ -236,8 +239,6 @@ const HostRegister = () => {
                     </DialogActions>
                 </Dialog>
             </div>
-
-
         </div>
 
     )

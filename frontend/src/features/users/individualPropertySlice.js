@@ -15,7 +15,7 @@ const individualPropertySlice = createSlice({
             state.individualPropertyData = action.payload;
         },
         individualPropertyFail: (state, action) => {
-            state.individualPropertyLoading = true;
+            state.individualPropertyLoading = false;
             state.individualPropertyError = action.payload;
         },
     }

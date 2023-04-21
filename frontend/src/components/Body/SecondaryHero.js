@@ -27,7 +27,7 @@ const SecondaryHero = () => {
                         </div>
                     </div>
                     <div class="relative hidden sm:block sm:w-1/3 lg:w-3/5">
-                        <img src="https://p4.wallpaperbetter.com/wallpaper/814/350/568/spa-beach-hotel-infinity-pool-wallpaper-preview.jpg" alt="." class="max-w-xs m-auto md:max-w-sm rounded-3xl" />
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn0mEaz4UDByGY76wFSR__WHzt2AYFOsHDtjqqowB5ptJFZ7KymyWGgUIK5eWkk1naDvc&usqp=CAU" alt="." class="max-w-xs m-auto md:max-w-sm rounded-3xl" />
                     </div>
                 </div>
             </div>
