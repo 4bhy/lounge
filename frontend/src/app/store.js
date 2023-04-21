@@ -44,7 +44,7 @@ const store = configureStore({
         listApprovals: listApprovalsReducer,
         individualProperty: individualPropertyReducer,
         bookings: bookingsReducer,
-        messageSlice: messageSlice,
+        message: messageSlice,
         couponData: couponReducer,
         addCoupon: addCouponReducer,
         listHostProperties: listHostPropertiesReducer,

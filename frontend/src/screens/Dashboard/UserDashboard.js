@@ -16,6 +16,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Navbar from '../../components/Header/Navbar'
 import moment from 'moment';
 import SwingLoad from '../../components/Loading/SwingLoad'
+import Shimmer from '../../components/Loading/Shimmer'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -35,30 +36,30 @@ const UserDashboard = () => {
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin;
 
-    const messageSlice = useSelector((state) => state.messageSlice)
-    const { messageData, error } = messageSlice;
+    // const messageSlice = useSelector((state) => state.messageSlice)
+    // const { messageData, error } = messageSlice;
 
-    const submitHandler = async (id, stat) => {
+    // const submitHandler = async (id, stat) => {
 
-        if (stat == "Approved") {
-            setOpens(false)
-            setOpen(true)
-            return
-        } else {
-            setOpens(false)
-            await dispatch(userCancellation(id))
-            await dispatch(listBookings(userInfo.user._id))
+    //     if (stat == "Approved") {
+    //         setOpens(false)
+    //         setOpen(true)
+    //         return
+    //     } else {
+    //         setOpens(false)
+    //         await dispatch(userCancellation(id))
+    //         await dispatch(listBookings(userInfo.user._id))
 
-            if (messageData != null) {
-                setOpenSnackbar(true)
-            }
-            if (error != null) {
-                console.log(error, "snackbar");
-            }
-            dispatch(listBookings(userInfo.user._id))
-        }
+    //         if (messageData != null) {
+    //             setOpenSnackbar(true)
+    //         }
+    //         if (error != null) {
+    //             console.log(error, "snackbar");
+    //         }
+    //         dispatch(listBookings(userInfo.user._id))
+    //     }
 
-    }
+    // }
 
     //snackbars
     const [open, setOpen] = React.useState(false);
@@ -171,7 +172,7 @@ const UserDashboard = () => {
                 </div>
             </div>
             {
-                loading && <SwingLoad/>
+                loading && <Shimmer/>
             }
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full mb-4">
                 {
@@ -211,37 +212,7 @@ const UserDashboard = () => {
                                                         </p>
                                                     </div>
                                                 </div>
-                                                {/* {
-                                                    data.isCancelled == "true" && data.status == "Cancelled" ? (
-                                                        <span class="absolute top-0 left-0 inline-flex mt-3 ml-3 px-2 py-1 rounded-lg z-10 bg-gray-700 text-sm font-medium text-red-500 select-none">
-                                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className='mt-1 mr-1' xmlns="http://www.w3.org/2000/svg">
-                                                                <circle cx="6" cy="6" r="5.25" stroke="currentColor" stroke-width="1.5" />
-                                                                <path d="M6 3.75V7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                                                                <circle cx="6" cy="9" r="0.75" fill="currentColor" />
-                                                            </svg>
-                                                            Cancelled
-                                                        </span>
-                                                    ) : (
-                                                        data.status === "Pending" ? (
-        
-                                                            <span class="absolute top-0 left-0 inline-flex mt-3 ml-3 px-2 py-1 rounded-lg z-10 bg-gray-700 text-sm font-medium text-yellow-500 select-none">
-                                                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className='mt-1 mr-1' xmlns="http://www.w3.org/2000/svg">
-                                                                    <circle cx="6" cy="6" r="5.25" stroke="currentColor" stroke-width="1.5" />
-                                                                    <path d="M6 3.75V7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                                                                    <circle cx="6" cy="9" r="0.75" fill="currentColor" />
-                                                                </svg>
-                                                                Pending
-                                                            </span>
-                                                        ) : (
-                                                            <span class="absolute top-0 left-0 inline-flex mt-3 ml-3 px-2 py-1 rounded-lg z-10 bg-gray-800 text-sm font-medium text-emerald-400 select-none">
-                                                                <svg width="12" height="12" viewBox="0 0 12 12" className='mt-1 mr-1' fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                                </svg>
-                                                                Approved
-                                                            </span>
-                                                        )
-                                                    )
-                                                } */}
+                
                                                 <span class="absolute top-0 left-0 inline-flex mt-3 ml-3 px-2 py-1 rounded-lg z-10 bg-gray-700 text-sm font-medium text-green-500 select-none">
                                                     ₹ {data.amount}
                                                 </span>
@@ -284,54 +255,6 @@ const UserDashboard = () => {
 
                 }
             </div>
-
-            <Dialog
-                open={open}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={handleClose}
-                aria-describedby="alert-dialog-slide-description">
-                <DialogTitle>
-                    <Alert severity="error">Request Denied</Alert>
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                        Sorry, Bookings cant be cancelled after approval!
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseSnackbar}>OK</Button>
-                </DialogActions>
-            </Dialog>
-
-
-            <Dialog
-                open={opens}
-                onClose={handleCloses}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title">
-                    {"Confirmation"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to cancel this reservation?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloses}>Disagree</Button>
-                    <Button onClick={() => { submitHandler(id, status) }} autoFocus>
-                        Agree
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
-
-            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-                <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-                    Request Submitted!
-                </Alert>
-            </Snackbar>
             <Footer />
         </div>
     )

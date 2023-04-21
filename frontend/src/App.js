@@ -10,7 +10,7 @@ import HostLanding from "./screens/LandingScreen/HostLanding";
 import HostDashboard from "./screens/Dashboard/HostDashboard";
 import HostPropertyList from "./screens/HostPropertyList/HostPropertyList";
 import HostReservation from "./screens/HostReservation/HostReservation";
-import AdminDashboard from "./screens/Dashboard/AdminDashboard";
+import AdminDashboard from "./screens/Dashboard/AdminDashboard"; 
 import HostRegister from "./screens/RegisterScreen/HostRegister";
 import { useSelector } from "react-redux";
 import CheckoutPayment from "./screens/Checkout/CheckoutPayment";
@@ -49,7 +49,7 @@ function App() {
           <Route path="/user/edit-profile" element={<EditUserProfile/>}/>
           <Route path="/host" element={<HostLanding />}></Route>
           <Route path="/host/dashboard" element={<HostDashboard />} />
-          <Route path="/host/reservations" element={<HostReservation />} />
+          <Route path="/host/reservations" element={<HostReservation />} /> 
           <Route path="/host/property-list" element={<HostPropertyList />} />
           <Route path="/host/add-property" element={userInfo?(userInfo.host?(userInfo.host.hostAccess?<AddPropertyPrimary />: <Navigate to="/" />):<Navigate to="/" />):<Navigate to="/" />}/>
           <Route path="/admin" element={userInfo ? (userInfo?.user?.isAdmin ? <AdminDashboard /> : <Navigate to="/" />) : <Navigate to="/" />} />

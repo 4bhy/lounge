@@ -6,11 +6,16 @@ const messageSlice = createSlice({
     name: "messageslice",
     initialState,
     reducers: {
+        messageReq:(state)=>{
+            state.loading=true
+        },
         messageSuccess: (state, action) => {
+            state.loading=false
             state.messageData = action.payload
         },
         messageFail:(state,action)=>{
-            state.error=action.payload;
+            state.loading=false
+            state.messageError=action.payload;
         }
     }
 })

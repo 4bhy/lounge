@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import Footer from '../Footer/Footer'
 import Navbar from '../Header/Navbar'
@@ -10,10 +9,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { checkAvailabilities, individualProperty, submitReview } from '../../actions/userActions'
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
@@ -31,11 +26,10 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { toast, Toaster } from 'react-hot-toast'
 import { resetAvailability } from '../../features/users/availabilitySlice'
-import Loading from '../Loading'
 import LoadingSmall from '../Loading/LoadingSmall'
-import SimpleBackdrop from '../Loading/Backdrop'
 import SwingLoad from '../Loading/SwingLoad'
 import moment from 'moment'
+import ProductPageShimmer from '../Loading/ProductPageShimmer'
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -218,7 +212,11 @@ const ProductPage = () => {
   }
 
   const checkAvailability = useSelector((state) => state.checkAvailability)
-
+  const message= useSelector((state)=>state.message)
+  const  {messageError}= message
+  if(messageError){
+    toast.error("You can only give a single review for a property!")
+  }
   const { availabilityData, error, loading } = checkAvailability;
 
   useEffect(() => {
@@ -239,7 +237,7 @@ const ProductPage = () => {
       <Navbar />
       <section>
         {
-          individualPropertyLoading && <SwingLoad />
+          individualPropertyLoading && <ProductPageShimmer />
         }
         {
           individualPropertyData &&

@@ -8,7 +8,6 @@ const FindMore = () => {
   return (
     <div>
         <Navbar/>
-        <StoreHead/>
         <CardContainer/>
         <Footer/>
     </div>

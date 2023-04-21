@@ -8,7 +8,6 @@ import toast, { Toaster } from 'react-hot-toast';
 const EditUserProfile = () => {
 
     const { state } = useLocation()
-    console.log(state, "9766");
     const [name, setName] = useState(state.user.name)
     const [phone, setPhone] = useState(state.user.phoneNumber)
     const [email, setEmail] = useState(state.user.email)
@@ -24,7 +23,6 @@ const EditUserProfile = () => {
         } else if (password != null && password.length <= 4) {
             toast.error("Please enter a stronger password!")
         } else {
-            console.log("dispacthed");
             await dispatch(editProfile(name, email, phone, password))
             navigate("/dashboard")
         }
@@ -85,8 +83,6 @@ const EditUserProfile = () => {
                                         <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Cancel
                                     </button></Link>
                                     <button onClick={() => { 
-                                        console.log("testing..");
-                                        toast.success("yo tf")
                                         submitHandler() }} class="bg-blue-500 flex justify-center items-center w-full text-white px-4 py-3 rounded-md focus:outline-none">Save</button>
                                 </div>
                             </div>

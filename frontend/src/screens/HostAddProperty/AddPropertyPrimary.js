@@ -19,6 +19,7 @@ import Navbar from '../../components/Header/Navbar'
 import Loading from '../../components/Loading'
 import SimpleBackdrop from '../../components/Loading/Backdrop'
 import { addPropertySuccess } from '../../features/host/addPropertySlice'
+import LoadingSmall from '../../components/Loading/LoadingSmall'
 
 const apiKey = 'AIzaSyD3o7U1Vwnw3kRCw6mzkxleKVG--CSFSew';
 const mapApiJs = 'https://maps.googleapis.com/maps/api/js';
@@ -96,7 +97,7 @@ const AddPropertyPrimary = () => {
     const [pic, setPic] = useState("")
     const [type, setType] = useState("")
     const [hostID, setHostID] = useState('')
-    const [button, setButton]= useState(false)
+    const [button, setButton] = useState(false)
     const dispatch = useDispatch()
 
 
@@ -475,10 +476,15 @@ const AddPropertyPrimary = () => {
                                             <input id="dropzone-file" type="file" class="hidden" onChange={(e) => {
                                                 setPic(e.target.files[0])
                                             }} />
-                                            <button className="bg-white hover:bg-gray-100 ml-2 text-gray-800 font-semibold  px-2 border border-gray-400 rounded shadow" onClick={(e) => {
-                                                e.preventDefault()
-                                                uploadFile(pic)
-                                            }}>UPLOAD</button>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.preventDefault()
+                                                    uploadFile(pic)
+                                                }}
+                                                class="cursor-pointer ml-2 bg-teal-600 hover:bg-teal-500 text-teal-100 py-2 px-4 rounded-3xl inline-flex items-center">
+                                                <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 12v6h-6v-6H2l8-8 8 8h-5z" /></svg>
+                                                <span> {button ? <LoadingSmall /> : 'UPLOAD'}</span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

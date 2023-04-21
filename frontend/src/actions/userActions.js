@@ -204,7 +204,7 @@ export const userCancellation = (id) => async (dispatch) => {
 
 export const submitReview = (pid, uid, rating, title, review) => async (dispatch, getState) => {
   try {
-
+    
     const {
       userLogin: { userInfo },
     } = getState();
@@ -224,6 +224,7 @@ export const submitReview = (pid, uid, rating, title, review) => async (dispatch
         ? error.response.data.message
         : error.message;
     console.log(errorIs);
+    messageFail(errorIs)
   }
 }
 

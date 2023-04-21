@@ -14,6 +14,7 @@ import { LocalizationProvider, DatePicker } from '@mui/lab';
 import AdapterDayjs from '@mui/lab/AdapterDayjs';
 import SimpleBackdrop from '../Loading/Backdrop'
 import SwingLoad from '../Loading/SwingLoad'
+import Shimmer from '../Loading/Shimmer'
 
 
 const CardContainer = () => {
@@ -37,7 +38,7 @@ const CardContainer = () => {
   }
 
   const [currentPage, setCurrentPage] = useState(1)
-  const [postsPerPage, setPostsPerPage] = useState(3)
+  const [postsPerPage, setPostsPerPage] = useState(6)
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage
@@ -46,7 +47,7 @@ const CardContainer = () => {
   if (searchList != null) {
     currentPosts = searchList?.final?.filter(data => data.isApproved === "true")
       .slice(firstPostIndex, lastPostIndex)
-  } else {  
+  } else {
     currentPosts = hotelsList?.filter(data => data.isApproved === "true")
       .slice(firstPostIndex, lastPostIndex)
   }
@@ -131,10 +132,10 @@ const CardContainer = () => {
       }
 
       {
-        searchLoading && <SwingLoad />
+        searchLoading && <Shimmer />
       }
       {
-        loading &&  <SwingLoad/>
+        loading && <Shimmer />
       }
 
       {
@@ -143,7 +144,7 @@ const CardContainer = () => {
 
         </div>
         ) : (
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-1'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-1 mt-4'>
             {filteredProducts?.map((data, i) => (
               <div className="flex flex-wrap" onClick={() => {
                 propertyHandler(data._id)
@@ -196,7 +197,7 @@ const CardContainer = () => {
         )
       }
 
-      <div className='mt-8'>
+      <div className='mt-8 mb-4'>
         <LandingPagination totalPosts={4}
           postsPerPage={postsPerPage}
           setCurrentPage={setCurrentPage}

@@ -33,6 +33,7 @@
     "react-slider-swiper": "^2.0.6",
     "recharts": "^2.4.1",
     "redux-thunk": "^2.4.2",
+    "sass": "^1.62.0",
     "use-places-autocomplete": "^4.0.0",
     "web-vitals": "^2.1.4"
   },

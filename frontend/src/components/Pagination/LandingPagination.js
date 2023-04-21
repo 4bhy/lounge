@@ -12,10 +12,10 @@ const LandingPagination = ({ totalPosts, postsPerPage, setCurrentPage, currentPa
         <div>
             <ol class="flex justify-center gap-1 text-xs font-medium">
                 <li>
-                    <button
+                    <button disabled
                         onClick={()=>{setCurrentPage(currentPage-1)}}
                         class="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100">
-                        <span class="sr-only">Prev Page</span>
+                        <span  class="sr-only">Prev Page</span>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="h-3 w-3"
@@ -39,7 +39,7 @@ const LandingPagination = ({ totalPosts, postsPerPage, setCurrentPage, currentPa
                 }
 
                 <li>
-                    <button
+                    <button disabled
                      onClick={()=>{setCurrentPage(currentPage+1)}}
                         class="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100">
                         <span class="sr-only">Next Page</span>
