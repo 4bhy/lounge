@@ -4,22 +4,25 @@ import logo from '../../components/Header/lounge-high-resolution.png';
 import toast, { Toaster } from 'react-hot-toast';
 import { getLinkAction } from '../../actions/userActions';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import LoadingSmall from '../../components/Loading/LoadingSmall';
 
 const ResetPassword = () => {
 
     const [email, setEmail] = useState("")
+    const message = useSelector((state) => state.message)
+    const { loading, messageData, error } = message;
+    console.log(loading, messageData, error);
     const dispatch = useDispatch()
     const forgotHandler = async () => {
         if (!email) {
-            toast.error("Please enter your registered email!")
+            toast.error("Please enter your registered email")
         } else {
-            await dispatch(getLinkAction(email)).then((data) => {
-                toast.success("A link has been sent to your registered Email")
-            }).catch((err) => {
-                toast.error("Invalid Email")
-            })
+            dispatch(getLinkAction(email))
         }
+    }
+    if (messageData) {
+        toast.success("Reset link has been sent to your mail")
     }
 
     return (
@@ -75,7 +78,7 @@ const ResetPassword = () => {
                             }}
                             class="block w-full rounded-lg bg-emerald-500 px-5 py-3 text-sm font-medium text-white"
                         >
-                            Get Link
+                            {loading ? <LoadingSmall /> : 'Get Link'}
                         </button>
 
                         <p class="text-center text-sm text-gray-500">

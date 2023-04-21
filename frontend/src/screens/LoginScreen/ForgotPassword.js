@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { resetPassword } from '../../actions/userActions'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import Navbar from '../../components/Header/Navbar'
+import Footer from '../../components/Footer/Footer'
 
 const ForgotPassword = () => {
 
@@ -33,6 +35,8 @@ const ForgotPassword = () => {
 	}, [userInfo])
 
 	return (
+		<>
+		<Navbar/>
 		<div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
 			<div class="relative py-3 sm:max-w-xl sm:mx-auto">
 				<div
@@ -66,6 +70,8 @@ const ForgotPassword = () => {
 				</div>
 			</div>
 		</div>
+		<Footer/>
+		</>
 	)
 }
 

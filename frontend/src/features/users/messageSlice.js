@@ -6,7 +6,7 @@ const messageSlice = createSlice({
     name: "messageslice",
     initialState,
     reducers: {
-        messageReq:(state)=>{
+        messageReq:(state, action)=>{
             state.loading=true
         },
         messageSuccess: (state, action) => {
@@ -22,4 +22,4 @@ const messageSlice = createSlice({
 
 export default messageSlice.reducer
 
-export const { messageSuccess, messageFail } = messageSlice.actions;
+export const { messageSuccess, messageFail, messageReq } = messageSlice.actions;

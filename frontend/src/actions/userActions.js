@@ -14,7 +14,7 @@ import {
 
 import { individualPropertySuccess, individualPropertyReq, individualPropertyFail } from "../features/users/individualPropertySlice";
 import { userBooking, userBookingFail, userBookingReq } from "../features/users/bookingsSlice";
-import { messageFail, messageSuccess } from "../features/users/messageSlice";
+import { messageFail, messageReq, messageSuccess } from "../features/users/messageSlice";
 import { availabilityError, availabilityFail, availabilityReq, availabilitySuccess } from "../features/users/availabilitySlice";
 import { searchFail, searchReq, searchSuccess } from "../features/users/searchSlice";
 import axiosConfig from "../config/axios";
@@ -110,6 +110,8 @@ export const individualProperty = (id) => async (dispatch) => {
 export const getLinkAction = (email) => async (dispatch) => {
 
   try {
+    console.log("test");
+    messageReq()
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -117,14 +119,14 @@ export const getLinkAction = (email) => async (dispatch) => {
     }
 
     const { data } = await axiosConfig.post("/users/get-link", { email }, config)
-
-
+    messageSuccess(data)
   } catch (error) {
     const errorIs =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
     console.log(errorIs);
+    messageFail(errorIs)
   }
 
 }

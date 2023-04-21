@@ -125,13 +125,14 @@ module.exports = {
                <p>The Lounge team</p>`, // html body
       });
 
-
+      if(info){
+        res.status(201).json({message:"Link Sent"})
+      }
       console.log("Message sent: %s", info.messageId);
       console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 
 
     } catch (error) {
-      console.log("2");
       console.log(error.message);
     }
 
