@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCoupons } from '../../actions/adminActions';
 
 import toast, { Toaster } from 'react-hot-toast';
+import Navbar from '../../components/Header/Navbar';
 
 
 const CheckoutPayment = () => {
@@ -90,11 +91,10 @@ const CheckoutPayment = () => {
     return (
         <div>
             <div><Toaster /></div>
+            <Navbar />
             <div class="p-16 min-w-screen min-h-screen bg-gray-50 py-5">
                 <div class="px-5">
-                    <div class="mb-2">
-                        <a href="#" class="focus:outline-none hover:underline text-gray-500 text-sm"><i class="mdi mdi-arrow-left text-gray-400"></i>Back</a>
-                    </div>
+
                     <div class="mb-2">
                         <h1 class="text-3xl md:text-5xl font-bold text-gray-600">REQUEST TO BOOK</h1>
                     </div>
@@ -187,7 +187,7 @@ const CheckoutPayment = () => {
                                             <span class="text-gray-600">Taxes (GST)</span>
                                         </div>
                                         <div class="pl-3">
-                                            <span class="font-semibold">1459.09</span>
+                                            <span class="font-semibold">0.00</span>
                                         </div>
                                     </div>
                                 </div>
@@ -197,29 +197,32 @@ const CheckoutPayment = () => {
                                             <span class="text-gray-600">Total</span>
                                         </div>
                                         <div class="pl-3">
-                                            <span class="font-semibold text-gray-400 text-sm">INR</span> <span class="font-semibold">{discountPrice + 1459.09}</span>
+                                            <span class="font-semibold text-gray-400 text-sm">INR</span> <span class="font-semibold">{discountPrice}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="px-3 md:w-5/12">
                                 <div class="w-full mx-auto rounded-lg bg-white border border-gray-200 p-3 text-gray-800 font-light mb-6">
+                                    <div class="w-full flex items-center">
+                                        <div class="w-32">
+                                            <span class="text-gray-600 font-semibold">Name</span>
+                                        </div>
+                                        <div class="flex-grow pl-3">
+                                            <span>{state.userInfo.name}</span>
+
+                                        </div>
+                                    </div>
                                     <div class="w-full flex mb-3 items-center">
                                         <div class="w-32">
                                             <span class="text-gray-600 font-semibold">Contact</span>
                                         </div>
                                         <div class="flex-grow pl-3">
-                                            <span>{state.userInfo.name}</span>
-                                        </div>
-                                    </div>
-                                    <div class="w-full flex items-center">
-                                        <div class="w-32">
-                                            <span class="text-gray-600 font-semibold">Billing Address</span>
-                                        </div>
-                                        <div class="flex-grow pl-3">
                                             <span>{state.userInfo.phoneNumber}</span>
+
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="w-full mx-auto rounded-lg bg-white border border-gray-200 text-gray-800 font-light mb-6">
                                     <div class="w-full p-3 border-b border-gray-200">
@@ -230,12 +233,12 @@ const CheckoutPayment = () => {
                                             </label>
                                         </div>
                                         <div>
-                                            
+
                                             <div class="mb-3">
-                                               
-                                                <StripeContainer couponId={couponId}  state={state} discountPrice={discountPrice} />
+
+                                                <StripeContainer couponId={couponId} state={state} discountPrice={discountPrice} />
                                             </div>
-                                            
+
 
 
                                         </div>
