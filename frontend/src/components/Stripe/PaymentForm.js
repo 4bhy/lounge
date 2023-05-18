@@ -72,7 +72,12 @@ const PaymentForm = ({ state, discountPrice, couponId }) => {
                     checkOut,
                     guests,
                     couponId
+                }).then((res) => {
+                    if (res.data.url) {
+                        window.location.href = res.data.url
+                    }
                 })
+                .catch((err) => console.log(err.message))
 
                 // if (response.data.success) {
                 //     console.log("Successful payment")
