@@ -211,6 +211,7 @@ module.exports = {
         success_url: `${process.env.CLIENT_URL}/dashboard`,
         cancel_url: 'http://orcube.xyz/cancel',
       });
+      console.log(session.url);
       res.send({ url: session.url });
 
     } catch (error) {
