@@ -39,7 +39,7 @@ const CARD_OPTIONS = {
 };
 
 
-const PaymentForm = ({state, discountPrice, couponId}) => {
+const PaymentForm = ({ state, discountPrice, couponId }) => {
 
     const stripe = useStripe()
     const elements = useElements()
@@ -49,7 +49,7 @@ const PaymentForm = ({state, discountPrice, couponId}) => {
     const checkOut = state.checkOut;
     const guests = state.guests;
     const totalPrice = state.totalPrice;
-    const discount= discountPrice
+    const discount = discountPrice
 
     const handleSubmit = async (e) => {
         setRedirector(false)
@@ -59,6 +59,9 @@ const PaymentForm = ({state, discountPrice, couponId}) => {
             type: "card",
             card: elements.getElement(CardElement)
         })
+        if (error != null) {
+            console.log(error, "yuuu");
+        }
 
 
         if (!error) {
@@ -86,6 +89,7 @@ const PaymentForm = ({state, discountPrice, couponId}) => {
                 console.log("Error", error)
             }
         } else {
+
             console.log(error.message)
         }
     }
@@ -103,13 +107,12 @@ const PaymentForm = ({state, discountPrice, couponId}) => {
         <>
             <form onSubmit={handleSubmit}>
                 <fieldset className="FormGroup">
-                    <div className="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors">
-                        <CardElement options={CARD_OPTIONS} />
+                    <div className="flex items-center justify-center">
+                        <button type="submit" class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-800 dark:bg-white dark:border-gray-700 dark:text-gray-900 dark:hover:bg-gray-200 mr-2 mb-2">
+                            Pay with Debit Card
+                        </button>
                     </div>
                 </fieldset>
-                <div className='mt-6'>
-                    <button class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-2 font-semibold"><i class="mdi mdi-lock-outline mr-1"></i> PAY NOW</button>
-                </div>
             </form>
 
             <Dialog

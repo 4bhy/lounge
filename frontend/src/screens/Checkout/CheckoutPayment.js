@@ -24,10 +24,10 @@ const CheckoutPayment = () => {
         discount: 0,
         minValue: 0,
         usedBy: [],
-        id:""
+        id: ""
     })
 
-    const couponId= currentCoupon?  currentCoupon.id : null;
+    const couponId = currentCoupon ? currentCoupon.id : null;
 
     const dispatch = useDispatch()
     const [open, setOpen] = React.useState(false);
@@ -54,7 +54,7 @@ const CheckoutPayment = () => {
             if (currentCoupon.usedBy.includes(userInfo._id)) {
 
                 toast.error("Sorry, you've already used this coupon! ")
-                
+
             } else {
                 console.log(currentCoupon);
                 setOpen(false)
@@ -72,7 +72,7 @@ const CheckoutPayment = () => {
             }
 
         } catch (error) {
-        
+
             toast.error("Something went wrong")
         }
 
@@ -171,7 +171,7 @@ const CheckoutPayment = () => {
                                             <div class="flex">
                                                 <span class="font-semibold"> <div class=" pt-1 text-xs sm:flex sm:flex-row-reverse">
                                                     <a className=' ml-2 justify-end'>
-                                                      
+
                                                     </a>
                                                     <div
                                                         class="w-full p-2 font-mono text-lg text-center text-gray-600 border-4 border-lime-500 border-dashed rounded select-all">
@@ -230,20 +230,17 @@ const CheckoutPayment = () => {
                                             </label>
                                         </div>
                                         <div>
-                                            <div class="mb-3">
-                                                <label class="text-gray-600 font-semibold text-sm mb-2 ml-1">Name on card</label>
-                                                <div>
-                                                    <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text" />
-                                                </div>
-                                            </div>
+                                            
                                             <div class="mb-3">
                                                
                                                 <StripeContainer couponId={couponId}  state={state} discountPrice={discountPrice} />
                                             </div>
+                                            
+
 
                                         </div>
                                     </div>
-                                    
+
                                 </div>
 
                             </div>
@@ -289,7 +286,7 @@ const CheckoutPayment = () => {
                                                                             discount: data.discount,
                                                                             minValue: data.minvalue,
                                                                             usedBy: data.usedBy,
-                                                                            id:data._id
+                                                                            id: data._id
                                                                         })
                                                                         applyCoupon()
                                                                     }} class="bg-gray-800 px-6 py-1 rounded-full text-lg font-medium text-gray-100 transition-all duration-200 hover:bg-gray-700 ">Apply</button>

@@ -7,6 +7,9 @@ const availabilitySlice = createSlice({
     initialState,
 
     reducers: {
+        availabilityReq:(state, action)=>{
+            state.availabilityLoading=true;
+        },
         availabilitySuccess: (state, action) => {
             state.availabilityLoading=false;
             state.availabilityData = action.payload
@@ -14,9 +17,6 @@ const availabilitySlice = createSlice({
         availabilityFail: (state, action) => {
             state.availabilityLoading=false;
             state.error = action.payload
-        },
-        availabilityReq:(state, action)=>{
-            state.availabilityLoading=true;
         },
         resetAvailability:(state, action)=>{
             state.error=null;

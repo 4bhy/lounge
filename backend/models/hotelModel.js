@@ -32,7 +32,7 @@ const hotelSchema = mongoose.Schema({
     },
     amenities: [
 
-    ],
+    ],  
     rooms: {
         type: String
     },

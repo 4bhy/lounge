@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getLinkAction, login } from '../../actions/userActions';
-import Loading from '../../components/Loading';
 import toast, { Toaster } from 'react-hot-toast';
-import ErrorMessage from '../../components/ErrorMessage';
 import './LoginScreen.css'
-import { userLoginFail, userLogout } from '../../features/users/userLoginSlice';
+import { userLogout } from '../../features/users/userLoginSlice';
 import logo from '../../components/Header/lounge-high-resolution.png';
 import PingLoading from '../../components/Loading/PingLoading';
 

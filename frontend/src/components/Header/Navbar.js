@@ -94,8 +94,8 @@ const Navbar = () => {
                     {userInfo?.host?.hostAccess == true ? <Link to="/host/dashboard"><MenuItem>Host Profile</MenuItem></Link> : null}
                     <MenuItem onClick={() => {
                       dispatch(userLogout())
-                      navigate("/")
                       localStorage.removeItem("userInfo");
+                      navigate("/")
                     }}>Logout</MenuItem>
                   </Menu>
 

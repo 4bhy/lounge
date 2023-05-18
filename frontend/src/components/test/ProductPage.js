@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Footer from '../Footer/Footer'
 import Navbar from '../Header/Navbar'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -26,10 +26,11 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { toast, Toaster } from 'react-hot-toast'
 import { resetAvailability } from '../../features/users/availabilitySlice'
-import LoadingSmall from '../Loading/LoadingSmall'
-import SwingLoad from '../Loading/SwingLoad'
 import moment from 'moment'
 import ProductPageShimmer from '../Loading/ProductPageShimmer'
+import Map from './Map'
+import SimpleBackdrop from '../Loading/Backdrop'
+
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -146,6 +147,10 @@ const ProductPage = () => {
 
   }, [checkIn, checkOut])
 
+  useEffect(()=>{
+    handleAvailability()
+  },[checkOut])
+
   useEffect(() => {
     const gprice = guests ? individualPropertyData?.propertyInfo.price * guests : 0
     const nights = checkIn && checkOut ? Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24)) : 0;
@@ -217,7 +222,7 @@ const ProductPage = () => {
   if(messageError){
     toast.error("You can only give a single review for a property!")
   }
-  const { availabilityData, error, loading } = checkAvailability;
+  const { availabilityData, error, availabilityLoading } = checkAvailability;
 
   useEffect(() => {
     if (availabilityData) {
@@ -228,6 +233,7 @@ const ProductPage = () => {
   useEffect(() => {
     if (error) {
       setDisabled(true)
+      toast.error("Sorry the property is not available for the selected date!")
     }
   }, [error])
 
@@ -307,7 +313,7 @@ const ProductPage = () => {
                     </div>
                   </div>
 
-                  <p class="text-lg font-bold">₹ {individualPropertyData?.propertyInfo
+                  <p class="text-lg font-bold">INR {individualPropertyData?.propertyInfo
                     .price}/<span className='text-gray-500 text-sm'>night</span></p>
 
                 </div>
@@ -349,9 +355,9 @@ const ProductPage = () => {
                 </details>
                 <div className="flex flex-col items-center mt-5">
                   {isNaN(totalPrice) || totalPrice === 0 ? (
-                    <div className="text-3xl font-medium">₹ {individualPropertyData?.propertyInfo.price}/-</div>
+                    <div className="text-3xl font-medium">INR {individualPropertyData?.propertyInfo.price}</div>
                   ) : (
-                    <div className="text-3xl font-medium">₹ {totalPrice}/-</div>
+                    <div className="text-3xl font-medium">INR {totalPrice}</div>
                   )}
 
                   <div className='flex justify-center m-4 p-2 gap-3'>
@@ -367,6 +373,7 @@ const ProductPage = () => {
                         inputProps={{}} // Set inputProps to an empty object to prevent Mui-error class from being added
                       />
                     </LocalizationProvider>
+                  
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker
                         size="small"
@@ -403,7 +410,7 @@ const ProductPage = () => {
                   </div>
 
                 </div>
-                <div className='flex justify-center m-2 p-2 gap-3'>
+                {/* <div className='flex justify-center m-2 p-2 gap-3'>
 
                   <button onClick={handleAvailability} class="bg-white mr-4 mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4  border border-gray-400 rounded-full shadow">
                     {loading ? <LoadingSmall /> : 'Check Availability'}
@@ -416,9 +423,12 @@ const ProductPage = () => {
                     }
 
                   </div>
-                </div>
+                </div> */}
+                {
+                  availabilityLoading && <SimpleBackdrop/>
+                }
 
-                <div className='flex justify-center m-4 p-2 gap-3'>
+                <div className='flex justify-center m-2 gap-3'>
                   <div className="mt-2">
                     <button onClick={() => {
                       naviagteHandler()
@@ -432,6 +442,9 @@ const ProductPage = () => {
           </div>}
       </section>
 
+      <h4 class="text-sm mb-2 font-bold sm:text-xl ml-14  text-gray-500">Explore Our Surroundings</h4>
+
+      <Map/>
 
       <section>
         <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
@@ -467,6 +480,7 @@ const ProductPage = () => {
             </div>
           </div>
 
+          
 
           <div class="mt-8 grid grid-cols-1 gap-x-16 gap-y-12 lg:grid-cols-2">
             {
@@ -496,6 +510,8 @@ const ProductPage = () => {
           </div>
         </div>
       </section>
+
+      
 
       <BootstrapDialog
         onClose={handleClose}

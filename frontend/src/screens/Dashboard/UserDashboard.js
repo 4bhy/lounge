@@ -3,19 +3,9 @@ import Footer from '../../components/Footer/Footer'
 import { useDispatch, useSelector } from 'react-redux'
 import { listBookings, userCancellation } from '../../actions/userActions'
 import { useNavigate } from 'react-router-dom'
-
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-import Alert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
 import Navbar from '../../components/Header/Navbar'
 import moment from 'moment';
-import SwingLoad from '../../components/Loading/SwingLoad'
 import Shimmer from '../../components/Loading/Shimmer'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -36,32 +26,6 @@ const UserDashboard = () => {
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin;
 
-    // const messageSlice = useSelector((state) => state.messageSlice)
-    // const { messageData, error } = messageSlice;
-
-    // const submitHandler = async (id, stat) => {
-
-    //     if (stat == "Approved") {
-    //         setOpens(false)
-    //         setOpen(true)
-    //         return
-    //     } else {
-    //         setOpens(false)
-    //         await dispatch(userCancellation(id))
-    //         await dispatch(listBookings(userInfo.user._id))
-
-    //         if (messageData != null) {
-    //             setOpenSnackbar(true)
-    //         }
-    //         if (error != null) {
-    //             console.log(error, "snackbar");
-    //         }
-    //         dispatch(listBookings(userInfo.user._id))
-    //     }
-
-    // }
-
-    //snackbars
     const [open, setOpen] = React.useState(false);
     const [opens, setOpens] = React.useState(false);
 

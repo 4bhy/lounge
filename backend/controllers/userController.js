@@ -122,11 +122,11 @@ module.exports = {
                <a href="${link}">${link}</a>
                <p>If you did not make this request, please ignore this email.</p>
                <p>Best regards,</p>
-               <p>The Lounge team</p>`, // html body
+               <p>Lounge</p>`, // html body
       });
 
-      if(info){
-        res.status(201).json({message:"Link Sent"})
+      if (info) {
+        res.status(201).json({ message: "Link Sent" })
       }
       console.log("Message sent: %s", info.messageId);
       console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
@@ -165,6 +165,8 @@ module.exports = {
 
   }),
 
+
+
   payment: asyncHandler(async (req, res) => {
     const { amount, id, userInfo, propertyData, checkIn, checkOut, guests, totalPrice, couponId } = req.body;
     console.log(couponId);
@@ -190,18 +192,27 @@ module.exports = {
         couponData.usedBy.push(userInfo._id)
         console.log(couponData);
       }
-      const payment = await stripe.paymentIntents.create({
-        amount,
-        currency: "USD",
-        description: "Hotel Booking",
-        payment_method: id,
-        confirm: true
-      })
-      console.log("Payment", payment)
-      res.status(201).json({
-        message: "Payment successful",
-        success: true
-      })
+
+      const session = await stripe.checkout.sessions.create({
+        line_items: [
+          {
+            price_data: {
+              currency: 'INR',
+              product_data: {
+                name: BookingDetails.cardData.Title,
+              },
+              unit_amount: BookingDetails.Total,
+              currency: "INR"
+            },
+            quantity: 1,
+          },
+        ],
+        mode: 'payment',
+        success_url: `${process.env.CLIENT_URL}/dashboard`,
+        cancel_url: 'http://orcube.xyz/cancel',
+      });
+      res.send({ url: session.url });
+
     } catch (error) {
       console.log("Error", error)
       res.json({

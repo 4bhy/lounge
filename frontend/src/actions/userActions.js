@@ -6,9 +6,10 @@ import {
 } from "../features/users/userLoginSlice";
 
 import {
-  userRegisterReq,
+  
   userRegisterSuccess,
   userRegisterFail,
+  userRegisterReq,
 } from "../features/users/userRegisterSlice";
 
 

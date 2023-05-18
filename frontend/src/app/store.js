@@ -1,5 +1,4 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import thunk from "redux-thunk";
 import userLoginReducer from "../features/users/userLoginSlice";
 import userRegisterReducer from "../features/users/userRegisterSlice";
 import hostRegisterReducer from "../features/host/hostRegisterSlice";
