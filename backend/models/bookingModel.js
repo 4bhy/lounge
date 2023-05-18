@@ -30,10 +30,10 @@ const bookingSchema = mongoose.Schema(
             type: Number,
         },
         checkIn: {
-            type: Date
+            type: String
         },
         checkOut: {
-            type: Date
+            type: String
         },
         invoice: {
             type: Number,
