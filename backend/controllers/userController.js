@@ -176,7 +176,6 @@ module.exports = {
     try {
       const booking = await Booking.create({
         userId: userInfo._id,
-        payment: id,
         propertyId: propertyData._id,
         hostId: propertyData.hostID,
         amount,
