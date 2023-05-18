@@ -52,24 +52,20 @@ const PaymentForm = ({ state, discountPrice, couponId }) => {
     const discount = discountPrice
 
     const handleSubmit = async (e) => {
-        setRedirector(false)
-        setOpens(true)
-        e.preventDefault()
-        const { error, paymentMethod } = await stripe.createPaymentMethod({
-            type: "card",
-            card: elements.getElement(CardElement)
-        })
-        if (error != null) {
-            console.log(error, "yuuu");
-        }
-
-
-        if (!error) {
-            try {
-                const { id } = paymentMethod
-                const response = await axiosConfig.post("/users/payment", {
+        // setRedirector(false)
+        // setOpens(true)
+        // e.preventDefault()
+        // const { error, paymentMethod } = await stripe.createPaymentMethod({
+        //     type: "card",
+        //     card: elements.getElement(CardElement)
+        // })
+        // if (error != null) {
+        //     console.log(error, "yuuu");
+        // }
+   
+                // const { id } = paymentMethod
+              const {data}=  await axiosConfig.post("/users/payment", {
                     amount: discount,
-                    id,
                     userInfo,
                     propertyData,
                     checkIn,
@@ -78,20 +74,13 @@ const PaymentForm = ({ state, discountPrice, couponId }) => {
                     couponId
                 })
 
-                if (response.data.success) {
-                    console.log("Successful payment")
-                    setOpens(false);
-                    setOpen(true);
-                    setRedirector(true)
-                }
-
-            } catch (error) {
-                console.log("Error", error)
-            }
-        } else {
-
-            console.log(error.message)
-        }
+                // if (response.data.success) {
+                //     console.log("Successful payment")
+                //     setOpens(false);
+                //     setOpen(true);
+                //     setRedirector(true)
+                // }
+        
     }
 
     const [open, setOpen] = React.useState(false);
@@ -105,15 +94,15 @@ const PaymentForm = ({ state, discountPrice, couponId }) => {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            
                 <fieldset className="FormGroup">
                     <div className="flex items-center justify-center">
-                        <button type="submit" class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-800 dark:bg-white dark:border-gray-700 dark:text-gray-900 dark:hover:bg-gray-200 mr-2 mb-2">
+                        <button onClick={handleSubmit} type="button" class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-800 dark:bg-white dark:border-gray-700 dark:text-gray-900 dark:hover:bg-gray-200 mr-2 mb-2">
                             Pay with Debit Card
                         </button>
                     </div>
                 </fieldset>
-            </form>
+          
 
             <Dialog
                 open={open}

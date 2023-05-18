@@ -8,8 +8,8 @@ const generateToken = require("../utils/generateToken");
 const nodemailer = require("nodemailer");
 const { RESET_PASSWORD_URL } = require("../constants/constants")
 
-require('dotenv').config();
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
+require('dotenv').config();
 
 module.exports = {
   registerUser: (async (req, res) => {
@@ -168,10 +168,11 @@ module.exports = {
 
 
   payment: asyncHandler(async (req, res) => {
-    const { amount, id, userInfo, propertyData, checkIn, checkOut, guests, totalPrice, couponId } = req.body;
-    console.log(couponId);
+    const { amount, userInfo, propertyData, checkIn, checkOut, guests, totalPrice, couponId } = req.body;
+    console.log("at payment");
     const hid = propertyData.hostID;
-
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
     try {
       const booking = await Booking.create({
         userId: userInfo._id,
@@ -180,8 +181,8 @@ module.exports = {
         hostId: propertyData.hostID,
         amount,
         guests: guests,
-        checkIn: checkIn,
-        checkOut: checkOut,
+        checkIn: checkInDate,
+        checkOut: checkOutDate,
         status: "Approved",
         invoice: Math.floor((Math.random() * 1000) + 1)
       })
