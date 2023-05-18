@@ -199,9 +199,9 @@ module.exports = {
             price_data: {
               currency: 'INR',
               product_data: {
-                name: BookingDetails.cardData.Title,
+                name: propertyData._id,
               },
-              unit_amount: BookingDetails.Total,
+              unit_amount:  amount,
               currency: "INR"
             },
             quantity: 1,
