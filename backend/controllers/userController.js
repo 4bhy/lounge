@@ -192,7 +192,7 @@ module.exports = {
         couponData.usedBy.push(userInfo._id)
         console.log(couponData);
       }
-
+      const successUrl = `${process.env.CLIENT_URL}/dashboard`.replace(/\/$/, '');
       const session = await stripe.checkout.sessions.create({
         line_items: [
           {
@@ -208,8 +208,8 @@ module.exports = {
           },
         ],
         mode: 'payment',
-        success_url: `${process.env.CLIENT_URL}/dashboard`,
-        cancel_url: 'http://orcube.xyz/cancel',
+        success_url:  successUrl,
+        cancel_url: 'https://lounge-is-live.netlify.app',
       });
       console.log(session.url);
       res.send({ url: session.url });

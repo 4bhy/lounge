@@ -147,9 +147,9 @@ const ProductPage = () => {
 
   }, [checkIn, checkOut])
 
-  useEffect(()=>{
+  useEffect(() => {
     handleAvailability()
-  },[checkOut])
+  }, [checkOut])
 
   useEffect(() => {
     const gprice = guests ? individualPropertyData?.propertyInfo.price * guests : 0
@@ -217,9 +217,9 @@ const ProductPage = () => {
   }
 
   const checkAvailability = useSelector((state) => state.checkAvailability)
-  const message= useSelector((state)=>state.message)
-  const  {messageError}= message
-  if(messageError){
+  const message = useSelector((state) => state.message)
+  const { messageError } = message
+  if (messageError) {
     toast.error("You can only give a single review for a property!")
   }
   const { availabilityData, error, availabilityLoading } = checkAvailability;
@@ -373,7 +373,7 @@ const ProductPage = () => {
                         inputProps={{}} // Set inputProps to an empty object to prevent Mui-error class from being added
                       />
                     </LocalizationProvider>
-                  
+
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker
                         size="small"
@@ -386,53 +386,49 @@ const ProductPage = () => {
                         renderInput={(params) => <TextField {...params} />}
                       />
                     </LocalizationProvider>
-                    <div class="custom-number-input -mt-6">
-                      <label for="custom-input-number" class="w-full text-gray-700 text-sm font-semibold">Guests
-                      </label>
-                      <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent ">
-                        <button onClick={(e) => {
-                          if (guests <= 1) {
-                          } else {
-                            setGuests(guests - 1)
-                          }
-                        }} data-action="decrement" class=" bg-neutral-100 text-gray-600 hover:text-gray-700 hover:bg-neutral-100 h-full w-20 rounded-l m-2 cursor-pointer outline-none">
-                          <span class="m-auto text-2xl font-thin">−</span>
-                        </button>
-                        <span className=' mt-4 text-xl'>{guests}</span>
 
-                        <button onClick={(e) => {
-                          setGuests(guests + 1)
-                        }} data-action="increment" class="bg-neutral-100 text-gray-600 m-2 hover:text-gray-700 hover:bg-neutral-100 h-full w-20 rounded-r cursor-pointer">
-                          <span class="m-auto text-2xl font-thin">+</span>
-                        </button>
-                      </div>
-                    </div>
                   </div>
 
                 </div>
-                {/* <div className='flex justify-center m-2 p-2 gap-3'>
 
-                  <button onClick={handleAvailability} class="bg-white mr-4 mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4  border border-gray-400 rounded-full shadow">
-                    {loading ? <LoadingSmall /> : 'Check Availability'}
-                  </button>
-
-                  <div className="mt-4 flex">
-                    <div className="text-sm mr-2 text-gray-600">Availability:</div>
-                    {
-                      error ? (<div className='text-sm text-red-500 font-medium font-style: italic'>Not Available</div>) : (<div className={availabilityData ? 'text-emerald-500 text-sm font-medium' : 'text-sm font-style: italic '}>{availabilityData ? availabilityData.message : '-'}</div>)
-                    }
-
+                <div className="custom-number-input flex flex-col items-center">
+                  <label className="text-gray-700 text-sm font-semibold">Guests</label>
+                  <div className="flex flex-row items-center mt-2">
+                    <button
+                      onClick={(e) => {
+                        if (guests <= 1) {
+                        } else {
+                          setGuests(guests - 1);
+                        }
+                      }}
+                      data-action="decrement"
+                      className="bg-neutral-100 text-gray-600 hover:text-gray-700 hover:bg-neutral-100 h-full w-20 rounded-l m-2 cursor-pointer outline-none"
+                    >
+                      <span className="m-auto text-2xl font-thin">−</span>
+                    </button>
+                    <span className="text-xl">{guests}</span>
+                    <button
+                      onClick={(e) => {
+                        setGuests(guests + 1);
+                      }}
+                      data-action="increment"
+                      className="bg-neutral-100 text-gray-600 hover:text-gray-700 hover:bg-neutral-100 h-full w-20 rounded-r m-2 cursor-pointer"
+                    >
+                      <span className="m-auto text-2xl font-thin">+</span>
+                    </button>
                   </div>
-                </div> */}
+                </div>
+
+
                 {
-                  availabilityLoading && <SimpleBackdrop/>
+                  availabilityLoading && <SimpleBackdrop />
                 }
 
                 <div className='flex justify-center m-2 gap-3'>
                   <div className="mt-2">
                     <button onClick={() => {
                       naviagteHandler()
-                    }} disabled={disabled} className={disabled ? 'bg-white hover:bg-gray-100 text-gray-200 font-semibold py-2 px-4 border border-gray-400 rounded-full shadow' : 'bg-green-500 text-white font-semibold py-2 px-4 border border-gray-400 rounded-full shadow'}>
+                    }} disabled={disabled} className={disabled ? 'bg-white hover:bg-gray-100 text-gray-200 font-semibold py-2 px-4 w-36 border border-gray-400 rounded-full shadow' : 'bg-green-500 text-white font-semibold py-2 px-4 w-56 border border-gray-400 rounded shadow'}>
                       Book Now
                     </button>
                   </div>
@@ -443,8 +439,10 @@ const ProductPage = () => {
       </section>
 
       <h4 class="text-sm mb-2 font-bold sm:text-xl ml-14  text-gray-500">Explore Our Surroundings</h4>
-
-      <Map/>
+      {
+        individualPropertyData &&
+        <Map />
+      }
 
       <section>
         <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
@@ -480,7 +478,7 @@ const ProductPage = () => {
             </div>
           </div>
 
-          
+
 
           <div class="mt-8 grid grid-cols-1 gap-x-16 gap-y-12 lg:grid-cols-2">
             {
@@ -511,7 +509,7 @@ const ProductPage = () => {
         </div>
       </section>
 
-      
+
 
       <BootstrapDialog
         onClose={handleClose}
