@@ -108,13 +108,13 @@ module.exports = {
       var transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: "abhy.r010@gmail.com",
-          pass: "vrphagtstthsdtda",
+          user: process.env.SMTP_MAIL,    
+          pass: process.env.SMTP_PASS,
         },
       });
 
       let info = await transporter.sendMail({
-        from: 'abhy.r010@gmail.com', // sender address
+        from: process.env.SMTP_MAIL, // sender address
         to: email, // list of receivers
         subject: "Password Reset for Lounge", // Subject line
         html: `<p>Hi there,</p>
